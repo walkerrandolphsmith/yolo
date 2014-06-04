@@ -83,4 +83,9 @@ public class pseudoAlgorithm
     {
         return stopped;
     }
+    
+    public int getRemainingTime()
+    {
+        return stopTimer;
+    }
 }
