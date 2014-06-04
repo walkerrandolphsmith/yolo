@@ -19,7 +19,7 @@ public class pseudoAlgorithm
     
     public void carStopped()
     {
-        //I wouldn't put this at zero since the GPS is in accurate. 
+        //I wouldn't put this at zero since the GPS is inaccurate. 
         //It once said I was going 5 mph even though I was standing still.
         //Need to find a reasonable value to account for errors.
         if(speed <= 5)
