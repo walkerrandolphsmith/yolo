@@ -1,3 +1,5 @@
+package com.yolo;
+
 /* 
 * This strictly a java psuedo example of the annoyance algorithm.
 * Not to be used in the main programming of the app.
@@ -44,7 +46,7 @@ public class pseudoAlgorithm
                 stopTimer = 0;
                 driving = true;
                 //lock functionality;
-                }
+            }
             else
             {
                 
@@ -54,7 +56,7 @@ public class pseudoAlgorithm
         {
             //keep phone functionality locked
         }
-        if(speed < 10)
+        if(speed <= 10)
         {
             if (!stopped)
             {
@@ -70,5 +72,15 @@ public class pseudoAlgorithm
         {
             driving = false;
         }
-    } 
+    }
+    
+    public boolean getDrivingState()
+    {
+        return driving;
+    }
+    
+    public boolean getStoppedState()
+    {
+        return stopped;
+    }
 }
