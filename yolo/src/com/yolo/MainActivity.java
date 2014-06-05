@@ -3,6 +3,7 @@ package com.yolo;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.app.admin.DeviceAdminReceiver;
 import android.app.admin.DevicePolicyManager;
 import android.content.ComponentName;
@@ -215,6 +216,7 @@ public class MainActivity extends Activity implements LocationListener, Compound
 	
 	class ParseAsync extends AsyncTask<String, Void, Void> {
 	     MainActivity ma;
+	     ProgressDialog po;
 
 	     public ParseAsync (MainActivity ma){
 	         this.ma= ma;
