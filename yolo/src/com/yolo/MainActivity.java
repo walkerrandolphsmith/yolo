@@ -15,6 +15,7 @@ import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -43,6 +44,7 @@ public class MainActivity extends Activity implements LocationListener, Compound
 	private static final long MIN_TIME_BW_UPDATES = 2;
 	
 	public boolean isDriving;
+	public static boolean[] notificationTypes = { true, true, true };
 	
 	public static String channel = "PC"; //Public Channel
 	
@@ -158,20 +160,32 @@ public class MainActivity extends Activity implements LocationListener, Compound
 	}
 
 	/*********************************
-	 * Retrieve Location
+	 * Location Change Listener
 	 **********************************/
 
 	@Override
 	public void onLocationChanged(Location l) {
 		
+		Log.w(String.valueOf(notificationTypes[0]), "RECEIVE PUSH NOTIFICATIONS");
+		Log.w(String.valueOf(notificationTypes[1]), "RECEIVE EMAIL");
+		Log.w(String.valueOf(notificationTypes[2]), "RECEIVE SMS");
+		
 		double speed =  l.getSpeed()*2.2369;
 		
-		if(speed < 20  && isDriving){		
-			if(channel != null){
-				ParsePush push = new ParsePush();
-				push.setChannel(channel);
-				push.setMessage("Notify ME!.");
-				push.sendInBackground();
+		if(speed < 20  && isDriving){
+			if(notificationTypes[0]){
+				if(channel != null){
+					ParsePush push = new ParsePush();
+					push.setChannel(channel);
+					push.setMessage("Notify ME!.");
+					push.sendInBackground();
+				}
+			}
+			if(notificationTypes[1]){
+				//Send Email
+			}
+			if(notificationTypes[2]){
+				//Send SMS
 			}
 			devicePolicyManager.lockNow();
 		}
