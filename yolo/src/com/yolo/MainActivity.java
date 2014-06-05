@@ -169,7 +169,7 @@ public class MainActivity extends Activity implements LocationListener, Compound
 		if(speed < 20  && isDriving){		
 			if(channel != null){
 				ParsePush push = new ParsePush();
-				push.setChannel(MainActivity.channel);
+				push.setChannel(channel);
 				push.setMessage("Notify ME!.");
 				push.sendInBackground();
 			}
@@ -207,7 +207,7 @@ public class MainActivity extends Activity implements LocationListener, Compound
 	         ParseObject.registerSubclass(User.class);
 	         PushService.setDefaultPushCallback(ma, MainActivity.class);
 	         ParseInstallation.getCurrentInstallation().saveInBackground();
-	         PushService.subscribe(ma, MainActivity.channel, MainActivity.class);
+	         PushService.subscribe(ma, channel, MainActivity.class);
 	         return null;
 	     }
 
