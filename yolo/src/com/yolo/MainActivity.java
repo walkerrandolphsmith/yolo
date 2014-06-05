@@ -12,14 +12,21 @@ import android.content.Intent;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 
 import com.parse.Parse;
 import com.parse.ParseInstallation;
+import com.parse.ParseObject;
+import com.parse.ParsePush;
 import com.parse.PushService;
+import com.yolo.models.User;
 
 
 public class MainActivity extends Activity implements LocationListener, CompoundButton.OnCheckedChangeListener {
@@ -36,6 +43,8 @@ public class MainActivity extends Activity implements LocationListener, Compound
 	private static final long MIN_TIME_BW_UPDATES = 2;
 	
 	public boolean isDriving;
+	
+	public static String channel = "PC"; //Public Channel
 	
 	public static class MyAdmin extends DeviceAdminReceiver {
 		public void onEnable(){
@@ -56,7 +65,7 @@ public class MainActivity extends Activity implements LocationListener, Compound
 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-
+		
 		devicePolicyManager = (DevicePolicyManager)getSystemService(Context.DEVICE_POLICY_SERVICE);
 		mAdminName = new ComponentName(this, MyAdmin.class);
 		
@@ -94,10 +103,32 @@ public class MainActivity extends Activity implements LocationListener, Compound
         if (s != null) {
             s.setOnCheckedChangeListener(this);
         }
-        
-        Parse.initialize(this, "yG0OKddCMctN5vtCj5ocUbDxrRJjlPuzZLXMOXA9","FGdSTBZZgOlRTdMkMqSOWydTOG3hliqXigOqm2sk");
-        PushService.setDefaultPushCallback(this, MainActivity.class);
-        ParseInstallation.getCurrentInstallation().saveInBackground();
+        new ParseAsync(this).execute();
+  	}
+	
+	
+	
+	/*********************************
+	 * ActionBar MenuItems
+	 **********************************/
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+	    MenuInflater inflater = getMenuInflater();
+	    inflater.inflate(R.menu.menu_actions, menu);
+	    return super.onCreateOptionsMenu(menu);
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+	    switch (item.getItemId()) {
+	        case R.id.action_signin:
+	        	Intent intent = new Intent(MainActivity.this, SignInActivity.class);
+	            startActivity(intent);
+	            return true;
+	        default:
+	            return super.onOptionsItemSelected(item);
+	    }
 	}
 	
 	/*********************************
@@ -135,14 +166,54 @@ public class MainActivity extends Activity implements LocationListener, Compound
 		
 		double speed =  l.getSpeed()*2.2369;
 		
-		if(speed < 20  && isDriving){
+		if(speed < 20  && isDriving){		
+			if(channel != null){
+				ParsePush push = new ParsePush();
+				push.setChannel(MainActivity.channel);
+				push.setMessage("Notify ME!.");
+				push.sendInBackground();
+			}
 			devicePolicyManager.lockNow();
 		}
 	}
+	
+	/*********************************
+	 * isDriving onCheckedChage Listener
+	 **********************************/
 
 	@Override
 	public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 		isDriving = (isChecked ? true : false);	
 	}
+	
+	/*********************************
+	 * Parse Initialize Async
+	 **********************************/
+	
+	class ParseAsync extends AsyncTask<String, Void, Void> {
+	     MainActivity ma;
 
+	     public ParseAsync (MainActivity ma){
+	         this.ma= ma;
+	     }
+
+	     @Override
+	     protected void onPreExecute() {
+	    	 super.onPreExecute();
+	     }
+	     @Override
+	     protected Void doInBackground(String... params) {
+	    	 Parse.initialize(ma, "yG0OKddCMctN5vtCj5ocUbDxrRJjlPuzZLXMOXA9","FGdSTBZZgOlRTdMkMqSOWydTOG3hliqXigOqm2sk");
+	         ParseObject.registerSubclass(User.class);
+	         PushService.setDefaultPushCallback(ma, MainActivity.class);
+	         ParseInstallation.getCurrentInstallation().saveInBackground();
+	         PushService.subscribe(ma, MainActivity.channel, MainActivity.class);
+	         return null;
+	     }
+
+	     @Override
+	     protected void onPostExecute(Void result) {
+	    	 super.onPostExecute(result);
+	     }
+	}
 }

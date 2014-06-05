@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@color/black"
+    android:fillViewport="true"
+    style="@style/Match" >
+        
+    <EditText
+        android:id="@+id/username"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="25dp"
+        android:hint="@string/usernameHint"
+        android:inputType="text"
+        android:maxLength="15" />
+
+    <EditText
+        android:id="@+id/password"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="25dp"
+        android:layout_below="@id/username"
+        android:hint="@string/passwordHint"
+        android:inputType="textPassword"
+        android:maxLength="10" />
+
+    <Button
+        android:id="@+id/signIn"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@id/password"
+        android:layout_below="@id/password"
+        android:layout_marginTop="25dp"
+        android:text="@string/signIn" />
+    
+    <Button
+        android:id="@+id/signUp"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@id/password"
+        android:layout_below="@id/signIn"
+        android:layout_marginTop="25dp"
+        android:text="@string/createAccount" />
+ 
+</RelativeLayout>

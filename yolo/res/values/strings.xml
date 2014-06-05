@@ -5,4 +5,28 @@
 
     <!-- Assistance Dialog -->
     <string name="title">Driving:</string>
+    
+    <!-- Action Items -->
+    <string name="action_signin">SignIn</string>
+    
+    <!-- Login/Account Items -->
+    <string name="signIn">Sign In</string>
+    <string name="signOut">Sign Out</string>
+    <string name="submit">Submit</string>
+    <string name="orText">Or</string>
+    <string name="createAccount">Create Account</string>
+     <string name="phoneHint">Phone</string>
+    <string name="emailHint">Email</string>
+    <string name="usernameHint">Username</string>
+    <string name="passwordHint">Password</string>
+    <string name="confirmPasswordHint">Confirm Password</string>
+    
+     <!-- Errors -->
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_duplicate_email">This email address is already in use</string>
+    <string name="error_duplicate_username">This username is already in use</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_invalid_confirm_password">Passwords do not match</string>
+    <string name="error_field_required">This field is required</string>
 </resources>

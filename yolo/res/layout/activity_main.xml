@@ -10,11 +10,14 @@
         android:src="@drawable/logo" 
         android:contentDescription="@string/app_name"
         style="@style/Wrap"/>
-    
-    <Switch android:id="@+id/isDrivingSwitch"
-        	android:text="@string/title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="32dip" />
+
+    <Switch
+        android:id="@+id/isDrivingSwitch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="40dp"
+        android:text="@string/title" />
  
 </RelativeLayout>
