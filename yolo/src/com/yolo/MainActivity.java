@@ -15,6 +15,7 @@ import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.telephony.SmsManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -44,8 +45,11 @@ public class MainActivity extends Activity implements LocationListener, Compound
 	private static final long MIN_TIME_BW_UPDATES = 2;
 	
 	public boolean isDriving;
-	public static boolean[] notificationTypes = { true, true, true };
 	
+	
+	public static boolean[] notificationTypes = { true, true, true };//Push Notifications, Email, SMS
+	public static String email;
+	public static String phone;
 	public static String channel = "PC"; //Public Channel
 	
 	public static class MyAdmin extends DeviceAdminReceiver {
@@ -169,6 +173,8 @@ public class MainActivity extends Activity implements LocationListener, Compound
 		Log.w(String.valueOf(notificationTypes[0]), "RECEIVE PUSH NOTIFICATIONS");
 		Log.w(String.valueOf(notificationTypes[1]), "RECEIVE EMAIL");
 		Log.w(String.valueOf(notificationTypes[2]), "RECEIVE SMS");
+		Log.w(email, "Email");
+		Log.w(phone, "Phone");
 		
 		double speed =  l.getSpeed()*2.2369;
 		
@@ -177,7 +183,7 @@ public class MainActivity extends Activity implements LocationListener, Compound
 				if(channel != null){
 					ParsePush push = new ParsePush();
 					push.setChannel(channel);
-					push.setMessage("Notify ME!.");
+					push.setMessage("Yolo Notify via Push Notification.");
 					push.sendInBackground();
 				}
 			}
@@ -185,7 +191,10 @@ public class MainActivity extends Activity implements LocationListener, Compound
 				//Send Email
 			}
 			if(notificationTypes[2]){
-				//Send SMS
+				if(phone != null){
+					SmsManager sms = SmsManager.getDefault();
+				    sms.sendTextMessage(phone, null, "Yolo Notify via Text Message.", null, null);
+				}
 			}
 			devicePolicyManager.lockNow();
 		}

@@ -14,7 +14,8 @@ import com.parse.PushService;
 public class ConsoleActivity extends Activity {
 	
 	private String parentChannel;
-	
+	private String parentEmail;
+	private String parentSMS;
 	/*********************************
 	 * OnCreate
 	 **********************************/
@@ -28,11 +29,16 @@ public class ConsoleActivity extends Activity {
 		PushService.unsubscribe(this, "PC"); //unsubscribe from the public channel
 		if (currentUser != null) {
 		  parentChannel = currentUser.getObjectId();
+		  parentEmail = currentUser.getEmail();
+		  parentSMS = currentUser.getString("phone");
+		  
 		} else {
 		  parentChannel = "DEAD";
 		}
 		
 		MainActivity.channel = parentChannel;
+		MainActivity.email = parentEmail;
+		MainActivity.phone = parentSMS;
 		
 		 Switch switchPushNotification = (Switch) findViewById(R.id.receivePushNotification);
 	     if (switchPushNotification != null) {
