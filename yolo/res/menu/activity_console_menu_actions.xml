@@ -1,4 +1,12 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item android:id="@+id/action_settings"
+          android:showAsAction="always"
+          android:icon="@drawable/ic_launcher"
+          android:title="@string/settings" />
+    <item android:id="@+id/action_add_device"
+          android:showAsAction="always"
+          android:icon="@drawable/ic_launcher"
+          android:title="@string/addDevice" />
     <item android:id="@+id/action_signout"
           android:showAsAction="always"
           android:icon="@drawable/ic_launcher"

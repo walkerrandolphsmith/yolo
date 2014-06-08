@@ -22,10 +22,16 @@
     <string name="confirmPasswordHint">Confirm Password</string>
     
      <!-- Conosle Activity -->
-    <string name="remoteManager">Add This Device</string>
+    <string name="addDevice">Add This Device</string>
+    <string name="settings">Settings</string>
+  
+    <!-- Settings Fragment -->
     <string name="receivePushNotifications">Push Notifications</string>
     <string name="receiveEmail">Email</string>
     <string name="receiveSMS">SMS</string>
+    
+    <!-- Add Device Fragment -->
+    <string name="nameHint">Name</string>
     
      <!-- Errors -->
     <string name="error_invalid_email">This email address is invalid</string>
