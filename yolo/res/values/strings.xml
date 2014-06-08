@@ -21,7 +21,8 @@
     <string name="passwordHint">Password</string>
     <string name="confirmPasswordHint">Confirm Password</string>
     
-     <!-- Notification Types -->
+     <!-- Conosle Activity -->
+    <string name="remoteManager">Add This Device</string>
     <string name="receivePushNotifications">Push Notifications</string>
     <string name="receiveEmail">Email</string>
     <string name="receiveSMS">SMS</string>

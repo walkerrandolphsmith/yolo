@@ -18,6 +18,8 @@
 	<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 	<uses-permission android:name="android.permission.GET_ACCOUNTS" />
 	<uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+	<uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS" />
+	
 	
 	<permission android:protectionLevel="signature"
     android:name="com.yolo.permission.C2D_MESSAGE" />
@@ -52,6 +54,10 @@
 		</activity>
 		
 		<activity android:name="com.yolo.ConsoleActivity"
+			android:configChanges="orientation|screenSize" android:label="@string/app_name">
+		</activity>
+		
+		<activity android:name="com.yolo.ADMActivity"
 			android:configChanges="orientation|screenSize" android:label="@string/app_name">
 		</activity>
 

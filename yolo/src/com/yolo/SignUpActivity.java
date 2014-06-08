@@ -1,8 +1,9 @@
 package com.yolo;
 
+import java.util.ArrayList;
+
 import android.app.Activity;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -11,7 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.parse.ParseException;
-import com.parse.ParseUser;
+import com.parse.ParseObject;
 import com.parse.SignUpCallback;
 import com.yolo.models.User;
 
@@ -152,6 +153,7 @@ public class SignUpActivity extends Activity {
         {
         	user = new User(userName, email, password);
         	user.setPhone(phone);
+        	user.setChildren(new ArrayList<ParseObject>());
         	
         	user.signUpInBackground(new SignUpCallback() {
   	 		  public void done(ParseException e) {

@@ -5,25 +5,25 @@
     style="@style/Match" >
     
       <Button
-        android:id="@+id/signOut"
+        android:id="@+id/remoteManager"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="25dp"
-        android:text="@string/signOut" />
+        android:text="@string/remoteManager" />
         
      <Switch
         android:id="@+id/receivePushNotification"
         android:checked="true"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/signOut"
+        android:layout_below="@id/remoteManager"
         android:layout_marginBottom="40dp"
         android:text="@string/receivePushNotifications" />
         
     <Switch
         android:id="@+id/receiveEmail"
         android:checked="true"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/receivePushNotification"
         android:layout_marginBottom="40dp"
@@ -32,10 +32,25 @@
    <Switch
         android:id="@+id/receiveSMS"
         android:checked="true"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/receiveEmail"
         android:layout_marginBottom="40dp"
         android:text="@string/receiveSMS" />
+   
+   <LinearLayout
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:layout_below="@+id/receiveSMS"
+       android:orientation="horizontal" >
+   
+	  <ListView
+	      android:id="@+id/android:list"
+	      android:layout_width="fill_parent"
+	      android:layout_height="wrap_content"
+	      android:background="@color/black"
+	      android:drawSelectorOnTop="false" />
+
+  </LinearLayout>
         
 </RelativeLayout>

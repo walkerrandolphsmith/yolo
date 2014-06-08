@@ -1,22 +1,44 @@
 package com.yolo;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import android.accounts.Account;
+import android.accounts.AccountManager;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.CompoundButton;
+import android.widget.ListView;
 import android.widget.Switch;
 
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.PushService;
 
 public class ConsoleActivity extends Activity {
 	
-	private String parentChannel;
-	private String parentEmail;
-	private String parentSMS;
+	Switch switchPushNotification;
+	Switch switchEmail;
+	Switch switchSMS;
+	
+	SharedPreferences prefs;
+	
+	ChildrenAdapter adapter;
+	List<ParseObject> children; 
+	
+	
 	/*********************************
 	 * OnCreate
 	 **********************************/
@@ -28,86 +50,152 @@ public class ConsoleActivity extends Activity {
 		
 		PushService.unsubscribe(this, "PC"); //unsubscribe from the public channel
 		
+		prefs = getPreferences(MODE_PRIVATE);
 		
-		ParseUser currentUser = ParseUser.getCurrentUser();
-		if (currentUser != null) {
-		  parentChannel = currentUser.getObjectId();
-		  parentEmail = currentUser.getEmail();
-		  parentSMS = currentUser.getString("phone");
-		  
-		} else {
-		  parentChannel = "DEAD";
-		}
-		
-		MainActivity.channel = parentChannel;
-		MainActivity.email = parentEmail;
-		MainActivity.phone = parentSMS;
-		
-		 Switch switchPushNotification = (Switch) findViewById(R.id.receivePushNotification);
+		 switchPushNotification = (Switch) findViewById(R.id.receivePushNotification);
 	     if (switchPushNotification != null) {
-	    	SharedPreferences prefs = getPreferences(MODE_PRIVATE); 
 	 		boolean isRecevingPushNotifications = prefs.getBoolean("receivePushNotifications", true);
-	      	switchPushNotification.setOnCheckedChangeListener(new PushNotificationSwitchListener());
 	      	switchPushNotification.setChecked(isRecevingPushNotifications);
-	      	MainActivity.notificationTypes[0] = switchPushNotification.isChecked();
 	     }
 	        
-	    Switch switchEmail = (Switch) findViewById(R.id.receiveEmail);
+	    switchEmail = (Switch) findViewById(R.id.receiveEmail);
 	    if (switchEmail != null) {
-	    	SharedPreferences prefs = getPreferences(MODE_PRIVATE); 
 	 		boolean isReceivingEmails = prefs.getBoolean("receiveEmails", true);
-	 		switchEmail.setOnCheckedChangeListener(new EmailSwitchListener());
 	 		switchEmail.setChecked(isReceivingEmails);
-	       	MainActivity.notificationTypes[1] = switchEmail.isChecked();
 	    }
 	        
-	    Switch switchSMS = (Switch) findViewById(R.id.receiveSMS);
+	    switchSMS = (Switch) findViewById(R.id.receiveSMS);
 	    if (switchSMS != null) {
-	    	SharedPreferences prefs = getPreferences(MODE_PRIVATE); 
 	 		boolean isReceivingSMS = prefs.getBoolean("receiveSMS", true);
-	 		switchSMS.setOnCheckedChangeListener(new SMSSwitchListener());
 	 		switchSMS.setChecked(isReceivingSMS);
-	       	MainActivity.notificationTypes[2] = switchSMS.isChecked();
 	    }
-		
-		 final Button signOutButton = (Button) findViewById(R.id.signOut);
-	     signOutButton.setOnClickListener(new View.OnClickListener() {
-	         public void onClick(View v) {
+	    
+	    Button addChildButton = (Button) findViewById(R.id.remoteManager);
+	    addChildButton.setOnClickListener(new AddChildButtonListener(this));
+	    
+	    children = new ArrayList<ParseObject>();
+	    ParseQuery<ParseObject> query = ParseQuery.getQuery("Child");
+	    query.whereEqualTo("parent", ParseUser.getCurrentUser().getObjectId());
+	    query.findInBackground(new FindCallback<ParseObject>() {
+	        public void done(List<ParseObject> scoreList, ParseException e) {
+	            if (e == null) {
+	                for(ParseObject child : scoreList){
+	                	children.add(child);
+	                }
+                	adapter.notifyDataSetChanged();
+	            }
+	        }
+	    });
+	    final ListView childList = (ListView)findViewById(android.R.id.list);
+	    adapter = new ChildrenAdapter(this, children);
+        childList.setAdapter(adapter);
+        
+        childList.setOnItemClickListener(new AdapterView.OnItemClickListener() 
+        {
+              @Override
+              public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) 
+              {
+                     ParseObject child = (ParseObject) childList.getItemAtPosition(position);
+                     String username = child.getString("username");
+                     String password = child.getString("password");
+                     
+                     //Open WebView passing the username and password.
+                     Intent intent = new Intent(ConsoleActivity.this, ADMActivity.class);
+                     intent.putExtra("EXTRA_USERNAME", username);
+                     intent.putExtra("EXTRA_PASSWORD", password);
+   	 	             startActivity(intent); 
+                     //Change visibility in ADM -> play.google.com/settings
+                     //ADM -> google.com/android/devicemanager
+              }
+        }); 
+    
+	}
+	
+	/*********************************
+	 * Add Child's Device
+	 **********************************/
+	
+	public class AddChildButtonListener implements OnClickListener {
+	
+		ConsoleActivity ca;
+    	
+    	public AddChildButtonListener(ConsoleActivity ca){
+    		this.ca = ca;
+    	}
+		@Override
+		public void onClick(View v) {
+	
+			ParseUser currentUser = ParseUser.getCurrentUser();
+			if (currentUser != null) {
+			    Account[] accounts=AccountManager.get(ca).getAccountsByType("com.google");
+			    for(Account account: accounts)
+			    {
+			        String email = account.name;
+			        //AccountManager manager = AccountManager.get(ca);
+	                //String password = manager.getPassword(account);			        
+			        int index = email.lastIndexOf("@");
+			        String username = email.substring(0, index);	        
+			        
+			        ParseObject child = new ParseObject("Child");
+			        child.put("username", username);
+			        child.put("password", "snoodles");
+			        child.put("email", email);
+			        child.put("parent", currentUser.getObjectId());
+			        child.saveInBackground();
+			        children.add(child);
+			    }
+			}
+	        adapter.notifyDataSetChanged();
+		} 
+	    
+	}
+	
+	/*********************************
+	 * ActionBar MenuItems
+	 **********************************/
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+	    MenuInflater inflater = getMenuInflater();
+	    inflater.inflate(R.menu.activity_console_menu_actions, menu);
+	    return super.onCreateOptionsMenu(menu);
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+	    switch (item.getItemId()) {
+	        case R.id.action_signout:
+	        	
+	        	ParseUser currentUser = ParseUser.getCurrentUser();
+	    		if (currentUser != null) {
+	    		  MainActivity.channel = currentUser.getObjectId();
+	    		  MainActivity.email = currentUser.getEmail();
+	    		  MainActivity.phone = currentUser.getString("phone");
+	    		 } else {
+	    			 MainActivity.channel = "PC";
+	    		 }	
 	        	 ParseUser.logOut();
-	        	 finish();
-	         }
-	     });
+	       	 
+	        	 SharedPreferences.Editor editor = getPreferences(MODE_PRIVATE).edit();
+	        	 
+	        	 boolean isPush = (switchPushNotification.isChecked() ? true : false);
+	        	 boolean isEmail = (switchEmail.isChecked() ? true : false);
+	        	 boolean isSMS = (switchSMS.isChecked() ? true : false);
+	        	 
+	 			 editor.putBoolean("receivePushNotifications", isPush);
+	 			 editor.putBoolean("receiveEmails", isEmail);
+	 			 editor.putBoolean("receiveSMS", isSMS);
+	 			 editor.apply();
+	 			 
+	 			 MainActivity.notificationTypes[0] = isPush;
+	 			 MainActivity.notificationTypes[1] = isEmail;
+	 			 MainActivity.notificationTypes[2] = isSMS;
+	        	 
+	        	finish();
+	            return true;
+	        default:
+	            return super.onOptionsItemSelected(item);
+	    }
 	}
-	
-	public class PushNotificationSwitchListener implements CompoundButton.OnCheckedChangeListener {
-		@Override
-		public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-			SharedPreferences.Editor editor = getPreferences(MODE_PRIVATE).edit();
-			editor.putBoolean("receivePushNotifications", (isChecked ? true : false));
-			editor.apply();
-			MainActivity.notificationTypes[0] = (isChecked ? true : false);
-		}
-	}
-	
-	public class EmailSwitchListener implements CompoundButton.OnCheckedChangeListener {
-		@Override
-		public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-			SharedPreferences.Editor editor = getPreferences(MODE_PRIVATE).edit();
-			editor.putBoolean("receiveEmails", (isChecked ? true : false));
-			editor.apply();
-			MainActivity.notificationTypes[1] = (isChecked ? true : false);
-		}
-	}
-	
-	public class SMSSwitchListener implements CompoundButton.OnCheckedChangeListener {
-		@Override
-		public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-			SharedPreferences.Editor editor = getPreferences(MODE_PRIVATE).edit();
-			editor.putBoolean("receiveSMS", (isChecked ? true : false));
-			editor.apply();
-			MainActivity.notificationTypes[2] = (isChecked ? true : false);
-		}
-	}
-
 	
 }

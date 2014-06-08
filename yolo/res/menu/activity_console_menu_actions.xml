@@ -1,0 +1,6 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item android:id="@+id/action_signout"
+          android:showAsAction="always"
+          android:icon="@drawable/ic_launcher"
+          android:title="@string/signOut" />
+</menu>

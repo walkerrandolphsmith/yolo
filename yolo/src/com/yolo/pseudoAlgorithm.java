@@ -35,9 +35,10 @@ public class pseudoAlgorithm
     public static void main(String[] args)
     {
         Scanner scan = new Scanner(System.in);
-        
+        //Simulates the input from the swipe functionality.
         String input;
         input = scan.next();
+        //Stating if user just started driving
         if(speed > 10 && driving == false) 
         {
             //--then prompt user to answer question if driving YES/NO
@@ -49,19 +50,27 @@ public class pseudoAlgorithm
             }
             else
             {
-                
+                //nothing should happen.
+            	//Ask again if phone detects driving
+            	//Have another algorithm to determine
+            	//When the phone is in motion.
             }
         }
+        //Stating over 10mph and user was driving
         if(speed > 10 && driving == true) 
         {
             //keep phone functionality locked
         }
         if(speed <= 10)
         {
-            if (!stopped)
+            /*if (!stopped)
             {
-                //unlock phone functionality
-            }
+                //still lock phone functionality
+            }*/
+        	if(driving == false || stopped == true)
+        	{
+        		//unlock phone functionality
+        	}
             else
             {
                 //activate stopTimer;

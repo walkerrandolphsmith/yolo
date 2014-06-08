@@ -1,6 +1,8 @@
 package com.yolo;
 
 
+import android.accounts.Account;
+import android.accounts.AccountManager;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -44,7 +46,7 @@ public class MainActivity extends Activity implements LocationListener, Compound
 	protected boolean isGPSEnabled;
 	protected LocationManager locationManager;
 	private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 0; // 10 meters
-	private static final long MIN_TIME_BW_UPDATES = 2;
+	private static final long MIN_TIME_BW_UPDATES = 5000;
 	
 	public boolean isDriving;
 	
@@ -127,8 +129,6 @@ public class MainActivity extends Activity implements LocationListener, Compound
         new ParseAsync(this).execute();
   	}
 	
-	
-	
 	/*********************************
 	 * ActionBar MenuItems
 	 **********************************/
@@ -136,7 +136,7 @@ public class MainActivity extends Activity implements LocationListener, Compound
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 	    MenuInflater inflater = getMenuInflater();
-	    inflater.inflate(R.menu.menu_actions, menu);
+	    inflater.inflate(R.menu.activity_main_menu_actions, menu);
 	    return super.onCreateOptionsMenu(menu);
 	}
 	
@@ -246,8 +246,8 @@ public class MainActivity extends Activity implements LocationListener, Compound
 	     }
 	     @Override
 	     protected Void doInBackground(String... params) {
-	    	 Parse.initialize(ma, "yG0OKddCMctN5vtCj5ocUbDxrRJjlPuzZLXMOXA9","FGdSTBZZgOlRTdMkMqSOWydTOG3hliqXigOqm2sk");
 	         ParseObject.registerSubclass(User.class);
+	    	 Parse.initialize(ma, "yG0OKddCMctN5vtCj5ocUbDxrRJjlPuzZLXMOXA9","FGdSTBZZgOlRTdMkMqSOWydTOG3hliqXigOqm2sk");
 	         PushService.setDefaultPushCallback(ma, MainActivity.class);
 	         ParseInstallation.getCurrentInstallation().saveInBackground();
 	         PushService.subscribe(ma, channel, MainActivity.class);
