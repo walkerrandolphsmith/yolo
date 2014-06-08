@@ -31,13 +31,4 @@ public class User extends ParseUser{
 	public void setChildren(ArrayList<ParseObject> children){
 		this.put("children", children);
 	}
-	
-	public String getNumberOfChildren(){
-		return getString("num");
-	}
-	
-	public void setNumberOfChildren(String num){
-		this.put("num", num);
-	}
-	
 }
