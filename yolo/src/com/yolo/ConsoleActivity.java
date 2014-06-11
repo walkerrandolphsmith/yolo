@@ -75,7 +75,7 @@ public class ConsoleActivity extends Activity {
 	}
 	
 	/*********************************
-	 * Back Button
+	 * Console Activity Behavior
 	 **********************************/
 	
 	@Override
@@ -86,6 +86,16 @@ public class ConsoleActivity extends Activity {
 	    } else {
 	        super.onBackPressed();
 	    }	
+	}
+	
+	@Override
+	public void onPause() {
+		super.onPause();
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
 	}
 	
 	@Override

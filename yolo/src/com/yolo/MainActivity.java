@@ -15,7 +15,6 @@ import android.content.Intent;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.telephony.SmsManager;
@@ -108,40 +107,30 @@ public class MainActivity extends Activity implements LocationListener, Compound
 	    
 	    sms = SmsManager.getDefault();
 	    
+	    if(NotificationBroadcastReceiver.checkInternetConnection(this)){
+        	ParseObject.registerSubclass(User.class);
+	    	 Parse.initialize(this, "yG0OKddCMctN5vtCj5ocUbDxrRJjlPuzZLXMOXA9","FGdSTBZZgOlRTdMkMqSOWydTOG3hliqXigOqm2sk");
+	         PushService.setDefaultPushCallback(this, MainActivity.class);
+	         ParseInstallation install = ParseInstallation.getCurrentInstallation();
+	     	 install.put("channels", db.getParents(db.read()));
+	         install.saveInBackground(); 
+        }
+	    
 	    Switch s = (Switch) findViewById(R.id.isDrivingSwitch);
         if (s != null) {
             s.setOnCheckedChangeListener(this);
         }
-        new ParseAsync(this).execute();
   	}
-	
-	/*********************************
-	 * ActionBar MenuItems
-	 **********************************/
-	
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-	    MenuInflater inflater = getMenuInflater();
-	    inflater.inflate(R.menu.activity_main_menu_actions, menu);
-	    return super.onCreateOptionsMenu(menu);
-	}
-	
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-	    switch (item.getItemId()) {
-	        case R.id.action_signin:
-	        	Intent intent = new Intent(MainActivity.this, SignInActivity.class);
-	            startActivity(intent);
-	            return true;
-	        default:
-	            return super.onOptionsItemSelected(item);
-	    }
-	}
 	
 	/*********************************
 	 * MainActivity Behavior
 	 **********************************/
 
+	@Override
+	public void onBackPressed(){
+		
+	}
+	
 	@Override
 	public void onPause() {
 		super.onPause();
@@ -169,6 +158,42 @@ public class MainActivity extends Activity implements LocationListener, Compound
 	@Override
 	public void onStatusChanged(String arg0, int arg1, Bundle arg2) {		
 	}
+	
+	@Override public void onDestroy(){
+		
+	}
+	
+	/*********************************
+	 * ActionBar MenuItems
+	 **********************************/
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+	    MenuInflater inflater = getMenuInflater();
+	    inflater.inflate(R.menu.activity_main_menu_actions, menu);
+	    return super.onCreateOptionsMenu(menu);
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+	    switch (item.getItemId()) {
+	        case R.id.action_signin:
+	        	Intent intent = new Intent(MainActivity.this, SignInActivity.class);
+	            startActivity(intent);
+	            return true;
+	        default:
+	            return super.onOptionsItemSelected(item);
+	    }
+	}
+	
+	/*********************************
+	 * isDriving onCheckedChage Listener
+	 **********************************/
+
+	@Override
+	public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+		isDriving = (isChecked ? true : false);	
+	}
 
 	/*********************************
 	 * Location Change Listener
@@ -185,7 +210,7 @@ public class MainActivity extends Activity implements LocationListener, Compound
 	}
 	
 	/*********************************
-	 * Get User preferences &
+	 * Get Users &
 	 * Send Notifications
 	 **********************************/
 	
@@ -196,15 +221,14 @@ public class MainActivity extends Activity implements LocationListener, Compound
 	}
 	
 	public void sendNotificationsTo(String objectId){
-			ParseQuery<ParseUser> query = ParseUser.getQuery();
-			
-			query.getInBackground(objectId, new GetCallback<ParseUser>() {
-			  public void done(ParseUser parseUser, ParseException e) {
-			    if (e == null) {
-			       User user = (User) parseUser;
-			       if(user.getReceivePushNotifications()){
-						if(user.getObjectId() != null){
-							ParsePush push = new ParsePush();
+		ParseQuery<ParseUser> query = ParseUser.getQuery();
+		query.getInBackground(objectId, new GetCallback<ParseUser>() {
+			public void done(ParseUser parseUser, ParseException e) {
+				if (e == null) {
+					User user = (User) parseUser;
+				    if(user.getReceivePushNotifications()){
+				    	if(user.getObjectId() != null){
+				    		ParsePush push = new ParsePush();
 							push.setChannel(user.getObjectId());
 							push.setMessage("Yolo Notify via Push Notification.");
 							push.sendInBackground();
@@ -220,50 +244,8 @@ public class MainActivity extends Activity implements LocationListener, Compound
 					}
 					devicePolicyManager.lockNow();
 			    } 
-			  }
-			});
+			}
+		});
 	}
 	
-	
-	/*********************************
-	 * isDriving onCheckedChage Listener
-	 **********************************/
-
-	@Override
-	public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-		isDriving = (isChecked ? true : false);	
-	}
-	
-	/*********************************
-	 * Parse Initialize Async
-	 **********************************/
-	
-	class ParseAsync extends AsyncTask<String, Void, Void> {
-	     MainActivity ma;
-
-	     public ParseAsync (MainActivity ma){
-	         this.ma= ma;
-	     }
-
-	     @Override
-	     protected void onPreExecute() {
-	    	 super.onPreExecute();
-	     }
-	     @Override
-	     protected Void doInBackground(String... params) {
-	         ParseObject.registerSubclass(User.class);
-	    	 Parse.initialize(ma, "yG0OKddCMctN5vtCj5ocUbDxrRJjlPuzZLXMOXA9","FGdSTBZZgOlRTdMkMqSOWydTOG3hliqXigOqm2sk");
-	         PushService.setDefaultPushCallback(ma, MainActivity.class);
-	         ParseInstallation install = ParseInstallation.getCurrentInstallation();
-	     	 install.put("channels", db.getParents(db.read()));
-	         install.saveInBackground(); 
-	         //PushService.subscribe(ma, user.getObjectId(), MainActivity.class);
-	         return null;
-	     }
-
-	     @Override
-	     protected void onPostExecute(Void result) {
-	    	 super.onPostExecute(result);
-	     }
-	}
 }
