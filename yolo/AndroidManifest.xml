@@ -46,19 +46,18 @@
 		</activity>
 		
 		<activity android:name="com.yolo.SignInActivity"
-			android:configChanges="orientation|screenSize" android:label="@string/app_name">
+			android:configChanges="orientation|screenSize" android:label="@string/app_name"
+			android:parentActivityName="com.yolo.MainActivity">
 		</activity>
 		
 		<activity android:name="com.yolo.SignUpActivity"
-			android:configChanges="orientation|screenSize" android:label="@string/app_name">
+			android:configChanges="orientation|screenSize" android:label="@string/app_name"
+			android:parentActivityName="com.yolo.SignInActivity">
 		</activity>
 		
 		<activity android:name="com.yolo.ConsoleActivity"
-			android:configChanges="orientation|screenSize" android:label="@string/app_name">
-		</activity>
-		
-		<activity android:name="com.yolo.ADMActivity"
-			android:configChanges="orientation|screenSize" android:label="@string/app_name">
+			android:configChanges="orientation|screenSize" android:label="@string/app_name"
+			android:parentActivityName="com.yolo.MainActivity">
 		</activity>
 
 		<receiver android:name="MainActivity$MyAdmin" android:label="@string/app_name"

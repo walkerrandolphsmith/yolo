@@ -36,6 +36,8 @@ public class ConsoleActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_console);
 		
+		getActionBar().setDisplayHomeAsUpEnabled(true);
+
     	currentUser = (User) ParseUser.getCurrentUser();
 		fragmentManager = getFragmentManager();
 		prefs = getPreferences(MODE_PRIVATE);
@@ -112,6 +114,9 @@ public class ConsoleActivity extends Activity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 	    switch (item.getItemId()) {
+	    	case android.R.id.home:
+	    		logOut();
+	    		return true;
 		    case R.id.action_settings:
 	    		SettingsFragment settingsFragment = new SettingsFragment();
 				fragmentManager.beginTransaction()
@@ -127,15 +132,20 @@ public class ConsoleActivity extends Activity {
 	            .commit();
 				return true;
 	        case R.id.action_signout:
-	    		if (currentUser != null) {
-	    				MainActivity.parentId = currentUser.getObjectId();
-	    		 } 	
-	        	ParseUser.logOut();
-	        	finish();
+	    		logOut();
 	            return true;
 	        default:
 	            return super.onOptionsItemSelected(item);
 	    }
+	}
+	
+	public void logOut(){
+		System.out.println("hey");
+		if (currentUser != null) {
+			MainActivity.parentId = currentUser.getObjectId();
+		} 	
+		ParseUser.logOut();
+		onBackPressed();
 	}
 	
 }
