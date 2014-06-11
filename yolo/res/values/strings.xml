@@ -20,9 +20,11 @@
     <string name="usernameHint">Username</string>
     <string name="passwordHint">Password</string>
     <string name="confirmPasswordHint">Confirm Password</string>
+    <string name="confirmGhostUsernameHint">Google Username</string>
+    <string name="confirmGhostPasswordHint">Google Password</string>
     
      <!-- Conosle Activity -->
-    <string name="addDevice">Add This Device</string>
+    <string name="updateUser">Update Account</string>
     <string name="settings">Settings</string>
   
     <!-- Settings Fragment -->

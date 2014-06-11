@@ -1,18 +1,17 @@
 package com.yolo;
 
 
-import android.accounts.Account;
-import android.accounts.AccountManager;
+import java.util.List;
+
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.app.admin.DeviceAdminReceiver;
 import android.app.admin.DevicePolicyManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -27,11 +26,16 @@ import android.view.MenuItem;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 
+import com.parse.GetCallback;
 import com.parse.Parse;
+import com.parse.ParseException;
 import com.parse.ParseInstallation;
 import com.parse.ParseObject;
 import com.parse.ParsePush;
+import com.parse.ParseQuery;
+import com.parse.ParseUser;
 import com.parse.PushService;
+import com.yolo.db.ParentDatabaseHandler;
 import com.yolo.models.User;
 
 
@@ -40,21 +44,18 @@ public class MainActivity extends Activity implements LocationListener, Compound
 	/*********************************
 	 * Constants and Class members
 	 **********************************/
+	private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 10; // 10 meters
+	private static final long MIN_TIME_BW_UPDATES = 5000;
+	
+	private ParentDatabaseHandler db;
+	
+	protected LocationManager locationManager;
+	protected SmsManager sms;
 	protected DevicePolicyManager devicePolicyManager;
 	private ComponentName mAdminName;
 	
-	protected boolean isGPSEnabled;
-	protected LocationManager locationManager;
-	private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 0; // 10 meters
-	private static final long MIN_TIME_BW_UPDATES = 5000;
-	
 	public boolean isDriving;
-	
-	
-	public static boolean[] notificationTypes = { true, true, true };//Push Notifications, Email, SMS
-	public static String email;
-	public static String phone;
-	public static String channel = "PC"; //Public Channel
+	public static String parentId;
 	
 	public static class MyAdmin extends DeviceAdminReceiver {
 		public void onEnable(){
@@ -70,24 +71,14 @@ public class MainActivity extends Activity implements LocationListener, Compound
 	 * OnCreate
 	 **********************************/
 
+	@SuppressLint("InlinedApi")
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
-		SharedPreferences prefs = getPreferences(MODE_PRIVATE); 
-		String parentEmail = prefs.getString("email", null);
-		if (parentEmail != null) 
-		{
-			email = parentEmail;
-		}
-		
-		String parentPhone = prefs.getString("phone", null);
-		if (parentPhone != null) 
-		{
-			phone = parentPhone;
-		}
+		db = new ParentDatabaseHandler(this);
 		
 		devicePolicyManager = (DevicePolicyManager)getSystemService(Context.DEVICE_POLICY_SERVICE);
 		mAdminName = new ComponentName(this, MyAdmin.class);
@@ -107,20 +98,15 @@ public class MainActivity extends Activity implements LocationListener, Compound
 	    	    builder.setMessage("Your GPS seems to be disabled, do you want to enable it?")
 	    	           .setCancelable(false)
 	    	           .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-	    	               public void onClick(@SuppressWarnings("unused") final DialogInterface dialog, @SuppressWarnings("unused") final int id){ 
-	    	            	   isGPSEnabled = true;
+	    	               public void onClick(final DialogInterface dialog, final int id){ 
 	    	            	   startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
-	    	               }
-	    	           })
-	    	           .setNegativeButton("No", new DialogInterface.OnClickListener() {
-	    	               public void onClick(final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
-	    	            	   isGPSEnabled = false;
-	    	                   dialog.cancel();
 	    	               }
 	    	           });
 	    	    final AlertDialog alert = builder.create();
 	    	    alert.show();
 	    }
+	    
+	    sms = SmsManager.getDefault();
 	    
 	    Switch s = (Switch) findViewById(R.id.isDrivingSwitch);
         if (s != null) {
@@ -164,10 +150,12 @@ public class MainActivity extends Activity implements LocationListener, Compound
 	@Override
 	public void onResume() {
 		super.onResume();
-		 SharedPreferences.Editor editor = getPreferences(MODE_PRIVATE).edit();
-		 editor.putString("email",email);
-		 editor.putString("phone", phone);
-		 editor.apply();
+		//New User signs in to ConsoleActivity and signs out 
+		if(parentId != null){
+				db.create(parentId);
+				parentId = null;
+		}
+		Log.w("DATABASE: ", db.toString());		
 	}
 	
 	@Override
@@ -189,35 +177,53 @@ public class MainActivity extends Activity implements LocationListener, Compound
 	@Override
 	public void onLocationChanged(Location l) {
 		
-		Log.w(String.valueOf(notificationTypes[0]), "RECEIVE PUSH NOTIFICATIONS");
-		Log.w(String.valueOf(notificationTypes[1]), "RECEIVE EMAIL");
-		Log.w(String.valueOf(notificationTypes[2]), "RECEIVE SMS");
-		Log.w(email, "Email");
-		Log.w(phone, "Phone");
-		
 		double speed =  l.getSpeed()*2.2369;
 		
-		if(speed < 20  && isDriving){
-			if(notificationTypes[0]){
-				if(channel != null){
-					ParsePush push = new ParsePush();
-					push.setChannel(channel);
-					push.setMessage("Yolo Notify via Push Notification.");
-					push.sendInBackground();
-				}
-			}
-			if(notificationTypes[1]){
-				//Send Email
-			}
-			if(notificationTypes[2]){
-				if(phone != null){
-					SmsManager sms = SmsManager.getDefault();
-				    sms.sendTextMessage(phone, null, "Yolo Notify via Text Message.", null, null);
-				}
-			}
-			devicePolicyManager.lockNow();
+		if(isDriving && speed < 20){
+			sendNotificationsTo(db.getParents(db.read()));
 		}
 	}
+	
+	/*********************************
+	 * Get User preferences &
+	 * Send Notifications
+	 **********************************/
+	
+	public void sendNotificationsTo(List<String> parents){
+		for(String parent : parents){
+			sendNotificationsTo(parent);
+		}
+	}
+	
+	public void sendNotificationsTo(String objectId){
+			ParseQuery<ParseUser> query = ParseUser.getQuery();
+			
+			query.getInBackground(objectId, new GetCallback<ParseUser>() {
+			  public void done(ParseUser parseUser, ParseException e) {
+			    if (e == null) {
+			       User user = (User) parseUser;
+			       if(user.getReceivePushNotifications()){
+						if(user.getObjectId() != null){
+							ParsePush push = new ParsePush();
+							push.setChannel(user.getObjectId());
+							push.setMessage("Yolo Notify via Push Notification.");
+							push.sendInBackground();
+						}
+					}
+					if(user.getReceiveEmails()){
+						//Send Email
+					}
+					if(user.getReceiveSMS()){
+						if(user.getPhone() != null){
+						    sms.sendTextMessage(user.getPhone(), null, "Yolo Notify via Text Message.", null, null);
+						}
+					}
+					devicePolicyManager.lockNow();
+			    } 
+			  }
+			});
+	}
+	
 	
 	/*********************************
 	 * isDriving onCheckedChage Listener
@@ -234,7 +240,6 @@ public class MainActivity extends Activity implements LocationListener, Compound
 	
 	class ParseAsync extends AsyncTask<String, Void, Void> {
 	     MainActivity ma;
-	     ProgressDialog po;
 
 	     public ParseAsync (MainActivity ma){
 	         this.ma= ma;
@@ -249,8 +254,10 @@ public class MainActivity extends Activity implements LocationListener, Compound
 	         ParseObject.registerSubclass(User.class);
 	    	 Parse.initialize(ma, "yG0OKddCMctN5vtCj5ocUbDxrRJjlPuzZLXMOXA9","FGdSTBZZgOlRTdMkMqSOWydTOG3hliqXigOqm2sk");
 	         PushService.setDefaultPushCallback(ma, MainActivity.class);
-	         ParseInstallation.getCurrentInstallation().saveInBackground();
-	         PushService.subscribe(ma, channel, MainActivity.class);
+	         ParseInstallation install = ParseInstallation.getCurrentInstallation();
+	     	 install.put("channels", db.getParents(db.read()));
+	         install.saveInBackground(); 
+	         //PushService.subscribe(ma, user.getObjectId(), MainActivity.class);
 	         return null;
 	     }
 

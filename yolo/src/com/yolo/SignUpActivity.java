@@ -1,7 +1,5 @@
 package com.yolo;
 
-import java.util.ArrayList;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,7 +10,6 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.parse.ParseException;
-import com.parse.ParseObject;
 import com.parse.SignUpCallback;
 import com.yolo.models.User;
 
@@ -29,12 +26,16 @@ public class SignUpActivity extends Activity {
 	EditText mPasswordConfirm;
 	EditText mEmail;
 	EditText mPhone;
+	EditText mGhostUsername;
+	EditText mGhostPassword;
 	
 	String userName;
 	String password;
 	String passwordConfirm;
 	String email;
 	String phone;
+	String ghostUsername;
+	String ghostPassword;
 	
 	User user;
 
@@ -54,6 +55,8 @@ public class SignUpActivity extends Activity {
 	    mPasswordConfirm = (EditText)findViewById(R.id.passwordConfirm);
 	    mEmail = (EditText)findViewById(R.id.email);
 	    mPhone = (EditText)findViewById(R.id.phone);
+	    mGhostUsername = (EditText)findViewById(R.id.ghostUsername);
+	    mGhostPassword = (EditText)findViewById(R.id.ghostPassword);
 	    
 		if(savedInstanceState != null){
 			mUserName.setText(savedInstanceState.getString(EXTRA_USERNAME));
@@ -63,11 +66,7 @@ public class SignUpActivity extends Activity {
 			mPhone.setText(savedInstanceState.getString(EXTRA_PHONE));
 		}
 	    
-	    userName = mUserName.getText().toString();
-	    password = mPassword.getText().toString();
-	    passwordConfirm = mPasswordConfirm.getText().toString();
-	    email = mEmail.getText().toString();
-	    phone = mPhone.getText().toString();
+	    getStrings();
 		
 		final Button signUpButton = (Button) findViewById(R.id.signUp);
 		signUpButton.setOnClickListener(new View.OnClickListener() {
@@ -100,11 +99,7 @@ public class SignUpActivity extends Activity {
 		removeErrors();
 		boolean cancel = false;
 		View focusView = null;
-		userName = mUserName.getText().toString();
-		password = mPassword.getText().toString();
-		passwordConfirm = mPasswordConfirm.getText().toString();
-	    email = mEmail.getText().toString();
-	    phone = mPhone.getText().toString();
+		getStrings();
 		
 	    if (TextUtils.isEmpty(passwordConfirm)) 
 	    {
@@ -145,6 +140,16 @@ public class SignUpActivity extends Activity {
             cancel = true;
         }
         
+        if(TextUtils.isEmpty(ghostUsername))
+        {
+        	ghostUsername = "username";
+        }
+        
+        if(TextUtils.isEmpty(ghostPassword))
+        {
+        	ghostPassword = "password";
+        }
+        
         if(cancel)
         {
         	focusView.requestFocus();
@@ -153,7 +158,11 @@ public class SignUpActivity extends Activity {
         {
         	user = new User(userName, email, password);
         	user.setPhone(phone);
-        	user.setChildren(new ArrayList<ParseObject>());
+        	user.setGhostUsername(ghostUsername);
+        	user.setGhostPassword(ghostPassword);
+        	user.setReceivePushNotifications(true);
+        	user.setReceiveEmails(true);
+        	user.setReceiveSMS(true);
         	
         	user.signUpInBackground(new SignUpCallback() {
   	 		  public void done(ParseException e) {
@@ -185,6 +194,17 @@ public class SignUpActivity extends Activity {
         }
 	}
 	
+	public void getStrings(){
+		userName = mUserName.getText().toString();
+		password = mPassword.getText().toString();
+		passwordConfirm = mPasswordConfirm.getText().toString();
+	    email = mEmail.getText().toString();
+	    phone = mPhone.getText().toString();
+	    ghostUsername = mGhostUsername.getText().toString();
+	    ghostPassword = mGhostPassword.getText().toString();
+	}
+	
+	
 	/*********************************
 	 * SignUpActivity Behavior
 	 **********************************/
@@ -192,6 +212,7 @@ public class SignUpActivity extends Activity {
 	@Override
 	public void onPause() {
 		super.onPause();
+		
 	}
 
 	@Override

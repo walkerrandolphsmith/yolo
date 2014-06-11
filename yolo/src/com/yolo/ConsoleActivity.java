@@ -1,88 +1,75 @@
 package com.yolo;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.FragmentManager;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListView;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
+import android.widget.RelativeLayout;
 
-import com.parse.FindCallback;
-import com.parse.ParseException;
-import com.parse.ParseObject;
-import com.parse.ParseQuery;
 import com.parse.ParseUser;
-import com.parse.PushService;
-import com.yolo.fragments.AddDeviceFragment;
 import com.yolo.fragments.SettingsFragment;
+import com.yolo.fragments.UpdateUserFragment;
+import com.yolo.models.User;
 
 public class ConsoleActivity extends Activity {
-
-	private ChildrenAdapter adapter;
-	public List<ParseObject> children; 
 	
+	private String URL = "https://accounts.google.com/ServiceLogin?service=androidconsole&passive=3600&continue=https%3A%2F%2Fwww.google.com%2Fandroid%2Fdevicemanager&followup=https%3A%2F%2Fwww.google.com%2Fandroid%2Fdevicemanager";
+	public User currentUser;
 	private FragmentManager fragmentManager;
 	public SharedPreferences prefs;
+	WebView admWebView;
 	
 	/*********************************
 	 * OnCreate
 	 **********************************/
 
+	@SuppressLint({ "SetJavaScriptEnabled", "JavascriptInterface" })
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_console);
 		
+    	currentUser = (User) ParseUser.getCurrentUser();
 		fragmentManager = getFragmentManager();
 		prefs = getPreferences(MODE_PRIVATE);
-		
-		//Remove the public channel
-		PushService.unsubscribe(this, "PC"); 
 
-	    children = new ArrayList<ParseObject>();
-	    ParseQuery<ParseObject> query = ParseQuery.getQuery("Child");
-	    query.whereEqualTo("parent", ParseUser.getCurrentUser().getObjectId());
-	    query.findInBackground(new FindCallback<ParseObject>() {
-	        public void done(List<ParseObject> childrenList, ParseException e) {
-	            if (e == null) {
-	                for(ParseObject child : childrenList){
-	                	children.add(child);
-	                }
-                	adapter.notifyDataSetChanged();
-	            }
-	        }
-	    });
-	    final ListView childList = (ListView)findViewById(android.R.id.list);
-	    adapter = new ChildrenAdapter(this, children);
-        childList.setAdapter(adapter);
-        
-        childList.setOnItemClickListener(new AdapterView.OnItemClickListener() 
-        {
-              @Override
-              public void onItemClick(AdapterView<?> adapterView, View v, int position, long l) 
-              {
-                     ParseObject child = (ParseObject) childList.getItemAtPosition(position);
-                     String username = child.getString("username");
-                     String password = child.getString("password");
-                     
-                     //Open WebView passing the username and password.
-                     Intent intent = new Intent(ConsoleActivity.this, ADMActivity.class);
-                     intent.putExtra("EXTRA_USERNAME", username);
-                     intent.putExtra("EXTRA_PASSWORD", password);
-   	 	             startActivity(intent); 
-                     //Change visibility in ADM -> play.google.com/settings
-                     //ADM -> google.com/android/devicemanager
-              }
-        }); 
-    
+		admWebView = (WebView) findViewById(R.id.webview);
+		WebSettings webSettings = admWebView.getSettings();
+		webSettings.setJavaScriptEnabled(true);
+		admWebView.setWebViewClient(new ADMWebViewClient(currentUser));
+		admWebView.addJavascriptInterface(new WebAppInterface(this), "Android");
+		admWebView.loadUrl(URL);
+	}
+	
+	public class ADMWebViewClient extends WebViewClient{
+		String username;
+		String password;
+		public ADMWebViewClient(ParseUser user){
+			this.username = user.getString("ghostUsername");
+			this.password = user.getString("ghostPassword");
+		}
+		@Override
+        public void onPageFinished(WebView view, String url) {
+			StringBuilder sb = new StringBuilder();
+			sb.append("javascript:");
+			sb.append("document.getElementById('Email').value = '"+username+"';");
+			sb.append("javascript:document.getElementById('Passwd').value = '"+password+"';");
+			sb.append("if('" + username + "' != 'username'){ document.getElementById('signIn').click() }");
+            view.loadUrl(sb.toString());
+		}
+	}
+	
+	public class WebAppInterface {
+		public WebAppInterface(ConsoleActivity a){
+			
+		}
 	}
 	
 	/*********************************
@@ -94,10 +81,21 @@ public class ConsoleActivity extends Activity {
 		
 	    if (fragmentManager.getBackStackEntryCount() > 0) {
 	    	fragmentManager.popBackStack();
-	        adapter.notifyDataSetChanged();
 	    } else {
 	        super.onBackPressed();
 	    }	
+	}
+	
+	@Override
+	public void onDestroy(){
+		super.onDestroy();
+		admWebView.removeAllViews(); 
+		RelativeLayout layout = (RelativeLayout) findViewById(R.id.console);
+		layout.removeView(admWebView);
+		admWebView.stopLoading();
+		admWebView.setWebViewClient(null);
+		admWebView.destroy();
+		admWebView = null;
 	}
 	
 	/*********************************
@@ -121,22 +119,17 @@ public class ConsoleActivity extends Activity {
 	            .addToBackStack(null)
 	            .commit();
 				return true;
-	    	case R.id.action_add_device:
-	    		AddDeviceFragment fragment = new AddDeviceFragment();
+	    	case R.id.action_update_user:
+	    		UpdateUserFragment fragment = new UpdateUserFragment();
 				fragmentManager.beginTransaction()
 	            .add(R.id.console, fragment)
 	            .addToBackStack(null)
 	            .commit();
 				return true;
 	        case R.id.action_signout:
-	        	ParseUser currentUser = ParseUser.getCurrentUser();
 	    		if (currentUser != null) {
-	    		  MainActivity.channel = currentUser.getObjectId();
-	    		  MainActivity.email = currentUser.getEmail();
-	    		  MainActivity.phone = currentUser.getString("phone");
-	    		 } else {
-	    			 MainActivity.channel = "PC";
-	    		 }	
+	    				MainActivity.parentId = currentUser.getObjectId();
+	    		 } 	
 	        	ParseUser.logOut();
 	        	finish();
 	            return true;

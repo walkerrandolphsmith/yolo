@@ -1,7 +1,6 @@
 package com.yolo.fragments;
 
 import android.app.Fragment;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,7 +9,6 @@ import android.widget.CompoundButton;
 import android.widget.Switch;
 
 import com.yolo.ConsoleActivity;
-import com.yolo.MainActivity;
 import com.yolo.R;
 
 public class SettingsFragment extends Fragment {
@@ -22,7 +20,7 @@ public class SettingsFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_settings, container, false);
         Switch switchPushNotification = (Switch) v.findViewById(R.id.receivePushNotification);
 	     if (switchPushNotification != null) {
-	 		boolean isRecevingPushNotifications = activity.prefs.getBoolean("receivePushNotifications", true);
+	 		boolean isRecevingPushNotifications = activity.currentUser.getReceivePushNotifications();
 	      	switchPushNotification.setChecked(isRecevingPushNotifications);
 	      	switchPushNotification.setOnCheckedChangeListener(new PushNotificationSwitchListener());
 
@@ -30,14 +28,14 @@ public class SettingsFragment extends Fragment {
 	        
 	    Switch switchEmail = (Switch) v.findViewById(R.id.receiveEmail);
 	    if (switchEmail != null) {
-	 		boolean isReceivingEmails = activity.prefs.getBoolean("receiveEmails", true);
+	 		boolean isReceivingEmails = activity.currentUser.getReceiveEmails();
 	 		switchEmail.setChecked(isReceivingEmails);
 	 		switchEmail.setOnCheckedChangeListener(new EmailSwitchListener());
 	    }
 	        
 	    Switch switchSMS = (Switch) v.findViewById(R.id.receiveSMS);
 	    if (switchSMS != null) {
-	 		boolean isReceivingSMS = activity.prefs.getBoolean("receiveSMS", true);
+	 		boolean isReceivingSMS = activity.currentUser.getReceiveSMS();
 	 		switchSMS.setChecked(isReceivingSMS);
 	 		switchSMS.setOnCheckedChangeListener(new SMSSwitchListener());
 	    }
@@ -53,31 +51,25 @@ public class SettingsFragment extends Fragment {
 	public class PushNotificationSwitchListener implements CompoundButton.OnCheckedChangeListener {
  		@Override
  		public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
- 			SharedPreferences.Editor editor = activity.getPreferences(0).edit();
- 			editor.putBoolean("receivePushNotifications", (isChecked ? true : false));
- 			editor.apply();
- 			MainActivity.notificationTypes[0] = (isChecked ? true : false);
+ 			activity.currentUser.setReceivePushNotifications((isChecked ? true : false));
+ 			activity.currentUser.saveEventually();
  		}
 	}
 	
 	public class EmailSwitchListener implements CompoundButton.OnCheckedChangeListener {
-		 		@Override
-		 		public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-		 			SharedPreferences.Editor editor = activity.getPreferences(0).edit();
-		 			editor.putBoolean("receiveEmails", (isChecked ? true : false));
-		 			editor.apply();
-		 			MainActivity.notificationTypes[1] = (isChecked ? true : false);
-		 		}
+		@Override
+		public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+			activity.currentUser.setReceiveEmails((isChecked ? true : false));
+			activity.currentUser.saveEventually();
+		}
 	}
 	
 	public class SMSSwitchListener implements CompoundButton.OnCheckedChangeListener {
  		@Override
  		public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
- 			SharedPreferences.Editor editor = activity.getPreferences(0).edit();
- 			editor.putBoolean("receiveSMS", (isChecked ? true : false));
- 			editor.apply();
- 			MainActivity.notificationTypes[2] = (isChecked ? true : false);
+ 			activity.currentUser.setReceiveSMS((isChecked ? true : false));
+ 			activity.currentUser.saveEventually();
  		}
-}
+	}
 	
 }
