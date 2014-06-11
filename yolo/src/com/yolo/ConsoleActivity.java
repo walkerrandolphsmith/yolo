@@ -153,8 +153,8 @@ public class ConsoleActivity extends Activity {
 		System.out.println("hey");
 		if (currentUser != null) {
 			MainActivity.parentId = currentUser.getObjectId();
+			ParseUser.logOut();
 		} 	
-		ParseUser.logOut();
 		onBackPressed();
 	}
 	
