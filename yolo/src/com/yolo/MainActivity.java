@@ -3,7 +3,6 @@ package com.yolo;
 
 import java.util.List;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.admin.DeviceAdminReceiver;
@@ -70,7 +69,6 @@ public class MainActivity extends Activity implements LocationListener, Compound
 	 * OnCreate
 	 **********************************/
 
-	@SuppressLint("InlinedApi")
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 
@@ -108,7 +106,7 @@ public class MainActivity extends Activity implements LocationListener, Compound
 	    sms = SmsManager.getDefault();
 	    
 	    if(NotificationBroadcastReceiver.checkInternetConnection(this)){
-        	ParseObject.registerSubclass(User.class);
+        	 ParseObject.registerSubclass(User.class);
 	    	 Parse.initialize(this, "yG0OKddCMctN5vtCj5ocUbDxrRJjlPuzZLXMOXA9","FGdSTBZZgOlRTdMkMqSOWydTOG3hliqXigOqm2sk");
 	         PushService.setDefaultPushCallback(this, MainActivity.class);
 	         ParseInstallation install = ParseInstallation.getCurrentInstallation();
@@ -128,7 +126,7 @@ public class MainActivity extends Activity implements LocationListener, Compound
 
 	@Override
 	public void onBackPressed(){
-		
+		super.onBackPressed();
 	}
 	
 	@Override
@@ -160,7 +158,7 @@ public class MainActivity extends Activity implements LocationListener, Compound
 	}
 	
 	@Override public void onDestroy(){
-		
+		super.onDestroy();
 	}
 	
 	/*********************************

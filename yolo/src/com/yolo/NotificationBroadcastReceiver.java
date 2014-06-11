@@ -77,7 +77,8 @@ public class NotificationBroadcastReceiver extends BroadcastReceiver {
 
 		@Override
 		protected String doInBackground(Void... params) {
-		    callback.call("");
+			if(callback != null)
+				callback.call("");
 		    return null;
 		}
 

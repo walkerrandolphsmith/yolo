@@ -5,6 +5,8 @@
 
     <!-- Assistance Dialog -->
     <string name="title">Driving:</string>
+    <string name="off">Off</string>
+    <string name="on">On</string>
     
     <!-- Action Items -->
     <string name="action_signin">SignIn</string>
