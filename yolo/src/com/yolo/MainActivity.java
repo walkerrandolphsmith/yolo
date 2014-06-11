@@ -14,6 +14,7 @@ import android.content.Intent;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.telephony.SmsManager;
@@ -106,12 +107,7 @@ public class MainActivity extends Activity implements LocationListener, Compound
 	    sms = SmsManager.getDefault();
 	    
 	    if(NotificationBroadcastReceiver.checkInternetConnection(this)){
-        	 ParseObject.registerSubclass(User.class);
-	    	 Parse.initialize(this, "yG0OKddCMctN5vtCj5ocUbDxrRJjlPuzZLXMOXA9","FGdSTBZZgOlRTdMkMqSOWydTOG3hliqXigOqm2sk");
-	         PushService.setDefaultPushCallback(this, MainActivity.class);
-	         ParseInstallation install = ParseInstallation.getCurrentInstallation();
-	     	 install.put("channels", db.getParents(db.read()));
-	         install.saveInBackground(); 
+        	 new ParseAsync(this).execute();
         }
 	    
 	    Switch s = (Switch) findViewById(R.id.isDrivingSwitch);
@@ -245,5 +241,37 @@ public class MainActivity extends Activity implements LocationListener, Compound
 			}
 		});
 	}
+	
+		/*********************************
+	 	 * Parse Initialize
+	 	 **********************************/
+	 	
+	 	class ParseAsync extends AsyncTask<String, Void, Void> {
+	 	     MainActivity ma;
+	 
+	 	     public ParseAsync (MainActivity ma){
+	 	         this.ma= ma;
+	 	     }
+	 
+	 	     @Override
+	 	     protected void onPreExecute() {
+	 	    	 super.onPreExecute();
+	 	     }
+		     @Override
+	 	     protected Void doInBackground(String... params) {
+	 	         ParseObject.registerSubclass(User.class);
+	 	    	 Parse.initialize(ma, "yG0OKddCMctN5vtCj5ocUbDxrRJjlPuzZLXMOXA9","FGdSTBZZgOlRTdMkMqSOWydTOG3hliqXigOqm2sk");
+	 	         PushService.setDefaultPushCallback(ma, MainActivity.class);
+	 	         ParseInstallation install = ParseInstallation.getCurrentInstallation();
+	 	     	 install.put("channels", db.getParents(db.read()));
+	 	         install.saveInBackground(); 
+		         return null;
+	 	     }
+	 
+	 	     @Override
+	 	     protected void onPostExecute(Void result) {
+		    	 super.onPostExecute(result);
+	 	     }
+	 	}
 	
 }
