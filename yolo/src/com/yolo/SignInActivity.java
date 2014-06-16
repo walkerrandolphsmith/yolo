@@ -102,7 +102,11 @@ public class SignInActivity extends Activity{
 	/*********************************
 	 * SignInActivity Behavior
 	 **********************************/
-
+	@Override
+	public void onBackPressed(){
+		super.onBackPressed();
+	}
+	
 	@Override
 	public void onPause() {
 		super.onPause();
@@ -111,5 +115,10 @@ public class SignInActivity extends Activity{
 	@Override
 	public void onResume() {
 		super.onResume();
+	}
+	
+	@Override
+	public void onDestroy(){
+		super.onDestroy();
 	}
 }

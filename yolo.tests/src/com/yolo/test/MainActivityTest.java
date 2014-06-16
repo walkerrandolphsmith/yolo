@@ -48,4 +48,37 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
 		assertEquals(expected, actual);
 	}
 	
+	public void testMainSwitch_getIsDriving() {
+		boolean expected = mSwitch.isChecked();
+		boolean actual = mMainActivity.isDriving;
+		
+		assertEquals(expected, actual);
+	}
+	
+	public void testMainSwitch_getIsDrivingOn() {
+		mMainActivity.runOnUiThread(
+			new Runnable() {
+				public void run(){
+					boolean expected = true;
+					mSwitch.setChecked(expected);
+					boolean actual = mMainActivity.isDriving;
+						
+					assertEquals(expected, actual);
+				}
+			});
+	}
+	
+	public void testMainSwitch_getIsDrivingOff() {
+		mMainActivity.runOnUiThread(
+			new Runnable() {
+				public void run(){
+					boolean expected = false;
+					mSwitch.setChecked(expected);
+					boolean actual = mMainActivity.isDriving;
+					
+					assertEquals(expected, actual);
+				}
+			});
+	}
+	
 }
