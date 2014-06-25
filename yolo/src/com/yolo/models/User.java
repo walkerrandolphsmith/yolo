@@ -1,5 +1,10 @@
 package com.yolo.models;
 
+import java.util.ArrayList;
+
+import org.json.JSONArray;
+
+import com.parse.ParseObject;
 import com.parse.ParseUser;
 
 public class User extends ParseUser{
@@ -21,20 +26,12 @@ public class User extends ParseUser{
 		this.put("phone", phone);
 	}
 	
-	public String getGhostUsername(){
-		return getString("ghostUsername");
-	}
+	public JSONArray getChildren(){
+		return getJSONArray("children");
+	}	
 	
-	public void setGhostUsername(String username){
-		this.put("ghostUsername", username);
-	}
-	
-	public String getGhostPassword(){
-		return getString("ghostPassword");
-	}
-	
-	public void setGhostPassword(String password){
-		this.put("ghostPassword", password);
+	public void setChildren(ArrayList<ParseObject> children) {
+		this.put("children", children);
 	}
 	
 	public boolean getReceivePushNotifications(){

@@ -5,10 +5,11 @@
     android:fillViewport="true"
     style="@style/Match" >
     
-    <WebView
-    	android:id="@+id/webview"
-  		android:layout_width="fill_parent"
- 		android:layout_height="fill_parent"
-	/>
+    <ListView
+	      android:id="@+id/android:list"
+ 	      android:layout_width="fill_parent"
+ 	      android:layout_height="wrap_content"
+ 	      android:background="@color/black"
+ 	      android:drawSelectorOnTop="false" />
 
 </RelativeLayout>

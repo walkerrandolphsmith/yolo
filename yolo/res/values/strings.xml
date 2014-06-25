@@ -27,6 +27,7 @@
     
      <!-- Conosle Activity -->
     <string name="updateUser">Update Account</string>
+    <string name="notifications">Notifications</string>
     <string name="settings">Settings</string>
   
     <!-- Settings Fragment -->
@@ -36,7 +37,7 @@
     
     <!-- Add Device Fragment -->
     <string name="nameHint">Name</string>
-    
+
      <!-- Errors -->
     <string name="error_invalid_email">This email address is invalid</string>
     <string name="error_duplicate_email">This email address is already in use</string>

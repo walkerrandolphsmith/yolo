@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
 	package="com.yolo" android:versionCode="1" android:versionName="1.0">
 
-	<uses-sdk android:minSdkVersion="14" android:targetSdkVersion="17" />
+	<uses-sdk android:minSdkVersion="8" android:targetSdkVersion="19" />
 
 	<permission android:protectionLevel="signature"
     	android:name="com.yolo.permission.C2D_MESSAGE" />
@@ -28,11 +28,18 @@
 		android:largeScreens="true" 
 		android:anyDensity="true" />
 
-	<application android:allowBackup="true" 
+	<application 
+	    android:name="com.yolo.Application"
+	    android:allowBackup="true" 
 	    android:icon="@drawable/ic_launcher"
 		android:label="@string/app_name">
+		
+		<meta-data 
+		   android:name="com.google.android.gms.version"
+           android:value="1" />
 
-		<activity android:name="com.yolo.SplashScreenActivity"
+		<activity 
+		    android:name="com.yolo.activities.SplashScreenActivity"
 			android:configChanges="orientation|screenSize"
 			android:theme="@android:style/Theme.Black.NoTitleBar"
 			android:label="@string/app_name">
@@ -42,30 +49,42 @@
 			</intent-filter>
 		</activity>
 
-		<activity android:name="com.yolo.MainActivity"
+		<activity 
+		    android:name="com.yolo.activities.MainActivity"
 			android:configChanges="orientation|screenSize" 
 			android:label="@string/app_name">
 		</activity>
 		
-		<activity android:name="com.yolo.SignInActivity"
+		<activity 
+		    android:name="com.yolo.activities.SignInActivity"
 			android:configChanges="orientation|screenSize" 
 			android:label="@string/app_name"
-			android:parentActivityName="com.yolo.MainActivity">
+			android:parentActivityName="com.yolo.activities.MainActivity">
 		</activity>
 		
-		<activity android:name="com.yolo.SignUpActivity"
+		<activity 
+		    android:name="com.yolo.activities.SignUpActivity"
 			android:configChanges="orientation|screenSize" 
 			android:label="@string/app_name"
-			android:parentActivityName="com.yolo.SignInActivity">
+			android:parentActivityName="com.yolo.activities.ConsoleActivity">	
 		</activity>
 		
-		<activity android:name="com.yolo.ConsoleActivity"
+		<activity 
+		    android:name="com.yolo.activities.ConsoleActivity"
 			android:configChanges="orientation|screenSize" 
 			android:label="@string/app_name"
-			android:parentActivityName="com.yolo.MainActivity">
+			android:parentActivityName="com.yolo.activities.MainActivity">
+		</activity>
+		
+		<activity 
+		    android:name="com.yolo.activities.SettingsActivity"
+			android:configChanges="orientation|screenSize" 
+			android:label="@string/app_name"
+			android:parentActivityName="com.yolo.activities.ConsoleActivity">
 		</activity>
 
-		<receiver android:name="MainActivity$MyAdmin" 
+		<receiver 
+		    android:name="MainActivity$MyAdmin" 
 		    android:label="@string/app_name"
 			android:description="@string/app_name" 
 			android:permission="android.permission.BIND_DEVICE_ADMIN">
@@ -77,7 +96,8 @@
 		</receiver>
 
 		<service android:name="com.parse.PushService" />
-		<receiver android:name="com.yolo.NotificationBroadcastReceiver">
+		<receiver 
+		    android:name="com.parse.ParseBroadcastReceiver">
 			<intent-filter>
 				<action android:name="android.intent.action.BOOT_COMPLETED" />
 				<action android:name="android.intent.action.USER_PRESENT" />
@@ -90,6 +110,13 @@
 				<action android:name="com.google.android.c2dm.intent.REGISTRATION" />
 				<category android:name="com.yolo" />
 			</intent-filter>
+		</receiver>
+		<receiver 
+		    android:name="com.yolo.NotificationBroadcastReceiver" 
+		    android:exported="false">
+  			<intent-filter>
+   			 <action android:name="com.example.UPDATE_STATUS" />
+ 			 </intent-filter>
 		</receiver>
 	</application>
 

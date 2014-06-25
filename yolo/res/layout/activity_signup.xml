@@ -54,33 +54,13 @@
         android:layout_marginTop="25dp"
         android:hint="@string/confirmPasswordHint"
         android:inputType="textPassword" />
-    
-     <EditText
-        android:id="@+id/ghostUsername"
-        android:layout_width="250dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/passwordConfirm"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="25dp"
-        android:hint="@string/confirmGhostUsernameHint"
-        android:inputType="textPassword" />
-     
-      <EditText
-        android:id="@+id/ghostPassword"
-        android:layout_width="250dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/ghostUsername"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="25dp"
-        android:hint="@string/confirmGhostPasswordHint"
-        android:inputType="textPassword" />
 
     <Button
         android:id="@+id/signUp"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_alignRight="@id/password"
-        android:layout_below="@id/ghostPassword"
+        android:layout_below="@id/passwordConfirm"
         android:layout_marginTop="25dp"
         android:text="@string/createAccount" />
  

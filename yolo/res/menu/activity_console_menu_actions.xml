@@ -3,10 +3,10 @@
           android:showAsAction="always"
           android:icon="@drawable/ic_action_settings"
           android:title="@string/settings" />
-    <item android:id="@+id/action_update_user"
+    <item android:id="@+id/action_add_device"
           android:showAsAction="always"
           android:icon="@drawable/ic_action_new"
-          android:title="@string/updateUser" />
+          android:title="@string/signOut" />
     <item android:id="@+id/action_signout"
           android:showAsAction="always"
           android:icon="@drawable/ic_launcher"

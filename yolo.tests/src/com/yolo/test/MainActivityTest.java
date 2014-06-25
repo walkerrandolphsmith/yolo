@@ -5,7 +5,7 @@ import android.widget.ImageView;
 import android.widget.Switch;
 import com.yolo.R;
 
-import com.yolo.MainActivity;
+import com.yolo.activities.MainActivity;
 
 public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActivity> {
 	private MainActivity mMainActivity;
@@ -50,7 +50,7 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
 	
 	public void testMainSwitch_getIsDriving() {
 		boolean expected = mSwitch.isChecked();
-		boolean actual = mMainActivity.isDriving;
+		boolean actual = mMainActivity.getIsDriving();
 		
 		assertEquals(expected, actual);
 	}
@@ -61,7 +61,7 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
 				public void run(){
 					boolean expected = true;
 					mSwitch.setChecked(expected);
-					boolean actual = mMainActivity.isDriving;
+					boolean actual = mMainActivity.getIsDriving();
 						
 					assertEquals(expected, actual);
 				}
@@ -74,7 +74,7 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
 				public void run(){
 					boolean expected = false;
 					mSwitch.setChecked(expected);
-					boolean actual = mMainActivity.isDriving;
+					boolean actual = mMainActivity.getIsDriving();
 					
 					assertEquals(expected, actual);
 				}
