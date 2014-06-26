@@ -35,14 +35,14 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
 	//All test cases come after testPreConditions()
 	
 	public void testMainSwitch_getTextOff() {
-		final String expected = mMainActivity.getString(R.string.off);
+		final String expected = mMainActivity.getString(R.string.passenger);
 		final String actual = mSwitch.getTextOff().toString();
 		
 		assertEquals(expected, actual);
 	}
 	
 	public void testMainSwitch_getTextOn() {
-		final String expected = mMainActivity.getString(R.string.on);
+		final String expected = mMainActivity.getString(R.string.driving);
 		final String actual = mSwitch.getTextOn().toString();
 		
 		assertEquals(expected, actual);
