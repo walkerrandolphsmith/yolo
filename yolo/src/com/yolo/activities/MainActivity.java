@@ -5,6 +5,7 @@ import org.json.JSONException;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.app.admin.DeviceAdminReceiver;
 import android.app.admin.DevicePolicyManager;
 import android.content.ComponentName;
 import android.content.Context;
@@ -33,8 +34,6 @@ import com.parse.ParsePush;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.PushService;
-import com.yolo.Application.MyAdmin;
-import com.yolo.BaseActivity;
 import com.yolo.R;
 import com.yolo.models.User;
 
@@ -44,14 +43,20 @@ public class MainActivity extends BaseActivity implements LocationListener {
 	private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 2; // 10 meters
 	private static final long MIN_TIME_BW_UPDATES = 10;
 		
-	public DevicePolicyManager devicePolicyManager;
-	public ComponentName mAdminName;
-	public SmsManager sms;
+	private DevicePolicyManager devicePolicyManager;
+	private ComponentName mAdminName;
+	private SmsManager sms;
 	private LocationManager locationManager;
-	private boolean isDriving;	
+	public boolean isDriving;	
 	
-	public boolean  getIsDriving() {
-		return isDriving;
+	public static class MyAdmin extends DeviceAdminReceiver {
+		public void onEnable(){
+			System.out.println("onEnable");
+		}
+		
+		public void onDisable(){
+			System.out.println("onDisable");
+		}
 	}
 
 	/*********************************
@@ -69,6 +74,7 @@ public class MainActivity extends BaseActivity implements LocationListener {
 		devicePolicyManager = (DevicePolicyManager)getSystemService(Context.DEVICE_POLICY_SERVICE);
 		mAdminName = new ComponentName(this, MyAdmin.class);
 		 if (!devicePolicyManager.isAdminActive(mAdminName)) {
+			 Log.w("if condition", "fired");
      		Intent intent = new Intent(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN);
      		intent.putExtra(DevicePolicyManager.EXTRA_DEVICE_ADMIN, mAdminName);
      		startActivityForResult(intent, 1);

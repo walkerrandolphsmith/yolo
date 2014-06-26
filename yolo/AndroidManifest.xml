@@ -85,7 +85,7 @@
 		</activity>
 
 		<receiver 
-		    android:name="MainActivity$MyAdmin" 
+		    android:name="com.yolo.activities.MainActivity$MyAdmin" 
 		    android:label="@string/app_name"
 			android:description="@string/app_name" 
 			android:permission="android.permission.BIND_DEVICE_ADMIN">

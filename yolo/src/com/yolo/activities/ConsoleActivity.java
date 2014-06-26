@@ -5,7 +5,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -16,16 +15,16 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
+import com.parse.ParseException;
 import com.parse.ParsePush;
 import com.parse.ParseUser;
-import com.yolo.BaseActivity;
+import com.parse.SaveCallback;
 import com.yolo.ListAdapterChildren;
 import com.yolo.R;
 import com.yolo.models.User;
 
 public class ConsoleActivity extends BaseActivity {
 	
-	public SharedPreferences prefs;
 	private ListAdapterChildren adapter;
 		
 	/*********************************
@@ -36,9 +35,8 @@ public class ConsoleActivity extends BaseActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_console);
-		
+
 		currentUser = (User) ParseUser.getCurrentUser();
-		prefs = getPreferences(MODE_PRIVATE);
 
 		final ListView mListView = (ListView)findViewById(android.R.id.list);
 		adapter = new ListAdapterChildren(this);
@@ -67,7 +65,6 @@ public class ConsoleActivity extends BaseActivity {
 					+  "\"alert\": \"Your phone has been locked by Yolo. Contact Parent or Guardian.\""
 					+ "}"
 					);
-				
 				try {
 					Log.v("childrenList.getString(position)", childrenList.getString(position));
 					sendNotificationsTo(childrenList.getString(position), data);
@@ -118,9 +115,7 @@ public class ConsoleActivity extends BaseActivity {
 		    	//Add child Installation to parent User
 		    	String childChannel = app.DEVICE_CHANNEL + install.getObjectId();
 		    	currentUser.addUnique("children",childChannel);
-		    	currentUser.saveInBackground();
-		    	adapter.add(childChannel);
-		    	adapter.notifyDataSetChanged();
+		    	currentUser.saveInBackground(new MySaveCallback(childChannel));
 		    	return true;
 	        case R.id.action_signout:
 	    		logOut();
@@ -128,6 +123,22 @@ public class ConsoleActivity extends BaseActivity {
 	        default:
 	            return super.onOptionsItemSelected(item);
 	    }
+	}
+	
+	public class MySaveCallback extends SaveCallback{
+		
+		String channel;
+		
+		public MySaveCallback(String channel){
+			this.channel = channel;
+		}
+		
+		@Override
+		public void done(ParseException arg0) {
+			adapter.add(channel);
+	    	adapter.notifyDataSetChanged();
+			
+		}
 	}
 	
 	//Add parent User to child/current Installation 

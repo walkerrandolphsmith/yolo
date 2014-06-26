@@ -1,4 +1,4 @@
-package com.yolo;
+package com.yolo.activities;
 
 import android.app.Activity;
 import android.app.FragmentManager;
@@ -6,6 +6,7 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 
 import com.parse.ParseInstallation;
+import com.yolo.Application;
 import com.yolo.models.User;
 
 public class BaseActivity extends Activity {

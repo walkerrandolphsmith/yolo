@@ -8,7 +8,6 @@ import android.widget.ListView;
 import android.widget.Switch;
 
 import com.parse.ParseUser;
-import com.yolo.BaseActivity;
 import com.yolo.ListAdapterSettings;
 import com.yolo.R;
 import com.yolo.models.User;

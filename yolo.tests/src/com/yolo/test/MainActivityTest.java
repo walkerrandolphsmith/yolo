@@ -50,7 +50,7 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
 	
 	public void testMainSwitch_getIsDriving() {
 		boolean expected = mSwitch.isChecked();
-		boolean actual = mMainActivity.getIsDriving();
+		boolean actual = mMainActivity.isDriving;
 		
 		assertEquals(expected, actual);
 	}
@@ -61,7 +61,7 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
 				public void run(){
 					boolean expected = true;
 					mSwitch.setChecked(expected);
-					boolean actual = mMainActivity.getIsDriving();
+					boolean actual = mMainActivity.isDriving;
 						
 					assertEquals(expected, actual);
 				}
@@ -74,7 +74,7 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
 				public void run(){
 					boolean expected = false;
 					mSwitch.setChecked(expected);
-					boolean actual = mMainActivity.getIsDriving();
+					boolean actual = mMainActivity.isDriving;
 					
 					assertEquals(expected, actual);
 				}

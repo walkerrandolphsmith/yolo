@@ -5,10 +5,10 @@
           android:title="@string/settings" />
     <item android:id="@+id/action_add_device"
           android:showAsAction="always"
-          android:icon="@drawable/ic_action_new"
+          android:icon="@drawable/ic_action_add"
           android:title="@string/signOut" />
     <item android:id="@+id/action_signout"
           android:showAsAction="always"
-          android:icon="@drawable/ic_launcher"
+          android:icon="@drawable/ic_action_signout"
           android:title="@string/signOut" />
 </menu>

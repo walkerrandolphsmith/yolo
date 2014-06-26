@@ -10,7 +10,6 @@ import android.widget.EditText;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
-import com.yolo.BaseActivity;
 import com.yolo.R;
 
 public class SignInActivity extends BaseActivity{

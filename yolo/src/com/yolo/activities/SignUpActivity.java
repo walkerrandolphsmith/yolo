@@ -13,7 +13,6 @@ import android.widget.EditText;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.SignUpCallback;
-import com.yolo.BaseActivity;
 import com.yolo.R;
 import com.yolo.models.User;
 
