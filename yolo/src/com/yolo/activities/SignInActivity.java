@@ -1,6 +1,5 @@
 package com.yolo.activities;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -11,9 +10,10 @@ import android.widget.EditText;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
+import com.yolo.BaseActivity;
 import com.yolo.R;
 
-public class SignInActivity extends Activity{
+public class SignInActivity extends BaseActivity{
 	
 	EditText mUserName;
 	EditText mPassword;
@@ -99,27 +99,4 @@ public class SignInActivity extends Activity{
         		});
         }
     }
-	
-	/*********************************
-	 * SignInActivity Behavior
-	 **********************************/
-	@Override
-	public void onBackPressed(){
-		super.onBackPressed();
-	}
-	
-	@Override
-	public void onPause() {
-		super.onPause();
-	}
-
-	@Override
-	public void onResume() {
-		super.onResume();
-	}
-	
-	@Override
-	public void onDestroy(){
-		super.onDestroy();
-	}
 }

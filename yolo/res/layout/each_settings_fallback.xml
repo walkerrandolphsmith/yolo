@@ -19,12 +19,13 @@
     <TextView
         android:id="@+id/name"
         android:layout_width="240dp"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content" />    
 
-    <Switch
-        android:id="@+id/notificationSwitch"
+    <CheckBox
+        android:id="@+id/checkBox"
         style="@style/Wrap"
         android:layout_alignParentRight="true"
-        android:layout_alignTop="@+id/name" />
-
+        android:layout_centerInParent="true"
+        android:scaleX="1.50"
+        android:scaleY="1.50" />
 </RelativeLayout>

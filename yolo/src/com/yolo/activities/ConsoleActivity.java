@@ -4,8 +4,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.app.Activity;
-import android.app.FragmentManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -18,22 +16,17 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
-import com.parse.ParseInstallation;
 import com.parse.ParsePush;
 import com.parse.ParseUser;
-import com.yolo.Application;
-import com.yolo.ChildrenAdapter;
+import com.yolo.BaseActivity;
+import com.yolo.ListAdapterChildren;
 import com.yolo.R;
 import com.yolo.models.User;
 
-public class ConsoleActivity extends Activity {
+public class ConsoleActivity extends BaseActivity {
 	
-	Application app;
-	ParseInstallation install;
-	public User currentUser;
-	private FragmentManager fragmentManager;
 	public SharedPreferences prefs;
-	private ChildrenAdapter adapter;
+	private ListAdapterChildren adapter;
 		
 	/*********************************
 	 * OnCreate
@@ -43,16 +36,13 @@ public class ConsoleActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_console);
-		getActionBar().setDisplayHomeAsUpEnabled(true);
-		app = (Application)getApplication();
-		install = ParseInstallation.getCurrentInstallation();
-    	currentUser = (User) ParseUser.getCurrentUser();
-		fragmentManager = getFragmentManager();
+		
+		currentUser = (User) ParseUser.getCurrentUser();
 		prefs = getPreferences(MODE_PRIVATE);
 		
 		final JSONArray childrenList = currentUser.getChildren();
 		final ListView mListView = (ListView)findViewById(android.R.id.list);
-		adapter = new ChildrenAdapter(this, childrenList);
+		adapter = new ListAdapterChildren(this, childrenList);
 		mListView.setAdapter(adapter);
 		mListView.setOnItemClickListener(new remoteLockDeviceItemClickListener(childrenList)); 
 	}
@@ -105,35 +95,6 @@ public class ConsoleActivity extends Activity {
 	}
 	
 	/*********************************
-	 * Console Activity Behavior
-	 **********************************/
-	
-	@Override
-	public void onBackPressed(){
-		
-	    if (fragmentManager.getBackStackEntryCount() > 0) {
-	    	fragmentManager.popBackStack();
-	    } else {
-	        super.onBackPressed();
-	    }	
-	}
-	
-	@Override
-	public void onPause() {
-		super.onPause();
-	}
-
-	@Override
-	public void onResume() {
-		super.onResume();
-	}
-	
-	@Override
-	public void onDestroy(){
-		super.onDestroy();
-	}
-	
-	/*********************************
 	 * ActionBar MenuItems
 	 **********************************/
 	
@@ -150,13 +111,7 @@ public class ConsoleActivity extends Activity {
 	    	case android.R.id.home:
 	    		logOut();
 	    		return true;
-		    case R.id.action_settings:
-	    		//SettingsFragment settingsFragment = new SettingsFragment();
-				//fragmentManager.beginTransaction()
-	            //.add(R.id.console,settingsFragment)
-	            //.addToBackStack(null)
-	            //.commit();
-				
+		    case R.id.action_settings:				
 				Intent intent = new Intent(ConsoleActivity.this, SettingsActivity.class);
 	            startActivity(intent);
 				return true;

@@ -2,7 +2,6 @@ package com.yolo.activities;
 
 import java.util.ArrayList;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -14,10 +13,11 @@ import android.widget.EditText;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.SignUpCallback;
+import com.yolo.BaseActivity;
 import com.yolo.R;
 import com.yolo.models.User;
 
-public class SignUpActivity extends Activity {
+public class SignUpActivity extends BaseActivity {
 	
 	protected static final String EXTRA_USERNAME = "USERNAME";
     protected static final String EXTRA_PASSWORD = "PASSWORD";
@@ -189,20 +189,4 @@ public class SignUpActivity extends Activity {
 	    email = mEmail.getText().toString();
 	    phone = mPhone.getText().toString();
 	}
-	
-	
-	/*********************************
-	 * SignUpActivity Behavior
-	 **********************************/
-
-	@Override
-	public void onPause() {
-		super.onPause();
-		
-	}
-
-	@Override
-	public void onResume() {
-		super.onResume();
-	}	
 }

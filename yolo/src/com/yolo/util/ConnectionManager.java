@@ -11,13 +11,7 @@ import com.yolo.Application;
 public class ConnectionManager {
 	
 	 private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
-	 private Context context;
-	 
-	 
-	public ConnectionManager(Context ctx) {
-		context = ctx;
-	}
-	
+
 	public static boolean checkInternetConnection(Context context) {
 		ConnectivityManager conMgr = (ConnectivityManager) context
 				.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -35,7 +29,7 @@ public class ConnectionManager {
 		return response;
 	}
 	
-	public boolean servicesConnected() {
+	public static boolean servicesConnected(Context context) {
 		int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(context);
 		if(CONNECTION_FAILURE_RESOLUTION_REQUEST == resultCode){
 			

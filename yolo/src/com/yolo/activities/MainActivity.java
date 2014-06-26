@@ -5,9 +5,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.FragmentManager;
 import android.app.admin.DevicePolicyManager;
 import android.content.ComponentName;
 import android.content.Context;
@@ -32,30 +30,21 @@ import android.widget.ToggleButton;
 import com.parse.GetCallback;
 import com.parse.ParseAnalytics;
 import com.parse.ParseException;
-import com.parse.ParseInstallation;
 import com.parse.ParsePush;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.PushService;
-import com.yolo.Application;
 import com.yolo.Application.MyAdmin;
+import com.yolo.BaseActivity;
 import com.yolo.R;
 import com.yolo.models.User;
-import com.yolo.util.ConnectionManager;
 
 
-public class MainActivity extends Activity implements LocationListener {
+public class MainActivity extends BaseActivity implements LocationListener {
 
-	/*********************************
-	 * Constants and Class members
-	 **********************************/	
 	private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 2; // 10 meters
 	private static final long MIN_TIME_BW_UPDATES = 10;
 		
-	public Application app;
-	public ParseInstallation install;
-	public FragmentManager fragmentManager;
-	public ConnectionManager connectionManager;
 	public DevicePolicyManager devicePolicyManager;
 	public ComponentName mAdminName;
 	public SmsManager sms;
@@ -76,10 +65,7 @@ public class MainActivity extends Activity implements LocationListener {
 
 		super.onCreate(savedInstanceState);
 				
-		app = (Application)getApplication();
-		fragmentManager = getFragmentManager();
-		//Used for API fallbacks
-		int currentSDKVersion = android.os.Build.VERSION.SDK_INT;		
+		getActionBar().setDisplayHomeAsUpEnabled(false);
 		//Device Policy Manager require minSDK version 8
 		devicePolicyManager = (DevicePolicyManager)getSystemService(Context.DEVICE_POLICY_SERVICE);
 		mAdminName = new ComponentName(this, MyAdmin.class);
@@ -89,9 +75,7 @@ public class MainActivity extends Activity implements LocationListener {
      		startActivityForResult(intent, 1);
      	} 
 		sms = SmsManager.getDefault();
-		connectionManager = new ConnectionManager(getApplicationContext());
 		locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-	    
 	    if(locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
 	    	locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_DISTANCE_CHANGE_FOR_UPDATES, MIN_TIME_BW_UPDATES, this);
 	    }else{
@@ -109,19 +93,19 @@ public class MainActivity extends Activity implements LocationListener {
 	    
 	    ParseAnalytics.trackAppOpened(getIntent());
 	    PushService.setDefaultPushCallback(this, MainActivity.class);
-		install = ParseInstallation.getCurrentInstallation();
+		
 		if(install.getObjectId() != null)
 			install.addUnique("channels", app.DEVICE_CHANNEL + install.getObjectId());
 		
 		if(currentSDKVersion >= 14){
 			setContentView(R.layout.activity_main);
-			  Switch s = (Switch) findViewById(R.id.isDrivingSwitch);
+			  CompoundButton s = (Switch) findViewById(R.id.isDrivingSwitch);
 		        if (s != null) {
 		            s.setOnCheckedChangeListener(new isDrivingCheckedChagedListener());
 		        }
 		}else{
 			setContentView(R.layout.activity_main_fallback);
-			 ToggleButton s = (ToggleButton) findViewById(R.id.isDrivingToggleButton);
+			 CompoundButton s = (ToggleButton) findViewById(R.id.isDrivingToggleButton);
 		        if (s != null) {
 		            s.setOnCheckedChangeListener(new isDrivingCheckedChagedListener());
 		            s.setOnClickListener(new OnClickListener() {
@@ -146,25 +130,6 @@ public class MainActivity extends Activity implements LocationListener {
 	/*********************************
 	 * MainActivity Behavior
 	 **********************************/
-
-	@Override
-	public void onBackPressed(){
-		 if (fragmentManager.getBackStackEntryCount() > 0) {
-			 fragmentManager.popBackStack();
-		    } else {
-		        super.onBackPressed();
-		    }	
-	}
-	
-	@Override
-	public void onPause() {
-		super.onPause();
-	}
-
-	@Override
-	public void onResume() {
-		super.onResume();		
-	}
 	
 	@Override
 	public void onProviderDisabled(String disabled) {
@@ -176,10 +141,6 @@ public class MainActivity extends Activity implements LocationListener {
 
 	@Override
 	public void onStatusChanged(String changed, int i, Bundle bundle) {		
-	}
-	
-	@Override public void onDestroy(){
-		super.onDestroy();
 	}
 	
 	/*********************************

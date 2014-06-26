@@ -57,4 +57,10 @@ public class User extends ParseUser{
 	public void setReceiveSMS(boolean willReceive){
 		this.put("receiveSMS", willReceive);
 	}
+	
+	public void setAllNotificationPrefrences(boolean isactive){
+		this.put("receivePushNotifications", isactive);
+		this.put("receiveSMS", isactive);
+		this.put("receiveReceiveEmails", isactive);
+	}
 }

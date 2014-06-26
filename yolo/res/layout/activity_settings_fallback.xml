@@ -16,11 +16,13 @@
             android:layout_height="wrap_content"
             android:text="@string/notifications" />
 
-        <Switch
-            android:id="@+id/selectAllSwitch"
+        <CheckBox
+            android:id="@+id/selectAllCheckBox"
             style="@style/Wrap"
             android:layout_alignParentRight="true"
-            android:layout_centerInParent="true" />
+            android:layout_centerInParent="true"
+            android:scaleX="1.50"
+            android:scaleY="1.50" />
     </RelativeLayout>
 
     <ListView

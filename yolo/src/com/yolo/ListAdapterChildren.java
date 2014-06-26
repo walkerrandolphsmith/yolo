@@ -11,10 +11,10 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-public class ChildrenAdapter extends ArrayAdapter<String> {
+public class ListAdapterChildren extends ArrayAdapter<String> {
 	private JSONArray mChildren;
 
-	public ChildrenAdapter(Context context, JSONArray children) {
+	public ListAdapterChildren(Context context, JSONArray children) {
 		super(context, R.layout.each_child);
 		this.mChildren = children;
 	}
