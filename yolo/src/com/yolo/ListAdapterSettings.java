@@ -66,7 +66,7 @@ public class ListAdapterSettings extends ArrayAdapter<String> {
 	}
 
 	private class ViewHolder {
-		TextView place_id, name;
+		TextView preference_id, name;
 		CompoundButton cbutton;
 	}
 
@@ -75,7 +75,7 @@ public class ListAdapterSettings extends ArrayAdapter<String> {
 		if (convertView == null) {
 			convertView = activity.getLayoutInflater().inflate(textViewResourceId, null);
 			viewHolder = new ViewHolder();
-			viewHolder.place_id = (TextView) convertView
+			viewHolder.preference_id = (TextView) convertView
 					.findViewById(R.id.installation_id);
 			viewHolder.name = (TextView) convertView.findViewById(R.id.name);
 			if (!isFallback) {
@@ -89,7 +89,7 @@ public class ListAdapterSettings extends ArrayAdapter<String> {
 		} else{
 			viewHolder = (ViewHolder) convertView.getTag();
 		}
-		viewHolder.place_id.setText(settings[position]);
+		viewHolder.preference_id.setText(settings[position]);
 		viewHolder.name.setText(settings[position]);
 
 		viewHolder.cbutton.setChecked(checkBoxState[position]);

@@ -39,12 +39,11 @@ public class ConsoleActivity extends BaseActivity {
 		
 		currentUser = (User) ParseUser.getCurrentUser();
 		prefs = getPreferences(MODE_PRIVATE);
-		
-		final JSONArray childrenList = currentUser.getChildren();
+
 		final ListView mListView = (ListView)findViewById(android.R.id.list);
-		adapter = new ListAdapterChildren(this, childrenList);
+		adapter = new ListAdapterChildren(this);
 		mListView.setAdapter(adapter);
-		mListView.setOnItemClickListener(new remoteLockDeviceItemClickListener(childrenList)); 
+		mListView.setOnItemClickListener(new remoteLockDeviceItemClickListener()); 
 	}
 	
 	/*********************************
@@ -53,8 +52,8 @@ public class ConsoleActivity extends BaseActivity {
 	
 	public class remoteLockDeviceItemClickListener implements OnItemClickListener {
 		public JSONArray childrenList;
-		public remoteLockDeviceItemClickListener(JSONArray childrenList){
-			this.childrenList = childrenList;
+		public remoteLockDeviceItemClickListener(){
+			this.childrenList = currentUser.getChildren();
 		}
 		
 		@Override

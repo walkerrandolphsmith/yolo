@@ -22,7 +22,6 @@ public class BaseActivity extends Activity {
 		
 		super.onCreate(savedInstanceState);
 		
-		getActionBar().setDisplayHomeAsUpEnabled(true);
 		currentSDKVersion = android.os.Build.VERSION.SDK_INT;	
 		app = (Application)getApplication();
 		fragmentManager = getFragmentManager();
@@ -38,6 +37,9 @@ public class BaseActivity extends Activity {
         }else if(config.isLayoutSizeAtLeast(Configuration.SCREENLAYOUT_SIZE_SMALL)){
         	
         }
+        
+		getActionBar().setDisplayHomeAsUpEnabled(true);
+
 	}
 	
 	/*********************************

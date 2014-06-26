@@ -1,6 +1,5 @@
 package com.yolo.activities;
 
-
 import org.json.JSONArray;
 import org.json.JSONException;
 
@@ -219,6 +218,7 @@ public class MainActivity extends BaseActivity implements LocationListener {
 	public void sendNotificationsToCallback(ParseUser parseUser){
 		User user = (User) parseUser;
 		String message = constructMessage();
+		
 	    if(user.getReceivePushNotifications()){
 	    	if(user.getObjectId() != null){
 	    		ParsePush push = new ParsePush();
