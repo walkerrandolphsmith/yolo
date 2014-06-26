@@ -18,7 +18,7 @@ public class ListAdapterSettings extends ArrayAdapter<String> {
 	private static final int NOTIFY_EMAIL = 2;
 
 	private ViewHolder viewHolder;
-	private boolean[] checkBoxState;
+	private boolean[] cButtonState;
 	private boolean flag = false;
 
 	private SettingsActivity activity;
@@ -27,7 +27,7 @@ public class ListAdapterSettings extends ArrayAdapter<String> {
 	private CompoundButton selectAll;
 	private boolean isFallback;
 	
-	public ListAdapterSettings(SettingsActivity activity, int textViewResourceId,
+	public ListAdapterSettings(final SettingsActivity activity, int textViewResourceId,
 			String[] settings, CompoundButton selectAll, boolean isFallback) {
 
 		super(activity, textViewResourceId, settings);
@@ -38,32 +38,31 @@ public class ListAdapterSettings extends ArrayAdapter<String> {
 		this.selectAll = selectAll;
 		this.isFallback = isFallback;
 		
-		checkBoxState = new boolean[] {
+		cButtonState = new boolean[] {
 									activity.currentUser.getReceivePushNotifications(),
 		                 			activity.currentUser.getReceiveSMS(),
 		                            activity.currentUser.getReceiveEmails()
 		                            };
 		
 		selectAll.setChecked(areAllChecked());
-		selectAll.setOnCheckedChangeListener(new allSelectedChangeListener());
-	}
+		selectAll.setOnCheckedChangeListener(new OnCheckedChangeListener(){
 
-	public class allSelectedChangeListener implements OnCheckedChangeListener{
-
-		@Override
-		public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-			if(!flag){
-				for (int i = 0; i < checkBoxState.length; i++) {
-					checkBoxState[i] = isChecked;
-					viewHolder.cbutton.setChecked(checkBoxState[i]);
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				if(!flag){
+					for (int i = 0; i < cButtonState.length; i++) {
+						cButtonState[i] = isChecked;
+						viewHolder.cbutton.setChecked(cButtonState[i]);
+					}
+					activity.currentUser.setAllNotificationPrefrences(isChecked);
+					activity.currentUser.saveEventually();
+					notifyDataSetChanged();
 				}
-				activity.currentUser.setAllNotificationPrefrences(isChecked);
-				activity.currentUser.saveEventually();
-				notifyDataSetChanged();
 			}
-		}
-		
+			
+		});
 	}
+
 
 	private class ViewHolder {
 		TextView preference_id, name;
@@ -92,19 +91,23 @@ public class ListAdapterSettings extends ArrayAdapter<String> {
 		viewHolder.preference_id.setText(settings[position]);
 		viewHolder.name.setText(settings[position]);
 
-		viewHolder.cbutton.setChecked(checkBoxState[position]);
+		viewHolder.cbutton.setChecked(cButtonState[position]);
 		viewHolder.cbutton.setOnClickListener(new View.OnClickListener() {
 
 			public void onClick(View v) {
 				
 				if (((CompoundButton) v).isChecked()) {
-					checkBoxState[position] = true;
+					cButtonState[position] = true;
 					setPreference(position, true);
-					allSelectedChangeHelper(true);
+					flag = true;
+					selectAll.setChecked(areAllChecked());
+					flag = false;
 				} else {
-					checkBoxState[position] = false;
+					cButtonState[position] = false;
 					setPreference(position, false);
-					allSelectedChangeHelper(false);
+					flag = true;
+					selectAll.setChecked(false);
+					flag = false;
 				}
 			}
 		});
@@ -126,20 +129,10 @@ public class ListAdapterSettings extends ArrayAdapter<String> {
 		activity.currentUser.saveEventually();
 	}
 	
-	public void allSelectedChangeHelper(boolean cButtonIsChecked){
-		flag = true;
-		if(cButtonIsChecked){
-			selectAll.setChecked(areAllChecked());
-		}else{
-			selectAll.setChecked(false);
-		}
-		flag = false;
-	}
-	
 	public boolean areAllChecked(){
 		boolean result = true;
-		for (int i = 0; i < checkBoxState.length; i++) {
-			if (checkBoxState[i] != true) {
+		for (int i = 0; i < cButtonState.length; i++) {
+			if (cButtonState[i] != true) {
 				result = false;
 			}
 		}

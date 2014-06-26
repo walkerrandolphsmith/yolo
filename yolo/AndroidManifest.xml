@@ -33,7 +33,7 @@
 	    android:theme="@style/Theme.Yolo"
 	    android:allowBackup="true" 
 	    android:icon="@drawable/ic_launcher"
-		android:label="@string/app_name">
+		android:label="@string/empty">
 		
 		<meta-data 
 		   android:name="com.google.android.gms.version"
@@ -43,7 +43,7 @@
 		    android:name="com.yolo.activities.SplashScreenActivity"
 			android:configChanges="orientation|screenSize"
 			android:theme="@android:style/Theme.Black.NoTitleBar"
-			android:label="@string/app_name">
+			android:label="@string/empty">
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN" />
 				<category android:name="android.intent.category.LAUNCHER" />
@@ -53,34 +53,34 @@
 		<activity 
 		    android:name="com.yolo.activities.MainActivity"
 			android:configChanges="orientation|screenSize" 
-			android:label="@string/app_name">
+			android:label="@string/empty">
 		</activity>
 		
 		<activity 
 		    android:name="com.yolo.activities.SignInActivity"
 			android:configChanges="orientation|screenSize" 
-			android:label="@string/app_name"
+			android:label="@string/empty"
 			android:parentActivityName="com.yolo.activities.MainActivity">
 		</activity>
 		
 		<activity 
 		    android:name="com.yolo.activities.SignUpActivity"
 			android:configChanges="orientation|screenSize" 
-			android:label="@string/app_name"
+			android:label="@string/empty"
 			android:parentActivityName="com.yolo.activities.ConsoleActivity">	
 		</activity>
 		
 		<activity 
 		    android:name="com.yolo.activities.ConsoleActivity"
 			android:configChanges="orientation|screenSize" 
-			android:label="@string/app_name"
+			android:label="@string/empty"
 			android:parentActivityName="com.yolo.activities.MainActivity">
 		</activity>
 		
 		<activity 
 		    android:name="com.yolo.activities.SettingsActivity"
 			android:configChanges="orientation|screenSize" 
-			android:label="@string/app_name"
+			android:label="@string/empty"
 			android:parentActivityName="com.yolo.activities.ConsoleActivity">
 		</activity>
 
