@@ -4,8 +4,6 @@
 
 #Gradle Build
 .gradle
-gradlew
-gradlew.bat
 
 # Eclipse project files
 .classpath
