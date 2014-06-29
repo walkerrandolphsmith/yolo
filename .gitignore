@@ -19,9 +19,8 @@ bin
 gen
 *.apk
 *.ap_
+build
 
 
 # Local Config File
 local.properties
-
-

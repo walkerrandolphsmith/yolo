@@ -11,14 +11,43 @@ buildscript {
 apply plugin: 'android'
 
 android {
-    buildToolsVersion "19.0.3"
+    buildToolsVersion '19.0.3'
     compileSdkVersion 19
     
     defaultConfig {
-    	minSdkVersion 8
+    	minSdkVersion 9
     	targetSdkVersion 19
     	versionCode 1
     	versionName "1.0"
+    }
+    
+    sourceSets {
+        main {
+            manifest.srcFile 'yolo/AndroidManifest.xml'
+            java.srcDirs = ['yolo/src']
+            resources.srcDirs = ['yolo/src']
+            aidl.srcDirs = ['yolo/src']
+            renderscript.srcDirs = ['yolo/src']
+            res.srcDirs = ['yolo/res']
+            assets.srcDirs = ['yolo/assets']
+        }
+    }
+    
+    signingConfigs{
+      unsigned{
+          storePassword = ""
+          keyAlias = ""
+          keyPassword = ""
+   	  }
+    }
+    
+    buildTypes {
+        debug {
+            buildConfigField "boolean", "HAS_PROTOTYPE_FEATURE", "true"
+        }
+        release {
+            buildConfigField "boolean", "HAS_PROTOTYPE_FEATURE", "false"
+        }
     }
 }
 
@@ -28,6 +57,7 @@ repositories {
 
 dependencies {
 	compile 'com.android.support:support-v4:19.0.1'
+	compile files('yolo/libs/Parse-1.5.0.jar')
 	compile 'com.google.android.gms:play-services:4.+'
 }
 
