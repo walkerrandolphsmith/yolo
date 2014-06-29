@@ -6,6 +6,7 @@ import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
 
@@ -65,6 +66,7 @@ public class ListAdapterSettings extends ArrayAdapter<String> {
 
 
 	private class ViewHolder {
+		ImageView image;
 		TextView preference_id, name;
 		CompoundButton cbutton;
 	}
@@ -74,6 +76,8 @@ public class ListAdapterSettings extends ArrayAdapter<String> {
 		if (convertView == null) {
 			convertView = activity.getLayoutInflater().inflate(textViewResourceId, null);
 			viewHolder = new ViewHolder();
+			viewHolder.image = (ImageView) convertView.findViewById(R.id.list_image);
+			setImageView(position);
 			viewHolder.preference_id = (TextView) convertView
 					.findViewById(R.id.installation_id);
 			viewHolder.name = (TextView) convertView.findViewById(R.id.name);
@@ -112,6 +116,20 @@ public class ListAdapterSettings extends ArrayAdapter<String> {
 			}
 		});
 		return convertView;
+	}
+	
+	public void setImageView(int position){
+		switch(position){
+		case NOTIFY_PUSH:
+			viewHolder.image.setImageResource(R.drawable.ic_settings_push);
+			break;
+		case NOTIFY_SMS:
+			viewHolder.image.setImageResource(R.drawable.ic_settings_sms);
+			break;
+		case NOTIFY_EMAIL:
+			viewHolder.image.setImageResource(R.drawable.ic_settings_email);
+			break;
+		}
 	}
 	
 	public void setPreference(int position, boolean state) {

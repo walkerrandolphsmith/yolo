@@ -4,6 +4,12 @@
     style="@style/Wrap"
     android:orientation="vertical"
     android:padding="10dip" >
+    
+    <ImageView
+            android:id="@+id/list_image"
+            android:layout_width="50dip"
+            android:layout_height="50dip"
+            android:contentDescription="@string/app_name"/>
 
     <!-- ID -->
 
@@ -16,15 +22,23 @@
 
      <!-- Name Value -->
 
-    <TextView
-        android:id="@+id/name"
-        android:layout_width="240dp"
-        android:layout_height="wrap_content" />
-
     <Switch
         android:id="@+id/notificationSwitch"
         style="@style/Wrap"
+        android:switchMinWidth="56dp"
+         android:textOff=""
+        android:textOn="" 
+        android:layout_centerVertical="true"
         android:layout_alignParentRight="true"
         android:layout_alignTop="@+id/name" />
+
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="240dp"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="20dp"
+        android:layout_toLeftOf="@+id/notificationSwitch"
+        android:layout_toRightOf="@+id/list_image" />
 
 </RelativeLayout>
