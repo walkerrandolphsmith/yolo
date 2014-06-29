@@ -56,7 +56,7 @@ public class ListAdapterSettings extends ArrayAdapter<String> {
 						viewHolder.cbutton.setChecked(cButtonState[i]);
 					}
 					activity.currentUser.setAllNotificationPrefrences(isChecked);
-					activity.currentUser.saveEventually();
+					activity.currentUser.saveInBackground();
 					notifyDataSetChanged();
 				}
 			}
@@ -136,15 +136,17 @@ public class ListAdapterSettings extends ArrayAdapter<String> {
 		switch (position) {
 		case NOTIFY_PUSH:
 			activity.currentUser.setReceivePushNotifications(state);
+			activity.currentUser.saveInBackground();
 			return;
 		case NOTIFY_SMS:
 			activity.currentUser.setReceiveSMS(state);
+			activity.currentUser.saveInBackground();
 			return;
 		case NOTIFY_EMAIL:
 			activity.currentUser.setReceiveEmails(state);
+			activity.currentUser.saveInBackground();
 			return;
 		}
-		activity.currentUser.saveEventually();
 	}
 	
 	public boolean areAllChecked(){

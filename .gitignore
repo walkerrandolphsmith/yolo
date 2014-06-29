@@ -1,25 +1,27 @@
 # OS
 .DS_Store
+.idea
 
 #Gradle Build
 .gradle
-
-
-# built application files
-*.apk
-*.ap_
-
-*.dex
-*.class
-
-# generated files
-bin
-gen
-
-# Local configuration file (sdk path, etc)
-local.properties
+gradlew
+gradlew.bat
 
 # Eclipse project files
 .classpath
 .project
 proguard/
+*.dex
+*.class
+
+# Generated files
+bin
+gen
+*.apk
+*.ap_
+
+
+# Local Config File
+local.properties
+
+

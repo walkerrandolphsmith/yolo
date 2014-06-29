@@ -41,7 +41,7 @@ import com.yolo.models.User;
 public class MainActivity extends BaseActivity implements LocationListener {
 
 	private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 2; // 10 meters
-	private static final long MIN_TIME_BW_UPDATES = 10;
+	private static final long MIN_TIME_BW_UPDATES = 2;
 		
 	private DevicePolicyManager devicePolicyManager;
 	private ComponentName mAdminName;
@@ -99,8 +99,7 @@ public class MainActivity extends BaseActivity implements LocationListener {
 	    ParseAnalytics.trackAppOpened(getIntent());
 	    PushService.setDefaultPushCallback(this, MainActivity.class);
 		
-		if(install.getObjectId() != null)
-			install.addUnique("channels", app.DEVICE_CHANNEL + install.getObjectId());
+		install.addUnique("channels", app.DEVICE_CHANNEL + install.getObjectId());
 		
 		if(currentSDKVersion >= 14){
 			setContentView(R.layout.activity_main);

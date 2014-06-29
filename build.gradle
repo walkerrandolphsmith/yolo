@@ -32,5 +32,7 @@ dependencies {
 }
 
 task wrapper(type: Wrapper) {
-  graddleVersion = '1.11'
+	ext{
+	  graddleVersion = '1.12'
+	}
 }
