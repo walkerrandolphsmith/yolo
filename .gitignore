@@ -1,16 +1,22 @@
 # OS
 .DS_Store
 .idea
-.metadata
-#Gradle Build
-.gradle
 
-# Eclipse project files
+# IDE project files
+.metadata
 .classpath
 .project
 proguard/
 *.dex
 *.class
+yolo.iml
+
+# Libs
+google_play_services/docs
+google_play_services/samples
+
+#Gradle Build
+.gradle
 
 # Generated files
 bin
