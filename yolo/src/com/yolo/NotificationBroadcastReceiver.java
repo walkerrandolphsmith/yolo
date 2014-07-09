@@ -31,10 +31,10 @@ public class NotificationBroadcastReceiver extends BroadcastReceiver {
 				Log.d("NotificationBroadcastReceivers",
 						"JSONException: " + e.getMessage());
 			}
-			Intent i = new Intent(context,MainActivity.class);
+            Intent i = new Intent();
             i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            i.putExtra("remote", true);
-            context.startActivity(i);
+            i.setAction("com.yolo.action.REMOTELOCKCONFIRM");
+            context.sendBroadcast(i);
 		}	
 	}
 }

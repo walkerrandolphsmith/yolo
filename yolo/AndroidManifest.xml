@@ -124,7 +124,7 @@
             android:name="com.yolo.LocationBroadcastReceiver"
             android:exported="false">
             <intent-filter>
-                <action android:name="LOCATION" />
+                <action android:name="com.yolo.action.LOCATIONCHANGE" />
             </intent-filter>
         </receiver>
 	</application>

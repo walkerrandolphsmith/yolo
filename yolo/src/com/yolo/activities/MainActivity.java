@@ -43,7 +43,7 @@ import com.yolo.models.User;
 public class MainActivity extends BaseActivity {
 
 	private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 10; // 10 meters
-	private static final long MIN_TIME_BW_UPDATES = 100;
+	private static final long MIN_TIME_BW_UPDATES = 10;
 		
 	private DevicePolicyManager devicePolicyManager;
 	private ComponentName mAdminName;
@@ -51,17 +51,9 @@ public class MainActivity extends BaseActivity {
 	private LocationManager locationManager;
 	public boolean isDriving;	
 	
-	public static class MyAdmin extends DeviceAdminReceiver {
-		public void onEnable(){
-			System.out.println("onEnable");
-		}
-		
-		public void onDisable(){
-			System.out.println("onDisable");
-		}
-	}
+	public static class MyAdmin extends DeviceAdminReceiver { }
 
-    private BroadcastReceiver myReceiver = new BroadcastReceiver() {
+    private BroadcastReceiver locationChangedReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(final Context context, final Intent intent) {
             Log.w("responded to location intent", "intent");
@@ -69,37 +61,20 @@ public class MainActivity extends BaseActivity {
         }
     };
 
-    public void locationChanged() {
-        Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        if(location != null) {
-            double speed = location.getSpeed() * 2.2369;
-
-            if (speed < 20) {
-                Log.w("speed", "is moving at " + speed + " mph");
-                JSONArray channels = install.getJSONArray("channels");
-                for (int i = 0; i < channels.length(); i++) {
-                    try {
-                        String channel = channels.getString(i);
-                        Log.w(channel, "channel: " + i);
-                        if (channel.startsWith(app.PARENT_CHANNEL)) {
-                            sendNotificationsTo(channel);
-                        }
-                    } catch (JSONException e) {
-                        Log.w("Exception Caught", "Channels could not be retreived from install");
-                    }
-                }
-                if (isDriving)
-                    devicePolicyManager.lockNow();
-            }
+    private BroadcastReceiver remoteLockReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(final Context context, final Intent intent) {
+            Log.w("responded to remote lock intent", "intent");
+            MainActivity.this.lock();
         }
-    }
+    };
 
     @Override
     public void onResume() {
         super.onResume();
-        registerReceiver(myReceiver, new IntentFilter("RESPOND_LOCATION"));
+        registerReceiver(locationChangedReceiver, new IntentFilter("com.yolo.action.LOCATIONCHANGECONFIRM"));
+        registerReceiver(remoteLockReceiver, new IntentFilter("com.yolo.action.REMOTELOCKCONFIRM"));
     }
-
 
 	/*********************************
 	 * OnCreate
@@ -116,7 +91,6 @@ public class MainActivity extends BaseActivity {
 		devicePolicyManager = (DevicePolicyManager)getSystemService(Context.DEVICE_POLICY_SERVICE);
 		mAdminName = new ComponentName(this, MyAdmin.class);
 		 if (!devicePolicyManager.isAdminActive(mAdminName)) {
-			 Log.w("if condition", "fired");
      		Intent intent = new Intent(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN);
      		intent.putExtra(DevicePolicyManager.EXTRA_DEVICE_ADMIN, mAdminName);
      		startActivityForResult(intent, 1);
@@ -124,13 +98,12 @@ public class MainActivity extends BaseActivity {
 		sms = SmsManager.getDefault();
 		locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 	    if(locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
-	    	//locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_DISTANCE_CHANGE_FOR_UPDATES, MIN_TIME_BW_UPDATES, this);
-            Intent location_intent = new Intent("LOCATION");
+            Intent location_intent = new Intent("com.yolo.action.LOCATIONCHANGE");
             PendingIntent launchIntent = PendingIntent.getBroadcast(this, 0, location_intent, 0);
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME_BW_UPDATES, MIN_DISTANCE_CHANGE_FOR_UPDATES, launchIntent);
         }else{
 	    	 final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-	    	    builder.setMessage("Your GPS seems to be disabled, do you want to enable it?")
+	    	    builder.setMessage("Your GPS seems to be disabled, please enable it.")
 	    	           .setCancelable(false)
 	    	           .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
 	    	               public void onClick(final DialogInterface dialog, final int id){ 
@@ -150,13 +123,13 @@ public class MainActivity extends BaseActivity {
 			setContentView(R.layout.activity_main);
 			  CompoundButton s = (Switch) findViewById(R.id.isDrivingSwitch);
 		        if (s != null) {
-		            s.setOnCheckedChangeListener(new isDrivingCheckedChagedListener());
+		            s.setOnCheckedChangeListener(new isDrivingCheckedChangedListener());
 		        }
 		}else{
 			setContentView(R.layout.activity_main_fallback);
 			 CompoundButton s = (ToggleButton) findViewById(R.id.isDrivingToggleButton);
 		        if (s != null) {
-		            s.setOnCheckedChangeListener(new isDrivingCheckedChagedListener());
+		            s.setOnCheckedChangeListener(new isDrivingCheckedChangedListener());
 		            s.setOnClickListener(new OnClickListener() {
 						@Override
 						public void onClick(View v) { /*ignore*/ }
@@ -168,7 +141,7 @@ public class MainActivity extends BaseActivity {
 	/*********************************
 	 * isDriving onCheckedChaged Listener
 	 **********************************/
-	private class isDrivingCheckedChagedListener implements CompoundButton.OnCheckedChangeListener {
+	private class isDrivingCheckedChangedListener implements CompoundButton.OnCheckedChangeListener {
 		@Override
 		public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 			isDriving = (isChecked ? true : false);	
@@ -198,6 +171,45 @@ public class MainActivity extends BaseActivity {
 	            return super.onOptionsItemSelected(item);
 	    }
 	}
+
+    /*********************************
+     * locationChanged
+     **********************************/
+
+    public void locationChanged() {
+        Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        if(location != null) {
+            double speed = location.getSpeed() * 2.2369;
+
+            if (speed < 20) {
+                Log.w("speed", "is moving at " + speed + " mph");
+                JSONArray channels = install.getJSONArray("channels");
+                for (int i = 0; i < channels.length(); i++) {
+                    try {
+                        String channel = channels.getString(i);
+                        Log.w(channel, "channel: " + i);
+                        if (channel.startsWith(app.PARENT_CHANNEL)) {
+                            sendNotificationsTo(channel);
+                        }
+                    } catch (JSONException e) {
+                        Log.w("Exception Caught", "Channels could not be retrieved from install");
+                    }
+                }
+                if (isDriving)
+                   lock();
+            }
+        }
+    }
+
+    /*********************************
+     * Lock Device
+     **********************************/
+
+    public void lock() {
+        if(devicePolicyManager != null) {
+            devicePolicyManager.lockNow();
+        }
+    }
 
 	/*********************************
 	 * Get Users 
