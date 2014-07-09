@@ -47,7 +47,10 @@ public class PlusSampleActivity extends ListActivity {
         SAMPLES_MAP.put("Send interactive post", ShareActivity.class.getName());
         SAMPLES_MAP.put("Write moments", MomentActivity.class.getName());
         SAMPLES_MAP.put("List & remove moments", ListMomentsActivity.class.getName());
-        SAMPLES_MAP.put("List people (circled by you)", ListPeopleActivity.class.getName());
+        SAMPLES_MAP.put("List visible people (circled by you)",
+                ListVisiblePeopleActivity.class.getName());
+        SAMPLES_MAP.put("List connected people",
+                ListConnectedPeopleActivity.class.getName());
         SAMPLES_MAP.put("License info", LicenseActivity.class.getName());
     }
 

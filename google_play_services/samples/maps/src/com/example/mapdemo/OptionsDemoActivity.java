@@ -21,8 +21,6 @@ import android.support.v4.app.FragmentActivity;
 
 /**
  * An activity that creates a map with some initial options.
- *
- * @author hearnden@google.com (David Hearnden)
  */
 public final class OptionsDemoActivity extends FragmentActivity {
 

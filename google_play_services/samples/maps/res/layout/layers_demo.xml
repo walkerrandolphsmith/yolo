@@ -47,5 +47,19 @@
       android:layout_height="wrap_content"
       android:onClick="onMyLocationToggled"
       android:text="@string/my_location"/>
-  </LinearLayout>
+    <CheckBox
+      android:id="@+id/buildings"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:onClick="onBuildingsToggled"
+      android:checked="true"
+      android:text="@string/buildings"/>
+    <CheckBox
+      android:id="@+id/indoor"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:onClick="onIndoorToggled"
+      android:checked="true"
+      android:text="@string/indoor"/>
+    </LinearLayout>
 </RelativeLayout>

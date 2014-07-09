@@ -24,5 +24,6 @@
         <item >Background</item>
         <item >Background with Sync</item>
     </string-array>
+    <string name="unrecoverable_error">Unrecoverable Play Services error</string>
     
 </resources>

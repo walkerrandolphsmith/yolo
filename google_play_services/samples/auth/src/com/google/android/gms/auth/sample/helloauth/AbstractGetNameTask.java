@@ -41,13 +41,11 @@ public abstract class AbstractGetNameTask extends AsyncTask<Void, Void, Void>{
 
     protected String mScope;
     protected String mEmail;
-    protected int mRequestCode;
 
-    AbstractGetNameTask(HelloActivity activity, String email, String scope, int requestCode) {
+    AbstractGetNameTask(HelloActivity activity, String email, String scope) {
         this.mActivity = activity;
         this.mScope = scope;
         this.mEmail = email;
-        this.mRequestCode = requestCode;
     }
 
     @Override

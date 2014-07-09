@@ -105,15 +105,14 @@ public class PolylineDemoActivity extends FragmentActivity implements OnSeekBarC
                 .color(Color.BLUE)
                 .geodesic(true));
 
-        // Circle centered at Sydney.  This polyline will be mutable.
-        PolylineOptions options = new PolylineOptions();
+        // Rectangle centered at Sydney.  This polyline will be mutable.
         int radius = 5;
-        int numPoints = 100;
-        double phase = 2 * Math.PI / numPoints;
-        for (int i = 0; i <= numPoints; i++) {
-            options.add(new LatLng(SYDNEY.latitude + radius * Math.sin(i * phase),
-                    SYDNEY.longitude + radius * Math.cos(i * phase)));
-        }
+        PolylineOptions options = new PolylineOptions()
+                .add(new LatLng(SYDNEY.latitude + radius, SYDNEY.longitude + radius))
+                .add(new LatLng(SYDNEY.latitude + radius, SYDNEY.longitude - radius))
+                .add(new LatLng(SYDNEY.latitude - radius, SYDNEY.longitude - radius))
+                .add(new LatLng(SYDNEY.latitude - radius, SYDNEY.longitude + radius))
+                .add(new LatLng(SYDNEY.latitude + radius, SYDNEY.longitude + radius));
         int color = Color.HSVToColor(
                 mAlphaBar.getProgress(), new float[] {mColorBar.getProgress(), 1, 1});
         mMutablePolyline = mMap.addPolyline(options

@@ -73,16 +73,30 @@
 
 
 
+
+
+
+
+
+
+
+
+
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width" />
 
 <link rel="shortcut icon" type="image/x-icon" href="../../../../../../../../favicon.ico" />
 <title>RoomEntity | Android Developers</title>
 
 <!-- STYLESHEETS -->
 <link rel="stylesheet"
-href="http://fonts.googleapis.com/css?family=Roboto:regular,medium,thin,italic,mediumitalic,bold" title="roboto">
+href="http://fonts.googleapis.com/css?family=Roboto+Condensed">
+<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:light,regular,medium,thin,italic,mediumitalic,bold"
+  title="roboto">
 <link href="../../../../../../../../assets/css/default.css" rel="stylesheet" type="text/css">
 
 
@@ -93,63 +107,83 @@ type="text/css">
 
 <!-- JAVASCRIPT -->
 <script src="http://www.google.com/jsapi" type="text/javascript"></script>
-<script src="../../../../../../../../assets/js/global-libraries-combined.js" type="text/javascript"></script>
+<script src="../../../../../../../../assets/js/android_3p-bundle.js" type="text/javascript"></script>
 <script type="text/javascript">
   var toRoot = "../../../../../../../../";
+  var metaTags = [];
+  var devsite = false;
 </script>
 <script src="../../../../../../../../assets/js/docs.js" type="text/javascript"></script>
 
-<script src="../../../../../../../../navtree_data.js" type="text/javascript"></script>
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-5831155-1']);
+  _gaq.push(['_trackPageview']);
 
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
 </head>
+
 <body class="gc-documentation 
   develop" itemscope itemtype="http://schema.org/Article">
   <div id="doc-api-level" class="" style="display:none"></div>
   <a name="top"></a>
 
-    <!-- Header -->
+
+<a name="top"></a>
+
+  <!-- Header -->
+  <div id="header-wrapper">
     <div id="header">
-        <div class="wrap" id="header-wrap">
-          <div class="col-3 logo">
+      <div class="wrap" id="header-wrap">
+        <div class="col-3 logo">
           <a href="../../../../../../../../index.html">
-            <img src="../../../../../../../../assets/images/dac_logo.png" width="123" height="25" alt="Android Developers" />
+            <img src="../../../../../../../../assets/images/dac_logo.png"
+                srcset="../../../../../../../../assets/images/dac_logo@2x.png 2x"
+                width="123" height="25" alt="Android Developers" />
           </a>
           <div class="btn-quicknav" id="btn-quicknav">
-          	<a href="#" class="arrow-inactive">Quicknav</a>
-			      <a href="#" class="arrow-active">Quicknav</a>
+            <a href="#" class="arrow-inactive">Quicknav</a>
+            <a href="#" class="arrow-active">Quicknav</a>
           </div>
-          </div>
-            <ul class="nav-x col-9">
-                <li class="design">
-                  <a href="../../../../../../../../design/index.html" 
-                  zh-TW-lang="設計"
-                  zh-CN-lang="设计"
-                  ru-lang="Проектирование"
-                  ko-lang="디자인"
-                  ja-lang="設計"
-                  es-lang="Diseñar"               
-                  >Design</a></li>
-                <li class="develop"><a href="../../../../../../../../develop/index.html" class="selected"
-                  zh-TW-lang="開發"
-                  zh-CN-lang="开发"
-                  ru-lang="Разработка"
-                  ko-lang="개발"
-                  ja-lang="開発"
-                  es-lang="Desarrollar"               
-                  >Develop</a></li>
-                <li class="distribute last"><a href="../../../../../../../../distribute/index.html" 
-                  zh-TW-lang="發佈"
-                  zh-CN-lang="分发"
-                  ru-lang="Распространение"
-                  ko-lang="배포"
-                  ja-lang="配布"
-                  es-lang="Distribuir"               
-                  >Distribute</a></li>
-            </ul>
-            
-            <!-- New Search -->
-            <div class="menu-container">
-            <div class="moremenu">
+        </div>
+        <ul class="nav-x col-9">
+            <li class="design">
+              <a href="../../../../../../../../design/index.html"
+              zh-tw-lang="設計"
+              zh-cn-lang="设计"
+              ru-lang="Проектирование"
+              ko-lang="디자인"
+              ja-lang="設計"
+              es-lang="Diseñar"
+              >Design</a></li>
+            <li class="develop"><a href="../../../../../../../../develop/index.html"
+              zh-tw-lang="開發"
+              zh-cn-lang="开发"
+              ru-lang="Разработка"
+              ko-lang="개발"
+              ja-lang="開発"
+              es-lang="Desarrollar"
+              >Develop</a></li>
+            <li class="distribute last"><a href="../../../../../../../../distribute/googleplay/index.html"
+              zh-tw-lang="發佈"
+              zh-cn-lang="分发"
+              ru-lang="Распространение"
+              ko-lang="배포"
+              ja-lang="配布"
+              es-lang="Distribuir"
+              >Distribute</a></li>
+        </ul>
+
+
+        
+        
+<div class="menu-container">
+  <div class="moremenu">
     <div id="more-btn"></div>
   </div>
   <div class="morehover" id="moremenu">
@@ -157,7 +191,7 @@ type="text/css">
     <div class="mid">
       <div class="header">Links</div>
       <ul>
-        <li><a href="https://play.google.com/apps/publish/">Google Play Developer Console</a></li>
+        <li><a href="https://play.google.com/apps/publish/" target="_googleplay">Google Play Developer Console</a></li>
         <li><a href="http://android-developers.blogspot.com/">Android Developers Blog</a></li>
         <li><a href="../../../../../../../../about/index.html">About Android</a></li>
       </ul>
@@ -167,193 +201,210 @@ type="text/css">
         <li class="active"><a>Android Developers</a></li>
         <li><a href="http://source.android.com">Android Open Source Project</a></li>
       </ul>
-      <!-- <div class="header">Support</div>
-      <ul>
-        <li><a href="../../../../../../../../support.html">Developer Support</a></li>
-      </ul> -->
-      <div class="header">Languages</div>
-        <div id="language" class="locales">
-          <select name="language" onChange="changeLangPref(this.value, true)">
-              <option value="en">English</option>
-              <option value="es">Español</option>
-              <option value="ja">日本語</option>
-              <option value="ko">한국어</option>
-              <option value="ru">Русский</option>
-              <option value="zh-CN">中文 (中国)</option>
-              <option value="zh-TW">中文 (台灣)</option>
-          </select>
-        </div>
-      <script type="text/javascript">
-        <!--  
-        loadLangPref();  
-          //-->
-      </script>
+
+      
+      
+      
       <br class="clearfix" />
-    </div>
+    </div><!-- end 'mid' -->
     <div class="bottom"></div>
-  </div>
+  </div><!-- end 'moremenu' -->
+
   <div class="search" id="search-container">
     <div class="search-inner">
       <div id="search-btn"></div>
       <div class="left"></div>
       <form onsubmit="return submit_search()">
         <input id="search_autocomplete" type="text" value="" autocomplete="off" name="q"
-onfocus="search_focus_changed(this, true)" onblur="search_focus_changed(this, false)"
-onkeydown="return search_changed(event, true, '../../../../../../../../')" 
-onkeyup="return search_changed(event, false, '../../../../../../../../')" />
+          onfocus="search_focus_changed(this, true)" onblur="search_focus_changed(this, false)"
+          onkeydown="return search_changed(event, true, '../../../../../../../../')"
+          onkeyup="return search_changed(event, false, '../../../../../../../../')" />
       </form>
       <div class="right"></div>
-        <a class="close hide">close</a>
-        <div class="left"></div>
-        <div class="right"></div>
-    </div>
-  </div>
-  <div id="search_filtered_wrapper">
-    <div id="search_filtered_div" class="no-display">
-        <ul id="search_filtered">
-        </ul>
-    </div>
-  </div>
-  
-  </div>
-  <!-- /New Search>
-          
-          
-          <!-- Expanded quicknav -->
-           <div id="quicknav" class="col-9">
-                <ul>
-                    <li class="design">
-                      <ul>
-                        <li><a href="../../../../../../../../design/index.html">Get Started</a></li>
-                        <li><a href="../../../../../../../../design/style/index.html">Style</a></li>
-                        <li><a href="../../../../../../../../design/patterns/index.html">Patterns</a></li>
-                        <li><a href="../../../../../../../../design/building-blocks/index.html">Building Blocks</a></li>
-                        <li><a href="../../../../../../../../design/downloads/index.html">Downloads</a></li>
-                        <li><a href="../../../../../../../../design/videos/index.html">Videos</a></li>
-                      </ul>
-                    </li>
-                    <li class="develop">
-                      <ul>
-                        <li><a href="../../../../../../../../training/index.html"
-                          zh-TW-lang="訓練課程"
-                          zh-CN-lang="培训"
-                          ru-lang="Курсы"
-                          ko-lang="교육"
-                          ja-lang="トレーニング"
-                          es-lang="Capacitación"               
-                          >Training</a></li>
-                        <li><a href="../../../../../../../../guide/components/index.html"
-                          zh-TW-lang="API 指南"
-                          zh-CN-lang="API 指南"
-                          ru-lang="Руководства по API"
-                          ko-lang="API 가이드"
-                          ja-lang="API ガイド"
-                          es-lang="Guías de la API"               
-                          >API Guides</a></li>
-                        <li><a href="../../../../../../../../reference/packages.html"
-                          zh-TW-lang="參考資源"
-                          zh-CN-lang="参考"
-                          ru-lang="Справочник"
-                          ko-lang="참조문서"
-                          ja-lang="リファレンス"
-                          es-lang="Referencia"               
-                          >Reference</a></li>
-                        <li><a href="../../../../../../../../tools/index.html"
-                          zh-TW-lang="相關工具"
-                          zh-CN-lang="工具"
-                          ru-lang="Инструменты"
-                          ko-lang="도구"
-                          ja-lang="ツール"
-                          es-lang="Herramientas"               
-                          >Tools</a>
-                          <ul><li><a href="../../../../../../../../sdk/index.html">Get the SDK</a></li></ul>
-                        </li>
-                        <li><a href="../../../../../../../../google/index.html">Google Services</a>
-                        </li>
-                      </ul>
-                    </li>
-                    <li class="distribute last">
-                      <ul>
-                        <li><a href="../../../../../../../../distribute/index.html">Google Play</a></li>
-                        <li><a href="../../../../../../../../distribute/googleplay/publish/index.html">Publishing</a></li>
-                        <li><a href="../../../../../../../../distribute/googleplay/promote/index.html">Promoting</a></li>
-                        <li><a href="../../../../../../../../distribute/googleplay/quality/index.html">App Quality</a></li>
-                        <li><a href="../../../../../../../../distribute/googleplay/spotlight/index.html">Spotlight</a></li>
-                        <li><a href="../../../../../../../../distribute/open.html">Open Distribution</a></li>
-                      </ul>
-                    </li>
-                </ul>
-          </div>
-          <!-- /Expanded quicknav -->
-        </div>
-    </div>
-    <!-- /Header -->
-    
-    
-  <div id="searchResults" class="wrap" style="display:none;">
-          <h2 id="searchTitle">Results</h2>
-          <div id="leftSearchControl" class="search-control">Loading...</div>
-  </div>
-    
-    
-    
+      <a class="close hide">close</a>
+      <div class="left"></div>
+      <div class="right"></div>
+    </div><!-- end search-inner -->
+  </div><!-- end search-container -->
 
+  <div class="search_filtered_wrapper reference">
+    <div class="suggest-card reference no-display">
+      <ul class="search_filtered">
+      </ul>
+    </div>
+  </div>
+
+  <div class="search_filtered_wrapper docs">
+    <div class="suggest-card dummy no-display">&nbsp;</div>
+    <div class="suggest-card develop no-display">
+      <ul class="search_filtered">
+      </ul>
+      <div class="child-card guides no-display">
+      </div>
+      <div class="child-card training no-display">
+      </div>
+      <div class="child-card samples no-display">
+      </div>
+    </div>
+    <div class="suggest-card design no-display">
+      <ul class="search_filtered">
+      </ul>
+    </div>
+    <div class="suggest-card distribute no-display">
+      <ul class="search_filtered">
+      </ul>
+    </div>
+  </div>
+</div><!-- end menu-container (search and menu widget) -->
+
+
+
+        <!-- Expanded quicknav -->
+        <div id="quicknav" class="col-9">
+          <ul>
+            <li class="design">
+              <ul>
+                <li><a href="../../../../../../../../design/index.html">Get Started</a></li>
+                <li><a href="../../../../../../../../design/style/index.html">Style</a></li>
+                <li><a href="../../../../../../../../design/patterns/index.html">Patterns</a></li>
+                <li><a href="../../../../../../../../design/building-blocks/index.html">Building Blocks</a></li>
+                <li><a href="../../../../../../../../design/downloads/index.html">Downloads</a></li>
+                <li><a href="../../../../../../../../design/videos/index.html">Videos</a></li>
+              </ul>
+            </li>
+            <li class="develop">
+              <ul>
+                <li><a href="../../../../../../../../training/index.html"
+                  zh-tw-lang="訓練課程"
+                  zh-cn-lang="培训"
+                  ru-lang="Курсы"
+                  ko-lang="교육"
+                  ja-lang="トレーニング"
+                  es-lang="Capacitación"
+                  >Training</a></li>
+                <li><a href="../../../../../../../../guide/index.html"
+                  zh-tw-lang="API 指南"
+                  zh-cn-lang="API 指南"
+                  ru-lang="Руководства по API"
+                  ko-lang="API 가이드"
+                  ja-lang="API ガイド"
+                  es-lang="Guías de la API"
+                  >API Guides</a></li>
+                <li><a href="../../../../../../../../reference/packages.html"
+                  zh-tw-lang="參考資源"
+                  zh-cn-lang="参考"
+                  ru-lang="Справочник"
+                  ko-lang="참조문서"
+                  ja-lang="リファレンス"
+                  es-lang="Referencia"
+                  >Reference</a></li>
+                <li><a href="../../../../../../../../tools/index.html"
+                  zh-tw-lang="相關工具"
+                  zh-cn-lang="工具"
+                  ru-lang="Инструменты"
+                  ko-lang="도구"
+                  ja-lang="ツール"
+                  es-lang="Herramientas"
+                  >Tools</a>
+                  <ul><li><a href="../../../../../../../../sdk/index.html">Get the SDK</a></li></ul>
+                </li>
+                <li><a href="../../../../../../../../google/index.html">Google Services</a>
+                </li>
+                
+              </ul>
+            </li>
+            <li class="distribute last">
+              <ul>
+                <li><a href="../../../../../../../../distribute/googleplay/index.html">Google Play</a></li>
+                <li><a href="../../../../../../../../distribute/essentials/index.html">Essentials</a></li>
+                <li><a href="../../../../../../../../distribute/users/index.html">Get Users</a></li>
+                <li><a href="../../../../../../../../distribute/engage/index.html">Engage &amp; Retain</a></li>
+                <li><a href="../../../../../../../../distribute/monetize/index.html">Monetize</a></li>
+                <li><a href="../../../../../../../../distribute/tools/index.html">Tools &amp; Reference</a></li>
+                <li><a href="../../../../../../../../distribute/stories/index.html">Developer Stories</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div><!-- /Expanded quicknav -->
+      </div><!-- end header-wrap.wrap -->
+    </div><!-- end header -->
+
+  
     <!-- Secondary x-nav -->
     <div id="nav-x">
         <div class="wrap">
             <ul class="nav-x col-9 develop" style="width:100%">
-                <li><a href="../../../../../../../../training/index.html" 
-                  zh-TW-lang="訓練課程"
-                  zh-CN-lang="培训"
+                <li class="training"><a href="../../../../../../../../training/index.html"
+                  zh-tw-lang="訓練課程"
+                  zh-cn-lang="培训"
                   ru-lang="Курсы"
                   ko-lang="교육"
                   ja-lang="トレーニング"
-                  es-lang="Capacitación"               
+                  es-lang="Capacitación"
                   >Training</a></li>
-                <li><a href="../../../../../../../../guide/components/index.html" 
-                  zh-TW-lang="API 指南"
-                  zh-CN-lang="API 指南"
+                <li class="guide"><a href="../../../../../../../../guide/index.html"
+                  zh-tw-lang="API 指南"
+                  zh-cn-lang="API 指南"
                   ru-lang="Руководства по API"
                   ko-lang="API 가이드"
                   ja-lang="API ガイド"
-                  es-lang="Guías de la API"               
+                  es-lang="Guías de la API"
                   >API Guides</a></li>
-                <li><a href="../../../../../../../../reference/packages.html" class="selected"
-                  zh-TW-lang="參考資源"
-                  zh-CN-lang="参考"
+                <li class="reference"><a href="../../../../../../../../reference/packages.html"
+                  zh-tw-lang="參考資源"
+                  zh-cn-lang="参考"
                   ru-lang="Справочник"
                   ko-lang="참조문서"
                   ja-lang="リファレンス"
-                  es-lang="Referencia"               
+                  es-lang="Referencia"
                   >Reference</a></li>
-                <li><a href="../../../../../../../../tools/index.html" 
-                  zh-TW-lang="相關工具"
-                  zh-CN-lang="工具"
+                <li class="tools"><a href="../../../../../../../../tools/index.html"
+                  zh-tw-lang="相關工具"
+                  zh-cn-lang="工具"
                   ru-lang="Инструменты"
                   ko-lang="도구"
                   ja-lang="ツール"
                   es-lang="Herramientas"
                   >Tools</a></li>
-                <li><a href="../../../../../../../../google/index.html" 
+                <li class="google"><a href="../../../../../../../../google/index.html"
                   >Google Services</a>
                 </li>
+                
             </ul>
         </div>
-        
     </div>
     <!-- /Sendondary x-nav -->
 
   
 
+    <div id="searchResults" class="wrap" style="display:none;">
+      <h2 id="searchTitle">Results</h2>
+      <div id="leftSearchControl" class="search-control">Loading...</div>
+    </div>
+  </div> <!--end header-wrapper -->
+
+  <div id="sticky-header">
+    <div>
+      <a class="logo" href="#top"></a>
+      <a class="top" href="#top"></a>
+      <ul class="breadcrumb">
+        
+        <li class="current">RoomEntity</li>
+      </ul>
+    </div>
+  </div>
+
+
+
+
 
   <div class="wrap clearfix" id="body-content">
     <div class="col-4" id="side-nav" itemscope itemtype="http://schema.org/SiteNavigationElement">
       <div id="devdoc-nav">
-
-<a class="totop" href="#top" data-g-event="left-nav-top">to top</a>
       <div id="api-nav-header">
         <div id="api-level-toggle">
-          <label for="apiLevelCheckbox" class="disabled">API level: </label>
+          <label for="apiLevelCheckbox" class="disabled"
+            title="Select your target API level to dim unavailable APIs">API level: </label>
           <div class="select-wrapper">
             <select id="apiLevelSelector">
               <!-- option elements added by buildApiLevelSelector() -->
@@ -373,23 +424,65 @@ onkeyup="return search_changed(event, false, '../../../../../../../../')" />
             <div id="packages-nav" class="scroll-pane">
 
               <ul>
-              	
+                
     <li class="api apilevel-">
   <a href="../../../../../../../../reference/com/google/android/gms/package-summary.html">com.google.android.gms</a></li>
+    <li class="api apilevel-">
+  <a href="../../../../../../../../reference/com/google/android/gms/actions/package-summary.html">com.google.android.gms.actions</a></li>
+    <li class="api apilevel-">
+  <a href="../../../../../../../../reference/com/google/android/gms/ads/package-summary.html">com.google.android.gms.ads</a></li>
+    <li class="api apilevel-">
+  <a href="../../../../../../../../reference/com/google/android/gms/ads/doubleclick/package-summary.html">com.google.android.gms.ads.doubleclick</a></li>
+    <li class="api apilevel-">
+  <a href="../../../../../../../../reference/com/google/android/gms/ads/identifier/package-summary.html">com.google.android.gms.ads.identifier</a></li>
+    <li class="api apilevel-">
+  <a href="../../../../../../../../reference/com/google/android/gms/ads/mediation/package-summary.html">com.google.android.gms.ads.mediation</a></li>
+    <li class="api apilevel-">
+  <a href="../../../../../../../../reference/com/google/android/gms/ads/mediation/admob/package-summary.html">com.google.android.gms.ads.mediation.admob</a></li>
+    <li class="api apilevel-">
+  <a href="../../../../../../../../reference/com/google/android/gms/ads/mediation/customevent/package-summary.html">com.google.android.gms.ads.mediation.customevent</a></li>
+    <li class="api apilevel-">
+  <a href="../../../../../../../../reference/com/google/android/gms/ads/purchase/package-summary.html">com.google.android.gms.ads.purchase</a></li>
+    <li class="api apilevel-">
+  <a href="../../../../../../../../reference/com/google/android/gms/ads/search/package-summary.html">com.google.android.gms.ads.search</a></li>
+    <li class="api apilevel-">
+  <a href="../../../../../../../../reference/com/google/android/gms/analytics/package-summary.html">com.google.android.gms.analytics</a></li>
+    <li class="api apilevel-">
+  <a href="../../../../../../../../reference/com/google/android/gms/analytics/ecommerce/package-summary.html">com.google.android.gms.analytics.ecommerce</a></li>
+    <li class="api apilevel-">
+  <a href="../../../../../../../../reference/com/google/android/gms/appindexing/package-summary.html">com.google.android.gms.appindexing</a></li>
     <li class="api apilevel-">
   <a href="../../../../../../../../reference/com/google/android/gms/appstate/package-summary.html">com.google.android.gms.appstate</a></li>
     <li class="api apilevel-">
   <a href="../../../../../../../../reference/com/google/android/gms/auth/package-summary.html">com.google.android.gms.auth</a></li>
     <li class="api apilevel-">
+  <a href="../../../../../../../../reference/com/google/android/gms/cast/package-summary.html">com.google.android.gms.cast</a></li>
+    <li class="api apilevel-">
   <a href="../../../../../../../../reference/com/google/android/gms/common/package-summary.html">com.google.android.gms.common</a></li>
+    <li class="api apilevel-">
+  <a href="../../../../../../../../reference/com/google/android/gms/common/annotation/package-summary.html">com.google.android.gms.common.annotation</a></li>
+    <li class="api apilevel-">
+  <a href="../../../../../../../../reference/com/google/android/gms/common/api/package-summary.html">com.google.android.gms.common.api</a></li>
     <li class="api apilevel-">
   <a href="../../../../../../../../reference/com/google/android/gms/common/data/package-summary.html">com.google.android.gms.common.data</a></li>
     <li class="api apilevel-">
   <a href="../../../../../../../../reference/com/google/android/gms/common/images/package-summary.html">com.google.android.gms.common.images</a></li>
     <li class="api apilevel-">
+  <a href="../../../../../../../../reference/com/google/android/gms/drive/package-summary.html">com.google.android.gms.drive</a></li>
+    <li class="api apilevel-">
+  <a href="../../../../../../../../reference/com/google/android/gms/drive/events/package-summary.html">com.google.android.gms.drive.events</a></li>
+    <li class="api apilevel-">
+  <a href="../../../../../../../../reference/com/google/android/gms/drive/metadata/package-summary.html">com.google.android.gms.drive.metadata</a></li>
+    <li class="api apilevel-">
+  <a href="../../../../../../../../reference/com/google/android/gms/drive/query/package-summary.html">com.google.android.gms.drive.query</a></li>
+    <li class="api apilevel-">
+  <a href="../../../../../../../../reference/com/google/android/gms/drive/widget/package-summary.html">com.google.android.gms.drive.widget</a></li>
+    <li class="api apilevel-">
   <a href="../../../../../../../../reference/com/google/android/gms/games/package-summary.html">com.google.android.gms.games</a></li>
     <li class="api apilevel-">
   <a href="../../../../../../../../reference/com/google/android/gms/games/achievement/package-summary.html">com.google.android.gms.games.achievement</a></li>
+    <li class="api apilevel-">
+  <a href="../../../../../../../../reference/com/google/android/gms/games/event/package-summary.html">com.google.android.gms.games.event</a></li>
     <li class="api apilevel-">
   <a href="../../../../../../../../reference/com/google/android/gms/games/leaderboard/package-summary.html">com.google.android.gms.games.leaderboard</a></li>
     <li class="api apilevel-">
@@ -397,7 +490,19 @@ onkeyup="return search_changed(event, false, '../../../../../../../../')" />
     <li class="selected api apilevel-">
   <a href="../../../../../../../../reference/com/google/android/gms/games/multiplayer/realtime/package-summary.html">com.google.android.gms.games.multiplayer.realtime</a></li>
     <li class="api apilevel-">
+  <a href="../../../../../../../../reference/com/google/android/gms/games/multiplayer/turnbased/package-summary.html">com.google.android.gms.games.multiplayer.turnbased</a></li>
+    <li class="api apilevel-">
+  <a href="../../../../../../../../reference/com/google/android/gms/games/quest/package-summary.html">com.google.android.gms.games.quest</a></li>
+    <li class="api apilevel-">
+  <a href="../../../../../../../../reference/com/google/android/gms/games/request/package-summary.html">com.google.android.gms.games.request</a></li>
+    <li class="api apilevel-">
+  <a href="../../../../../../../../reference/com/google/android/gms/games/snapshot/package-summary.html">com.google.android.gms.games.snapshot</a></li>
+    <li class="api apilevel-">
   <a href="../../../../../../../../reference/com/google/android/gms/gcm/package-summary.html">com.google.android.gms.gcm</a></li>
+    <li class="api apilevel-">
+  <a href="../../../../../../../../reference/com/google/android/gms/identity/intents/package-summary.html">com.google.android.gms.identity.intents</a></li>
+    <li class="api apilevel-">
+  <a href="../../../../../../../../reference/com/google/android/gms/identity/intents/model/package-summary.html">com.google.android.gms.identity.intents.model</a></li>
     <li class="api apilevel-">
   <a href="../../../../../../../../reference/com/google/android/gms/location/package-summary.html">com.google.android.gms.location</a></li>
     <li class="api apilevel-">
@@ -412,6 +517,16 @@ onkeyup="return search_changed(event, false, '../../../../../../../../')" />
   <a href="../../../../../../../../reference/com/google/android/gms/plus/model/moments/package-summary.html">com.google.android.gms.plus.model.moments</a></li>
     <li class="api apilevel-">
   <a href="../../../../../../../../reference/com/google/android/gms/plus/model/people/package-summary.html">com.google.android.gms.plus.model.people</a></li>
+    <li class="api apilevel-">
+  <a href="../../../../../../../../reference/com/google/android/gms/security/package-summary.html">com.google.android.gms.security</a></li>
+    <li class="api apilevel-">
+  <a href="../../../../../../../../reference/com/google/android/gms/tagmanager/package-summary.html">com.google.android.gms.tagmanager</a></li>
+    <li class="api apilevel-">
+  <a href="../../../../../../../../reference/com/google/android/gms/wallet/package-summary.html">com.google.android.gms.wallet</a></li>
+    <li class="api apilevel-">
+  <a href="../../../../../../../../reference/com/google/android/gms/wallet/fragment/package-summary.html">com.google.android.gms.wallet.fragment</a></li>
+    <li class="api apilevel-">
+  <a href="../../../../../../../../reference/com/google/android/gms/wearable/package-summary.html">com.google.android.gms.wearable</a></li>
               </ul><br/>
 
             </div> <!-- end packages-nav -->
@@ -422,10 +537,13 @@ onkeyup="return search_changed(event, false, '../../../../../../../../')" />
 
             <ul>
               
+              
     <li><h2>Interfaces</h2>
       <ul>
           <li class="api apilevel-"><a href="../../../../../../../../reference/com/google/android/gms/games/multiplayer/realtime/RealTimeMessageReceivedListener.html">RealTimeMessageReceivedListener</a></li>
-          <li class="api apilevel-"><a href="../../../../../../../../reference/com/google/android/gms/games/multiplayer/realtime/RealTimeReliableMessageSentListener.html">RealTimeReliableMessageSentListener</a></li>
+          <li class="api apilevel-"><a href="../../../../../../../../reference/com/google/android/gms/games/multiplayer/realtime/RealTimeMultiplayer.html">RealTimeMultiplayer</a></li>
+          <li class="api apilevel-"><a href="../../../../../../../../reference/com/google/android/gms/games/multiplayer/realtime/RealTimeMultiplayer.ReliableMessageSentCallback.html">RealTimeMultiplayer.ReliableMessageSentCallback</a></li>
+          <li class="api apilevel-"><a href="../../../../../../../../reference/com/google/android/gms/games/multiplayer/realtime/RealTimeSocket.html">RealTimeSocket</a></li>
           <li class="api apilevel-"><a href="../../../../../../../../reference/com/google/android/gms/games/multiplayer/realtime/Room.html">Room</a></li>
           <li class="api apilevel-"><a href="../../../../../../../../reference/com/google/android/gms/games/multiplayer/realtime/RoomStatusUpdateListener.html">RoomStatusUpdateListener</a></li>
           <li class="api apilevel-"><a href="../../../../../../../../reference/com/google/android/gms/games/multiplayer/realtime/RoomUpdateListener.html">RoomUpdateListener</a></li>
@@ -486,11 +604,6 @@ onkeyup="return search_changed(event, false, '../../../../../../../../')" />
     </script>
 
      
-    <script>
-      $(document).ready(function() {
-        changeDocLang(getLangPref());
-        });
-    </script>
 
 
 
@@ -519,6 +632,13 @@ onkeyup="return search_changed(event, false, '../../../../../../../../')" />
   
    
   
+  
+  
+  
+
+  
+  
+   
   
   
   
@@ -592,7 +712,7 @@ Summary:
 
 
   
-    extends Object<br/>
+    extends <a href="http://developer.android.com/reference/java/lang/Object.html">Object</a><br/>
   
   
   
@@ -600,6 +720,8 @@ Summary:
   
   
       implements 
+      
+        SafeParcelable 
       
         <a href="../../../../../../../../reference/com/google/android/gms/games/multiplayer/realtime/Room.html">Room</a> 
       
@@ -617,7 +739,7 @@ Summary:
 
     <tr>
          	
-        <td colspan="2" class="jd-inheritance-class-cell">java.lang.Object</td>
+        <td colspan="2" class="jd-inheritance-class-cell"><a href="http://developer.android.com/reference/java/lang/Object.html">java.lang.Object</a></td>
     </tr>
     
 
@@ -736,6 +858,37 @@ android.os.Parcelable
 
 
 
+<tr class="api apilevel-" >
+<td colspan="12">
+
+  <a href="#" onclick="return toggleInherited(this, null)" id="inherited-constants-com.google.android.gms.common.internal.safeparcel.SafeParcelable" class="jd-expando-trigger closed"
+          ><img id="inherited-constants-com.google.android.gms.common.internal.safeparcel.SafeParcelable-trigger"
+          src="../../../../../../../../assets/images/triangle-closed.png"
+          class="jd-expando-trigger-img" /></a>From interface
+com.google.android.gms.common.internal.safeparcel.SafeParcelable
+<div id="inherited-constants-com.google.android.gms.common.internal.safeparcel.SafeParcelable">
+  <div id="inherited-constants-com.google.android.gms.common.internal.safeparcel.SafeParcelable-list"
+        class="jd-inheritedlinks">
+  </div>
+  <div id="inherited-constants-com.google.android.gms.common.internal.safeparcel.SafeParcelable-summary" style="display: none;">
+    <table class="jd-sumtable-expando">
+    
+
+    
+    <tr class="alt-color api apilevel-" >
+        <td class="jd-typecol"><a href="http://developer.android.com/reference/java/lang/String.html">String</a></td>
+        <td class="jd-linkcol">NULL</td>
+        <td class="jd-descrcol" width="100%"></td>
+    </tr>
+    
+    
+</table>
+  </div>
+</div>
+</td></tr>
+
+
+
 
 
 <tr class="api apilevel-" >
@@ -789,7 +942,7 @@ android.os.Parcelable
     
     <tr class="alt-color api apilevel-" >
         <td class="jd-typecol">int</td>
-        <td class="jd-linkcol"><a href="../../../../../../../../reference/com/google/android/gms/games/multiplayer/realtime/Room.html#ROOM_VARIANT_ANY">ROOM_VARIANT_ANY</a></td>
+        <td class="jd-linkcol"><a href="../../../../../../../../reference/com/google/android/gms/games/multiplayer/realtime/Room.html#ROOM_VARIANT_DEFAULT">ROOM_VARIANT_DEFAULT</a></td>
         <td class="jd-descrcol" width="100%">Constant used to indicate that the variant for a room is unspecified.</td>
     </tr>
     
@@ -815,7 +968,7 @@ android.os.Parcelable
           public
           static
           final
-          Creator&lt;<a href="../../../../../../../../reference/com/google/android/gms/games/multiplayer/realtime/RoomEntity.html">RoomEntity</a>&gt;</nobr></td>
+          <a href="http://developer.android.com/reference/android/os/Parcelable.Creator.html">Creator</a>&lt;<a href="../../../../../../../../reference/com/google/android/gms/games/multiplayer/realtime/RoomEntity.html">RoomEntity</a>&gt;</nobr></td>
           <td class="jd-linkcol"><a href="../../../../../../../../reference/com/google/android/gms/games/multiplayer/realtime/RoomEntity.html#CREATOR">CREATOR</a></td>
           <td class="jd-descrcol" width="100%"></td>
       </tr>
@@ -866,7 +1019,7 @@ android.os.Parcelable
             boolean</nobr>
         </td>
         <td class="jd-linkcol" width="100%"><nobr>
-        <span class="sympad"><a href="../../../../../../../../reference/com/google/android/gms/games/multiplayer/realtime/RoomEntity.html#equals(java.lang.Object)">equals</a></span>(Object obj)</nobr>
+        <span class="sympad"><a href="../../../../../../../../reference/com/google/android/gms/games/multiplayer/realtime/RoomEntity.html#equals(java.lang.Object)">equals</a></span>(<a href="http://developer.android.com/reference/java/lang/Object.html">Object</a> obj)</nobr>
         
   </td></tr>
 
@@ -897,7 +1050,7 @@ android.os.Parcelable
             
             
             
-            Bundle</nobr>
+            <a href="http://developer.android.com/reference/android/os/Bundle.html">Bundle</a></nobr>
         </td>
         <td class="jd-linkcol" width="100%"><nobr>
         <span class="sympad"><a href="../../../../../../../../reference/com/google/android/gms/games/multiplayer/realtime/RoomEntity.html#getAutoMatchCriteria()">getAutoMatchCriteria</a></span>()</nobr>
@@ -915,11 +1068,15 @@ android.os.Parcelable
             
             
             
-            long</nobr>
+            int</nobr>
         </td>
         <td class="jd-linkcol" width="100%"><nobr>
-        <span class="sympad"><a href="../../../../../../../../reference/com/google/android/gms/games/multiplayer/realtime/RoomEntity.html#getCreationTimestamp()">getCreationTimestamp</a></span>()</nobr>
+        <span class="sympad"><a href="../../../../../../../../reference/com/google/android/gms/games/multiplayer/realtime/RoomEntity.html#getAutoMatchWaitEstimateSeconds()">getAutoMatchWaitEstimateSeconds</a></span>()</nobr>
         
+        <div class="jd-descrdiv">Retrieves the estimated wait time for automatching to finish for players who are not
+ automatched immediately, as measured from the time that the room entered the
+ automatching pool.</div>
+  
   </td></tr>
 
 
@@ -931,10 +1088,10 @@ android.os.Parcelable
             
             
             
-            String</nobr>
+            long</nobr>
         </td>
         <td class="jd-linkcol" width="100%"><nobr>
-        <span class="sympad"><a href="../../../../../../../../reference/com/google/android/gms/games/multiplayer/realtime/RoomEntity.html#getCreatorId()">getCreatorId</a></span>()</nobr>
+        <span class="sympad"><a href="../../../../../../../../reference/com/google/android/gms/games/multiplayer/realtime/RoomEntity.html#getCreationTimestamp()">getCreationTimestamp</a></span>()</nobr>
         
   </td></tr>
 
@@ -947,10 +1104,10 @@ android.os.Parcelable
             
             
             
-            String</nobr>
+            <a href="http://developer.android.com/reference/java/lang/String.html">String</a></nobr>
         </td>
         <td class="jd-linkcol" width="100%"><nobr>
-        <span class="sympad"><a href="../../../../../../../../reference/com/google/android/gms/games/multiplayer/realtime/RoomEntity.html#getDescription()">getDescription</a></span>()</nobr>
+        <span class="sympad"><a href="../../../../../../../../reference/com/google/android/gms/games/multiplayer/realtime/RoomEntity.html#getCreatorId()">getCreatorId</a></span>()</nobr>
         
   </td></tr>
 
@@ -963,12 +1120,46 @@ android.os.Parcelable
             
             
             
+            <a href="http://developer.android.com/reference/java/lang/String.html">String</a></nobr>
+        </td>
+        <td class="jd-linkcol" width="100%"><nobr>
+        <span class="sympad"><a href="../../../../../../../../reference/com/google/android/gms/games/multiplayer/realtime/RoomEntity.html#getDescription()">getDescription</a></span>()</nobr>
+        
+  </td></tr>
+
+
+	 
+    <tr class="alt-color api apilevel-" >
+        <td class="jd-typecol"><nobr>
+            
+            
+            
+            
+            
             void</nobr>
         </td>
         <td class="jd-linkcol" width="100%"><nobr>
-        <span class="sympad"><a href="../../../../../../../../reference/com/google/android/gms/games/multiplayer/realtime/RoomEntity.html#getDescription(android.database.CharArrayBuffer)">getDescription</a></span>(CharArrayBuffer dataOut)</nobr>
+        <span class="sympad"><a href="../../../../../../../../reference/com/google/android/gms/games/multiplayer/realtime/RoomEntity.html#getDescription(android.database.CharArrayBuffer)">getDescription</a></span>(<a href="http://developer.android.com/reference/android/database/CharArrayBuffer.html">CharArrayBuffer</a> dataOut)</nobr>
         
-        <div class="jd-descrdiv">Loads the room description into the given <code><a href="../../../../../../../../reference/android/database/CharArrayBuffer.html">CharArrayBuffer</a></code>.</div>
+        <div class="jd-descrdiv">Loads the room description into the given <code><a href="http://developer.android.com/reference/android/database/CharArrayBuffer.html">CharArrayBuffer</a></code>.</div>
+  
+  </td></tr>
+
+
+	 
+    <tr class=" api apilevel-" >
+        <td class="jd-typecol"><nobr>
+            
+            
+            
+            
+            
+            <a href="../../../../../../../../reference/com/google/android/gms/games/multiplayer/Participant.html">Participant</a></nobr>
+        </td>
+        <td class="jd-linkcol" width="100%"><nobr>
+        <span class="sympad"><a href="../../../../../../../../reference/com/google/android/gms/games/multiplayer/realtime/RoomEntity.html#getParticipant(java.lang.String)">getParticipant</a></span>(<a href="http://developer.android.com/reference/java/lang/String.html">String</a> participantId)</nobr>
+        
+        <div class="jd-descrdiv">Get a participant in a room by its ID.</div>
   
   </td></tr>
 
@@ -981,10 +1172,10 @@ android.os.Parcelable
             
             
             
-            String</nobr>
+            <a href="http://developer.android.com/reference/java/lang/String.html">String</a></nobr>
         </td>
         <td class="jd-linkcol" width="100%"><nobr>
-        <span class="sympad"><a href="../../../../../../../../reference/com/google/android/gms/games/multiplayer/realtime/RoomEntity.html#getParticipantId(java.lang.String)">getParticipantId</a></span>(String playerId)</nobr>
+        <span class="sympad"><a href="../../../../../../../../reference/com/google/android/gms/games/multiplayer/realtime/RoomEntity.html#getParticipantId(java.lang.String)">getParticipantId</a></span>(<a href="http://developer.android.com/reference/java/lang/String.html">String</a> playerId)</nobr>
         
         <div class="jd-descrdiv">Get the participant ID for a given player.</div>
   
@@ -999,11 +1190,13 @@ android.os.Parcelable
             
             
             
-            ArrayList&lt;String&gt;</nobr>
+            <a href="http://developer.android.com/reference/java/util/ArrayList.html">ArrayList</a>&lt;<a href="http://developer.android.com/reference/java/lang/String.html">String</a>&gt;</nobr>
         </td>
         <td class="jd-linkcol" width="100%"><nobr>
         <span class="sympad"><a href="../../../../../../../../reference/com/google/android/gms/games/multiplayer/realtime/RoomEntity.html#getParticipantIds()">getParticipantIds</a></span>()</nobr>
         
+        <div class="jd-descrdiv">Get the IDs of the participants of the given room.</div>
+  
   </td></tr>
 
 
@@ -1018,7 +1211,7 @@ android.os.Parcelable
             int</nobr>
         </td>
         <td class="jd-linkcol" width="100%"><nobr>
-        <span class="sympad"><a href="../../../../../../../../reference/com/google/android/gms/games/multiplayer/realtime/RoomEntity.html#getParticipantStatus(java.lang.String)">getParticipantStatus</a></span>(String participantId)</nobr>
+        <span class="sympad"><a href="../../../../../../../../reference/com/google/android/gms/games/multiplayer/realtime/RoomEntity.html#getParticipantStatus(java.lang.String)">getParticipantStatus</a></span>(<a href="http://developer.android.com/reference/java/lang/String.html">String</a> participantId)</nobr>
         
         <div class="jd-descrdiv">Get the status of a participant in a room.</div>
   
@@ -1033,7 +1226,7 @@ android.os.Parcelable
             
             
             
-            ArrayList&lt;<a href="../../../../../../../../reference/com/google/android/gms/games/multiplayer/Participant.html">Participant</a>&gt;</nobr>
+            <a href="http://developer.android.com/reference/java/util/ArrayList.html">ArrayList</a>&lt;<a href="../../../../../../../../reference/com/google/android/gms/games/multiplayer/Participant.html">Participant</a>&gt;</nobr>
         </td>
         <td class="jd-linkcol" width="100%"><nobr>
         <span class="sympad"><a href="../../../../../../../../reference/com/google/android/gms/games/multiplayer/realtime/RoomEntity.html#getParticipants()">getParticipants</a></span>()</nobr>
@@ -1051,7 +1244,7 @@ android.os.Parcelable
             
             
             
-            String</nobr>
+            <a href="http://developer.android.com/reference/java/lang/String.html">String</a></nobr>
         </td>
         <td class="jd-linkcol" width="100%"><nobr>
         <span class="sympad"><a href="../../../../../../../../reference/com/google/android/gms/games/multiplayer/realtime/RoomEntity.html#getRoomId()">getRoomId</a></span>()</nobr>
@@ -1115,11 +1308,13 @@ android.os.Parcelable
             
             
             
-            String</nobr>
+            boolean</nobr>
         </td>
         <td class="jd-linkcol" width="100%"><nobr>
-        <span class="sympad"><a href="../../../../../../../../reference/com/google/android/gms/games/multiplayer/realtime/RoomEntity.html#toString()">toString</a></span>()</nobr>
+        <span class="sympad"><a href="../../../../../../../../reference/com/google/android/gms/games/multiplayer/realtime/RoomEntity.html#isDataValid()">isDataValid</a></span>()</nobr>
         
+        <div class="jd-descrdiv">Check to see if this object is valid for use.</div>
+  
   </td></tr>
 
 
@@ -1131,10 +1326,26 @@ android.os.Parcelable
             
             
             
+            <a href="http://developer.android.com/reference/java/lang/String.html">String</a></nobr>
+        </td>
+        <td class="jd-linkcol" width="100%"><nobr>
+        <span class="sympad"><a href="../../../../../../../../reference/com/google/android/gms/games/multiplayer/realtime/RoomEntity.html#toString()">toString</a></span>()</nobr>
+        
+  </td></tr>
+
+
+	 
+    <tr class="alt-color api apilevel-" >
+        <td class="jd-typecol"><nobr>
+            
+            
+            
+            
+            
             void</nobr>
         </td>
         <td class="jd-linkcol" width="100%"><nobr>
-        <span class="sympad"><a href="../../../../../../../../reference/com/google/android/gms/games/multiplayer/realtime/RoomEntity.html#writeToParcel(android.os.Parcel, int)">writeToParcel</a></span>(Parcel dest, int flags)</nobr>
+        <span class="sympad"><a href="../../../../../../../../reference/com/google/android/gms/games/multiplayer/realtime/RoomEntity.html#writeToParcel(android.os.Parcel, int)">writeToParcel</a></span>(<a href="http://developer.android.com/reference/android/os/Parcel.html">Parcel</a> dest, int flags)</nobr>
         
   </td></tr>
 
@@ -1162,7 +1373,7 @@ android.os.Parcelable
           class="jd-expando-trigger-img" /></a>
 From class
 
-  java.lang.Object
+  <a href="http://developer.android.com/reference/java/lang/Object.html">java.lang.Object</a>
 
 <div id="inherited-methods-java.lang.Object">
   <div id="inherited-methods-java.lang.Object-list"
@@ -1181,7 +1392,7 @@ From class
             
             
             
-            Object</nobr>
+            <a href="http://developer.android.com/reference/java/lang/Object.html">Object</a></nobr>
         </td>
         <td class="jd-linkcol" width="100%"><nobr>
         <span class="sympad">clone</span>()</nobr>
@@ -1200,7 +1411,7 @@ From class
             boolean</nobr>
         </td>
         <td class="jd-linkcol" width="100%"><nobr>
-        <span class="sympad">equals</span>(Object arg0)</nobr>
+        <span class="sympad">equals</span>(<a href="http://developer.android.com/reference/java/lang/Object.html">Object</a> arg0)</nobr>
         
   </td></tr>
 
@@ -1229,7 +1440,7 @@ From class
             final
             
             
-            Class&lt;?&gt;</nobr>
+            <a href="http://developer.android.com/reference/java/lang/Class.html">Class</a>&lt;?&gt;</nobr>
         </td>
         <td class="jd-linkcol" width="100%"><nobr>
         <span class="sympad">getClass</span>()</nobr>
@@ -1293,7 +1504,7 @@ From class
             
             
             
-            String</nobr>
+            <a href="http://developer.android.com/reference/java/lang/String.html">String</a></nobr>
         </td>
         <td class="jd-linkcol" width="100%"><nobr>
         <span class="sympad">toString</span>()</nobr>
@@ -1364,7 +1575,7 @@ From class
           class="jd-expando-trigger-img" /></a>
 From interface
 
-  android.os.Parcelable
+  <a href="http://developer.android.com/reference/android/os/Parcelable.html">android.os.Parcelable</a>
 
 <div id="inherited-methods-android.os.Parcelable">
   <div id="inherited-methods-android.os.Parcelable-list"
@@ -1402,7 +1613,7 @@ From interface
             void</nobr>
         </td>
         <td class="jd-linkcol" width="100%"><nobr>
-        <span class="sympad">writeToParcel</span>(Parcel arg0, int arg1)</nobr>
+        <span class="sympad">writeToParcel</span>(<a href="http://developer.android.com/reference/android/os/Parcel.html">Parcel</a> arg0, int arg1)</nobr>
         
   </td></tr>
 
@@ -1451,10 +1662,30 @@ From interface
   </td></tr>
 
 
+	 
+    <tr class=" api apilevel-" >
+        <td class="jd-typecol"><nobr>
+            abstract
+            
+            
+            
+            
+            boolean</nobr>
+        </td>
+        <td class="jd-linkcol" width="100%"><nobr>
+        <span class="sympad"><a href="../../../../../../../../reference/com/google/android/gms/common/data/Freezable.html#isDataValid()">isDataValid</a></span>()</nobr>
+        
+        <div class="jd-descrdiv">Check to see if this object is valid for use.</div>
+  
+  </td></tr>
+
+
 </table>
   </div>
 </div>
 </td></tr>
+
+
 
 
 
@@ -1485,7 +1716,7 @@ From interface
             
             
             
-            ArrayList&lt;<a href="../../../../../../../../reference/com/google/android/gms/games/multiplayer/Participant.html">Participant</a>&gt;</nobr>
+            <a href="http://developer.android.com/reference/java/util/ArrayList.html">ArrayList</a>&lt;<a href="../../../../../../../../reference/com/google/android/gms/games/multiplayer/Participant.html">Participant</a>&gt;</nobr>
         </td>
         <td class="jd-linkcol" width="100%"><nobr>
         <span class="sympad"><a href="../../../../../../../../reference/com/google/android/gms/games/multiplayer/Participatable.html#getParticipants()">getParticipants</a></span>()</nobr>
@@ -1529,7 +1760,7 @@ From interface
             
             
             
-            Bundle</nobr>
+            <a href="http://developer.android.com/reference/android/os/Bundle.html">Bundle</a></nobr>
         </td>
         <td class="jd-linkcol" width="100%"><nobr>
         <span class="sympad"><a href="../../../../../../../../reference/com/google/android/gms/games/multiplayer/realtime/Room.html#getAutoMatchCriteria()">getAutoMatchCriteria</a></span>()</nobr>
@@ -1547,11 +1778,15 @@ From interface
             
             
             
-            long</nobr>
+            int</nobr>
         </td>
         <td class="jd-linkcol" width="100%"><nobr>
-        <span class="sympad"><a href="../../../../../../../../reference/com/google/android/gms/games/multiplayer/realtime/Room.html#getCreationTimestamp()">getCreationTimestamp</a></span>()</nobr>
+        <span class="sympad"><a href="../../../../../../../../reference/com/google/android/gms/games/multiplayer/realtime/Room.html#getAutoMatchWaitEstimateSeconds()">getAutoMatchWaitEstimateSeconds</a></span>()</nobr>
         
+        <div class="jd-descrdiv">Retrieves the estimated wait time for automatching to finish for players who are not
+ automatched immediately, as measured from the time that the room entered the
+ automatching pool.</div>
+  
   </td></tr>
 
 
@@ -1563,10 +1798,10 @@ From interface
             
             
             
-            String</nobr>
+            long</nobr>
         </td>
         <td class="jd-linkcol" width="100%"><nobr>
-        <span class="sympad"><a href="../../../../../../../../reference/com/google/android/gms/games/multiplayer/realtime/Room.html#getCreatorId()">getCreatorId</a></span>()</nobr>
+        <span class="sympad"><a href="../../../../../../../../reference/com/google/android/gms/games/multiplayer/realtime/Room.html#getCreationTimestamp()">getCreationTimestamp</a></span>()</nobr>
         
   </td></tr>
 
@@ -1579,10 +1814,10 @@ From interface
             
             
             
-            String</nobr>
+            <a href="http://developer.android.com/reference/java/lang/String.html">String</a></nobr>
         </td>
         <td class="jd-linkcol" width="100%"><nobr>
-        <span class="sympad"><a href="../../../../../../../../reference/com/google/android/gms/games/multiplayer/realtime/Room.html#getDescription()">getDescription</a></span>()</nobr>
+        <span class="sympad"><a href="../../../../../../../../reference/com/google/android/gms/games/multiplayer/realtime/Room.html#getCreatorId()">getCreatorId</a></span>()</nobr>
         
   </td></tr>
 
@@ -1595,12 +1830,46 @@ From interface
             
             
             
+            <a href="http://developer.android.com/reference/java/lang/String.html">String</a></nobr>
+        </td>
+        <td class="jd-linkcol" width="100%"><nobr>
+        <span class="sympad"><a href="../../../../../../../../reference/com/google/android/gms/games/multiplayer/realtime/Room.html#getDescription()">getDescription</a></span>()</nobr>
+        
+  </td></tr>
+
+
+	 
+    <tr class=" api apilevel-" >
+        <td class="jd-typecol"><nobr>
+            abstract
+            
+            
+            
+            
             void</nobr>
         </td>
         <td class="jd-linkcol" width="100%"><nobr>
-        <span class="sympad"><a href="../../../../../../../../reference/com/google/android/gms/games/multiplayer/realtime/Room.html#getDescription(android.database.CharArrayBuffer)">getDescription</a></span>(CharArrayBuffer dataOut)</nobr>
+        <span class="sympad"><a href="../../../../../../../../reference/com/google/android/gms/games/multiplayer/realtime/Room.html#getDescription(android.database.CharArrayBuffer)">getDescription</a></span>(<a href="http://developer.android.com/reference/android/database/CharArrayBuffer.html">CharArrayBuffer</a> dataOut)</nobr>
         
-        <div class="jd-descrdiv">Loads the room description into the given <code><a href="../../../../../../../../reference/android/database/CharArrayBuffer.html">CharArrayBuffer</a></code>.</div>
+        <div class="jd-descrdiv">Loads the room description into the given <code><a href="http://developer.android.com/reference/android/database/CharArrayBuffer.html">CharArrayBuffer</a></code>.</div>
+  
+  </td></tr>
+
+
+	 
+    <tr class="alt-color api apilevel-" >
+        <td class="jd-typecol"><nobr>
+            abstract
+            
+            
+            
+            
+            <a href="../../../../../../../../reference/com/google/android/gms/games/multiplayer/Participant.html">Participant</a></nobr>
+        </td>
+        <td class="jd-linkcol" width="100%"><nobr>
+        <span class="sympad"><a href="../../../../../../../../reference/com/google/android/gms/games/multiplayer/realtime/Room.html#getParticipant(java.lang.String)">getParticipant</a></span>(<a href="http://developer.android.com/reference/java/lang/String.html">String</a> participantId)</nobr>
+        
+        <div class="jd-descrdiv">Get a participant in a room by its ID.</div>
   
   </td></tr>
 
@@ -1613,10 +1882,10 @@ From interface
             
             
             
-            String</nobr>
+            <a href="http://developer.android.com/reference/java/lang/String.html">String</a></nobr>
         </td>
         <td class="jd-linkcol" width="100%"><nobr>
-        <span class="sympad"><a href="../../../../../../../../reference/com/google/android/gms/games/multiplayer/realtime/Room.html#getParticipantId(java.lang.String)">getParticipantId</a></span>(String playerId)</nobr>
+        <span class="sympad"><a href="../../../../../../../../reference/com/google/android/gms/games/multiplayer/realtime/Room.html#getParticipantId(java.lang.String)">getParticipantId</a></span>(<a href="http://developer.android.com/reference/java/lang/String.html">String</a> playerId)</nobr>
         
         <div class="jd-descrdiv">Get the participant ID for a given player.</div>
   
@@ -1631,11 +1900,13 @@ From interface
             
             
             
-            ArrayList&lt;String&gt;</nobr>
+            <a href="http://developer.android.com/reference/java/util/ArrayList.html">ArrayList</a>&lt;<a href="http://developer.android.com/reference/java/lang/String.html">String</a>&gt;</nobr>
         </td>
         <td class="jd-linkcol" width="100%"><nobr>
         <span class="sympad"><a href="../../../../../../../../reference/com/google/android/gms/games/multiplayer/realtime/Room.html#getParticipantIds()">getParticipantIds</a></span>()</nobr>
         
+        <div class="jd-descrdiv">Get the IDs of the participants of the given room.</div>
+  
   </td></tr>
 
 
@@ -1650,7 +1921,7 @@ From interface
             int</nobr>
         </td>
         <td class="jd-linkcol" width="100%"><nobr>
-        <span class="sympad"><a href="../../../../../../../../reference/com/google/android/gms/games/multiplayer/realtime/Room.html#getParticipantStatus(java.lang.String)">getParticipantStatus</a></span>(String participantId)</nobr>
+        <span class="sympad"><a href="../../../../../../../../reference/com/google/android/gms/games/multiplayer/realtime/Room.html#getParticipantStatus(java.lang.String)">getParticipantStatus</a></span>(<a href="http://developer.android.com/reference/java/lang/String.html">String</a> participantId)</nobr>
         
         <div class="jd-descrdiv">Get the status of a participant in a room.</div>
   
@@ -1665,7 +1936,7 @@ From interface
             
             
             
-            String</nobr>
+            <a href="http://developer.android.com/reference/java/lang/String.html">String</a></nobr>
         </td>
         <td class="jd-linkcol" width="100%"><nobr>
         <span class="sympad"><a href="../../../../../../../../reference/com/google/android/gms/games/multiplayer/realtime/Room.html#getRoomId()">getRoomId</a></span>()</nobr>
@@ -1751,7 +2022,7 @@ From interface
         public 
         static 
         final 
-        Creator&lt;<a href="../../../../../../../../reference/com/google/android/gms/games/multiplayer/realtime/RoomEntity.html">RoomEntity</a>&gt;
+        <a href="http://developer.android.com/reference/android/os/Parcelable.Creator.html">Creator</a>&lt;<a href="../../../../../../../../reference/com/google/android/gms/games/multiplayer/realtime/RoomEntity.html">RoomEntity</a>&gt;
       </span>
         CREATOR
     </h4>
@@ -1830,7 +2101,7 @@ From interface
         boolean
       </span>
       <span class="sympad">equals</span>
-      <span class="normal">(Object obj)</span>
+      <span class="normal">(<a href="http://developer.android.com/reference/java/lang/Object.html">Object</a> obj)</span>
     </h4>
       <div class="api-level">
         <div></div>
@@ -1903,7 +2174,7 @@ From interface
          
          
          
-        Bundle
+        <a href="http://developer.android.com/reference/android/os/Bundle.html">Bundle</a>
       </span>
       <span class="sympad">getAutoMatchCriteria</span>
       <span class="normal">()</span>
@@ -1920,7 +2191,44 @@ From interface
  room has no automatch properties.</p></div>
   <div class="jd-tagdata">
       <h5 class="jd-tagtitle">Returns</h5>
-      <ul class="nolist"><li>bundle containing the automatch criteria for this room.
+      <ul class="nolist"><li>A bundle containing the automatch criteria for this room.
+</li></ul>
+  </div>
+
+    </div>
+</div>
+
+
+<A NAME="getAutoMatchWaitEstimateSeconds()"></A>
+
+<div class="jd-details api apilevel-"> 
+    <h4 class="jd-details-title">
+      <span class="normal">
+        public 
+         
+         
+         
+         
+        int
+      </span>
+      <span class="sympad">getAutoMatchWaitEstimateSeconds</span>
+      <span class="normal">()</span>
+    </h4>
+      <div class="api-level">
+        <div></div>
+        
+  
+
+      </div>
+    <div class="jd-details-descr">
+      
+  <div class="jd-tagdata jd-tagdescr"><p>Retrieves the estimated wait time for automatching to finish for players who are not
+ automatched immediately, as measured from the time that the room entered the
+ automatching pool.</p></div>
+  <div class="jd-tagdata">
+      <h5 class="jd-tagtitle">Returns</h5>
+      <ul class="nolist"><li>The estimated wait time in seconds, or -1 if the room is not
+         automatching or no estimate could be provided.
 </li></ul>
   </div>
 
@@ -1967,7 +2275,7 @@ From interface
          
          
          
-        String
+        <a href="http://developer.android.com/reference/java/lang/String.html">String</a>
       </span>
       <span class="sympad">getCreatorId</span>
       <span class="normal">()</span>
@@ -1996,7 +2304,7 @@ From interface
          
          
          
-        String
+        <a href="http://developer.android.com/reference/java/lang/String.html">String</a>
       </span>
       <span class="sympad">getDescription</span>
       <span class="normal">()</span>
@@ -2028,7 +2336,7 @@ From interface
         void
       </span>
       <span class="sympad">getDescription</span>
-      <span class="normal">(CharArrayBuffer dataOut)</span>
+      <span class="normal">(<a href="http://developer.android.com/reference/android/database/CharArrayBuffer.html">CharArrayBuffer</a> dataOut)</span>
     </h4>
       <div class="api-level">
         <div></div>
@@ -2038,7 +2346,7 @@ From interface
       </div>
     <div class="jd-details-descr">
       
-  <div class="jd-tagdata jd-tagdescr"><p>Loads the room description into the given <code><a href="../../../../../../../../reference/android/database/CharArrayBuffer.html">CharArrayBuffer</a></code>.</p></div>
+  <div class="jd-tagdata jd-tagdescr"><p>Loads the room description into the given <code><a href="http://developer.android.com/reference/android/database/CharArrayBuffer.html">CharArrayBuffer</a></code>.</p></div>
   <div class="jd-tagdata">
       <h5 class="jd-tagtitle">Parameters</h5>
       <table class="jd-tagtable">
@@ -2048,6 +2356,49 @@ From interface
 </td>
         </tr>
       </table>
+  </div>
+
+    </div>
+</div>
+
+
+<A NAME="getParticipant(java.lang.String)"></A>
+
+<div class="jd-details api apilevel-"> 
+    <h4 class="jd-details-title">
+      <span class="normal">
+        public 
+         
+         
+         
+         
+        <a href="../../../../../../../../reference/com/google/android/gms/games/multiplayer/Participant.html">Participant</a>
+      </span>
+      <span class="sympad">getParticipant</span>
+      <span class="normal">(<a href="http://developer.android.com/reference/java/lang/String.html">String</a> participantId)</span>
+    </h4>
+      <div class="api-level">
+        <div></div>
+        
+  
+
+      </div>
+    <div class="jd-details-descr">
+      
+  <div class="jd-tagdata jd-tagdescr"><p>Get a participant in a room by its ID. Note that the participant ID must correspond to a
+ participant in this match, or this method will throw an exception.</p></div>
+  <div class="jd-tagdata">
+      <h5 class="jd-tagtitle">Parameters</h5>
+      <table class="jd-tagtable">
+        <tr>
+          <th>participantId</td>
+          <td>Match-local ID of the participant to retrieve status for.</td>
+        </tr>
+      </table>
+  </div>
+  <div class="jd-tagdata">
+      <h5 class="jd-tagtitle">Returns</h5>
+      <ul class="nolist"><li>The participant corresponding to the given ID.</li></ul>
   </div>
 
     </div>
@@ -2064,10 +2415,10 @@ From interface
          
          
          
-        String
+        <a href="http://developer.android.com/reference/java/lang/String.html">String</a>
       </span>
       <span class="sympad">getParticipantId</span>
-      <span class="normal">(String playerId)</span>
+      <span class="normal">(<a href="http://developer.android.com/reference/java/lang/String.html">String</a> playerId)</span>
     </h4>
       <div class="api-level">
         <div></div>
@@ -2109,7 +2460,7 @@ From interface
          
          
          
-        ArrayList&lt;String&gt;
+        <a href="http://developer.android.com/reference/java/util/ArrayList.html">ArrayList</a>&lt;<a href="http://developer.android.com/reference/java/lang/String.html">String</a>&gt;
       </span>
       <span class="sympad">getParticipantIds</span>
       <span class="normal">()</span>
@@ -2122,7 +2473,13 @@ From interface
       </div>
     <div class="jd-details-descr">
       
-  <div class="jd-tagdata jd-tagdescr"><p></p></div>
+  <div class="jd-tagdata jd-tagdescr"><p>Get the IDs of the participants of the given room.</p></div>
+  <div class="jd-tagdata">
+      <h5 class="jd-tagtitle">Returns</h5>
+      <ul class="nolist"><li>The IDs of the participants in this room. These are returned in the participant
+         order of the room. Note that these are not stable across rooms.
+</li></ul>
+  </div>
 
     </div>
 </div>
@@ -2141,7 +2498,7 @@ From interface
         int
       </span>
       <span class="sympad">getParticipantStatus</span>
-      <span class="normal">(String participantId)</span>
+      <span class="normal">(<a href="http://developer.android.com/reference/java/lang/String.html">String</a> participantId)</span>
     </h4>
       <div class="api-level">
         <div></div>
@@ -2183,7 +2540,7 @@ From interface
          
          
          
-        ArrayList&lt;<a href="../../../../../../../../reference/com/google/android/gms/games/multiplayer/Participant.html">Participant</a>&gt;
+        <a href="http://developer.android.com/reference/java/util/ArrayList.html">ArrayList</a>&lt;<a href="../../../../../../../../reference/com/google/android/gms/games/multiplayer/Participant.html">Participant</a>&gt;
       </span>
       <span class="sympad">getParticipants</span>
       <span class="normal">()</span>
@@ -2200,7 +2557,7 @@ From interface
  applicable to the given object.</p></div>
   <div class="jd-tagdata">
       <h5 class="jd-tagtitle">Returns</h5>
-      <ul class="nolist"><li>a list of <code><a href="../../../../../../../../reference/com/google/android/gms/games/multiplayer/Participant.html">Participant</a></code>s for this object.
+      <ul class="nolist"><li>A list of <code><a href="../../../../../../../../reference/com/google/android/gms/games/multiplayer/Participant.html">Participant</a></code>s for this object.
 </li></ul>
   </div>
 
@@ -2218,7 +2575,7 @@ From interface
          
          
          
-        String
+        <a href="http://developer.android.com/reference/java/lang/String.html">String</a>
       </span>
       <span class="sympad">getRoomId</span>
       <span class="normal">()</span>
@@ -2324,6 +2681,42 @@ From interface
 </div>
 
 
+<A NAME="isDataValid()"></A>
+
+<div class="jd-details api apilevel-"> 
+    <h4 class="jd-details-title">
+      <span class="normal">
+        public 
+         
+         
+         
+         
+        boolean
+      </span>
+      <span class="sympad">isDataValid</span>
+      <span class="normal">()</span>
+    </h4>
+      <div class="api-level">
+        <div></div>
+        
+  
+
+      </div>
+    <div class="jd-details-descr">
+      
+  <div class="jd-tagdata jd-tagdescr"><p>Check to see if this object is valid for use. If the object is still volatile, this method
+ will indicate whether or not the object can be safely used. The output of a call to
+ <code><a href="../../../../../../../../reference/com/google/android/gms/common/data/Freezable.html#freeze()">freeze()</a></code> will always be valid.</p></div>
+  <div class="jd-tagdata">
+      <h5 class="jd-tagtitle">Returns</h5>
+      <ul class="nolist"><li>whether or not the object is valid for use.
+</li></ul>
+  </div>
+
+    </div>
+</div>
+
+
 <A NAME="toString()"></A>
 
 <div class="jd-details api apilevel-"> 
@@ -2334,7 +2727,7 @@ From interface
          
          
          
-        String
+        <a href="http://developer.android.com/reference/java/lang/String.html">String</a>
       </span>
       <span class="sympad">toString</span>
       <span class="normal">()</span>
@@ -2366,7 +2759,7 @@ From interface
         void
       </span>
       <span class="sympad">writeToParcel</span>
-      <span class="normal">(Parcel dest, int flags)</span>
+      <span class="normal">(<a href="http://developer.android.com/reference/android/os/Parcel.html">Parcel</a> dest, int flags)</span>
     </h4>
       <div class="api-level">
         <div></div>
@@ -2404,7 +2797,9 @@ From interface
   </div>
   <div id="build_info">
     
-    Android &nbsp;r &mdash; 12 May 2013  3:45
+    Android GmsCore 1250110&nbsp;r &mdash; 
+<script src="../../../../../../../../timestamp.js" type="text/javascript"></script>
+<script>document.write(BUILD_TIMESTAMP)</script>
 
   </div>
 
@@ -2427,41 +2822,6 @@ From interface
 
 
 
-
-<!-- Grid - for dev 
-<script type="text/javascript">
-
-window.gOverride = {
-		gColor: '#FF0000',
-		pColor: '#EEEEEE',
-		gOpacity: 0.10,
-		pOpacity: 0.40,
-		pHeight: 16,
-		pOffset: 2,
-		gColumns:16,
-		gEnabled:false,
-		pEnabled:false
-	}
-</script>
-	
-<link href="../../../../../../../../assets/js/grid/960.gridder.css" rel="stylesheet" type="text/css">
-<script src="../../../../../../../../assets/js/grid/960.gridder.js" type="text/javascript"></script>
--->
-
-
-
-
-
-<script type="text/javascript">
-init(); /* initialize android-developer-docs.js */
-var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
-document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
-</script>
-
-<script type="text/javascript">
-  var pageTracker = _gat._getTracker("UA-5831155-1");
-  pageTracker._trackPageview();
-</script>
 
 
 

@@ -31,7 +31,6 @@ public class MainActivity extends ListActivity {
     public void onCreate(Bundle icicle) {
         super.onCreate(icicle);
         String[] items = getResources().getStringArray(R.array.main_activity_items);
-        setTitle(getPackageName());
         this.setListAdapter(
                 new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, items));
     }

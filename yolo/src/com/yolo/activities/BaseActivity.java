@@ -25,6 +25,7 @@ public class BaseActivity extends Activity {
 		
 		currentSDKVersion = android.os.Build.VERSION.SDK_INT;	
 		app = (Application)getApplication();
+        app.setContext(this);
 		fragmentManager = getFragmentManager();
 		install = ParseInstallation.getCurrentInstallation();
 		

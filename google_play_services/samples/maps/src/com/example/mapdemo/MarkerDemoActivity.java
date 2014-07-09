@@ -42,18 +42,27 @@ import android.view.View;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.view.animation.BounceInterpolator;
 import android.view.animation.Interpolator;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.RadioGroup;
+import android.widget.SeekBar;
+import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 /**
  * This shows how to place markers on a map.
  */
 public class MarkerDemoActivity extends FragmentActivity
-        implements OnMarkerClickListener, OnInfoWindowClickListener, OnMarkerDragListener {
+        implements
+        OnMarkerClickListener,
+        OnInfoWindowClickListener,
+        OnMarkerDragListener,
+        OnSeekBarChangeListener {
     private static final LatLng BRISBANE = new LatLng(-27.47093, 153.0235);
     private static final LatLng MELBOURNE = new LatLng(-37.81319, 144.96298);
     private static final LatLng SYDNEY = new LatLng(-33.87365, 151.20689);
@@ -145,7 +154,14 @@ public class MarkerDemoActivity extends FragmentActivity
     private Marker mBrisbane;
     private Marker mAdelaide;
     private Marker mMelbourne;
+
+    private final List<Marker> mMarkerRainbow = new ArrayList<Marker>();
+
     private TextView mTopText;
+    private SeekBar mRotationBar;
+    private CheckBox mFlatBox;
+
+    private final Random mRandom = new Random();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -153,6 +169,12 @@ public class MarkerDemoActivity extends FragmentActivity
         setContentView(R.layout.marker_demo);
 
         mTopText = (TextView) findViewById(R.id.top_text);
+
+        mRotationBar = (SeekBar) findViewById(R.id.rotationSeekBar);
+        mRotationBar.setMax(360);
+        mRotationBar.setOnSeekBarChangeListener(this);
+
+        mFlatBox = (CheckBox) findViewById(R.id.flat);
 
         setUpMapIfNeeded();
     }
@@ -227,12 +249,13 @@ public class MarkerDemoActivity extends FragmentActivity
                 .snippet("Population: 2,074,200")
                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
 
-        // Uses a custom icon.
+        // Uses a custom icon with the info window popping out of the center of the icon.
         mSydney = mMap.addMarker(new MarkerOptions()
                 .position(SYDNEY)
                 .title("Sydney")
                 .snippet("Population: 4,627,300")
-                .icon(BitmapDescriptorFactory.fromResource(R.drawable.arrow)));
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.arrow))
+                .infoWindowAnchor(0.5f, 0.5f));
 
         // Creates a draggable marker. Long press to drag.
         mMelbourne = mMap.addMarker(new MarkerOptions()
@@ -253,14 +276,19 @@ public class MarkerDemoActivity extends FragmentActivity
 
         // Creates a marker rainbow demonstrating how to create default marker icons of different
         // hues (colors).
+        float rotation = mRotationBar.getProgress();
+        boolean flat = mFlatBox.isChecked();
+
         int numMarkersInRainbow = 12;
         for (int i = 0; i < numMarkersInRainbow; i++) {
-            mMap.addMarker(new MarkerOptions()
+            mMarkerRainbow.add(mMap.addMarker(new MarkerOptions()
                     .position(new LatLng(
                             -30 + 10 * Math.sin(i * Math.PI / (numMarkersInRainbow - 1)),
                             135 - 10 * Math.cos(i * Math.PI / (numMarkersInRainbow - 1))))
                     .title("Marker " + i)
-                    .icon(BitmapDescriptorFactory.defaultMarker(i * 360 / numMarkersInRainbow)));
+                    .icon(BitmapDescriptorFactory.defaultMarker(i * 360 / numMarkersInRainbow))
+                    .flat(flat)
+                    .rotation(rotation)));
         }
     }
 
@@ -288,6 +316,38 @@ public class MarkerDemoActivity extends FragmentActivity
         // Clear the map because we don't want duplicates of the markers.
         mMap.clear();
         addMarkersToMap();
+    }
+
+    /** Called when the Reset button is clicked. */
+    public void onToggleFlat(View view) {
+        if (!checkReady()) {
+            return;
+        }
+        boolean flat = mFlatBox.isChecked();
+        for (Marker marker : mMarkerRainbow) {
+            marker.setFlat(flat);
+        }
+    }
+
+    @Override
+    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+        if (!checkReady()) {
+            return;
+        }
+        float rotation = seekBar.getProgress();
+        for (Marker marker : mMarkerRainbow) {
+            marker.setRotation(rotation);
+        }
+    }
+
+    @Override
+    public void onStartTrackingTouch(SeekBar seekBar) {
+        // Do nothing.
+    }
+
+    @Override
+    public void onStopTrackingTouch(SeekBar seekBar) {
+        // Do nothing.
     }
 
     //
@@ -319,8 +379,9 @@ public class MarkerDemoActivity extends FragmentActivity
                 }
             });
         } else if (marker.equals(mAdelaide)) {
-            // This causes the marker at Adelaide to change color.
-            marker.setIcon(BitmapDescriptorFactory.defaultMarker(new Random().nextFloat() * 360));
+            // This causes the marker at Adelaide to change color and alpha.
+            marker.setIcon(BitmapDescriptorFactory.defaultMarker(mRandom.nextFloat() * 360));
+            marker.setAlpha(mRandom.nextFloat());
         }
         // We return false to indicate that we have not consumed the event and that we wish
         // for the default behavior to occur (which is for the camera to move such that the
@@ -330,7 +391,7 @@ public class MarkerDemoActivity extends FragmentActivity
 
     @Override
     public void onInfoWindowClick(Marker marker) {
-        Toast.makeText(getBaseContext(), "Click Info Window", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Click Info Window", Toast.LENGTH_SHORT).show();
     }
 
     @Override

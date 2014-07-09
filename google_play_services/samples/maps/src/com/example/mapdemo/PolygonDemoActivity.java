@@ -30,7 +30,6 @@ import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -93,23 +92,15 @@ public class PolygonDemoActivity extends FragmentActivity implements OnSeekBarCh
     private void setUpMap() {
         // Create a rectangle with two rectangular holes.
         mMap.addPolygon(new PolygonOptions()
-                .addAll(createCWRectangle(new LatLng(-20, 130), 5, 5))
-                .addHole(createCWRectangle(new LatLng(-22, 128), 1, 1))
-                .addHole(createCWRectangle(new LatLng(-18, 133), 0.5, 1.5))
+                .addAll(createRectangle(new LatLng(-20, 130), 5, 5))
+                .addHole(createRectangle(new LatLng(-22, 128), 1, 1))
+                .addHole(createRectangle(new LatLng(-18, 133), 0.5, 1.5))
                 .fillColor(Color.CYAN)
                 .strokeColor(Color.BLUE)
                 .strokeWidth(5));
 
-        // Create an ellipse centered at Sydney.
-        PolygonOptions options = new PolygonOptions();
-        int numPoints = 400;
-        float semiHorizontalAxis = 10f;
-        float semiVerticalAxis = 5f;
-        double phase = 2 * Math.PI / numPoints;
-        for (int i = 0; i <= numPoints; i++) {
-            options.add(new LatLng(SYDNEY.latitude + semiVerticalAxis * Math.sin(i * phase),
-                    SYDNEY.longitude + semiHorizontalAxis * Math.cos(i * phase)));
-        }
+        // Create a rectangle centered at Sydney.
+        PolygonOptions options = new PolygonOptions().addAll(createRectangle(SYDNEY, 5, 8));
 
         int fillColor = Color.HSVToColor(
                 mAlphaBar.getProgress(), new float[] {mColorBar.getProgress(), 1, 1});
@@ -130,18 +121,11 @@ public class PolygonDemoActivity extends FragmentActivity implements OnSeekBarCh
      * Creates a List of LatLngs that form a rectangle with the given dimensions.
      */
     private List<LatLng> createRectangle(LatLng center, double halfWidth, double halfHeight) {
-        // Note that the ordering of the points is counterclockwise (as long as the halfWidth and
-        // halfHeight are less than 90).
         return Arrays.asList(new LatLng(center.latitude - halfHeight, center.longitude - halfWidth),
                 new LatLng(center.latitude - halfHeight, center.longitude + halfWidth),
                 new LatLng(center.latitude + halfHeight, center.longitude + halfWidth),
                 new LatLng(center.latitude + halfHeight, center.longitude - halfWidth),
                 new LatLng(center.latitude - halfHeight, center.longitude - halfWidth));
-    }
-    private List<LatLng> createCWRectangle(LatLng center, double halfWidth, double halfHeight) {
-      List<LatLng> rect = createRectangle(center, halfWidth, halfHeight);
-      Collections.reverse(rect);
-      return rect;
     }
 
     @Override

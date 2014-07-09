@@ -13,45 +13,18 @@
      See the License for the specific language governing permissions and
      limitations under the License.
 -->
-
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-    
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-        <TextView android:id="@+id/accounts_tester_account_types_spinner_label"
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:text="@string/account"/>
-
-        <Spinner
-            android:id="@+id/accounts_tester_account_types_spinner"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        </LinearLayout>
-    
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        android:padding="16dp">
 
         <Button
-                android:id="@+id/greet_me_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/greet_me"/>
-         
-    </LinearLayout>
+            android:id="@+id/greet_me_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/greet_me"
+            android:onClick="greetTheUser"/>
 
         <TextView
             android:id="@+id/message"
@@ -59,7 +32,7 @@
             android:layout_height="0dp"
             android:layout_gravity="fill_vertical"
             android:layout_weight="1"
-            android:ems="10"/>
+            android:textSize="18sp"
+            android:paddingTop="16dp"/>
     
 </LinearLayout>
-</ScrollView>

@@ -16,26 +16,23 @@
 
 package com.google.android.gms.samples.plus;
 
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GooglePlayServicesClient.ConnectionCallbacks;
-import com.google.android.gms.common.GooglePlayServicesClient.OnConnectionFailedListener;
-import com.google.android.gms.plus.PlusClient;
 import com.google.android.gms.plus.PlusOneButton;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.view.MenuItem;
 
 /**
  * Example usage of the +1 button.
  */
-public class PlusOneActivity extends Activity
-        implements ConnectionCallbacks, OnConnectionFailedListener {
+public class PlusOneActivity extends Activity {
     private static final String URL = "https://developers.google.com/+";
 
     // The request code must be 0 or higher.
     private static final int PLUS_ONE_REQUEST_CODE = 0;
 
-    private PlusClient mPlusClient;
     private PlusOneButton mPlusOneSmallButton;
     private PlusOneButton mPlusOneMediumButton;
     private PlusOneButton mPlusOneTallButton;
@@ -46,11 +43,6 @@ public class PlusOneActivity extends Activity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.plus_one_activity);
-
-        // The +1 button does not require scopes.
-        mPlusClient = new PlusClient.Builder(this, this, this)
-                .clearScopes()
-                .build();
 
         /*
          * The {@link PlusOneButton} can be configured in code, but in this example we
@@ -66,43 +58,35 @@ public class PlusOneActivity extends Activity
         mPlusOneStandardButton = (PlusOneButton) findViewById(R.id.plus_one_standard_button);
         mPlusOneStandardButtonWithAnnotation = (PlusOneButton) findViewById(
                 R.id.plus_one_standard_ann_button);
-    }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        mPlusClient.connect();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            getActionBar().setDisplayHomeAsUpEnabled(true);
+        }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         // Refresh the state of the +1 button each time we receive focus.
-        mPlusOneSmallButton.initialize(mPlusClient, URL, PLUS_ONE_REQUEST_CODE);
-        mPlusOneMediumButton.initialize(mPlusClient, URL, PLUS_ONE_REQUEST_CODE);
-        mPlusOneTallButton.initialize(mPlusClient, URL, PLUS_ONE_REQUEST_CODE);
-        mPlusOneStandardButton.initialize(mPlusClient, URL, PLUS_ONE_REQUEST_CODE);
-        mPlusOneStandardButtonWithAnnotation.initialize(mPlusClient, URL, PLUS_ONE_REQUEST_CODE);
+        mPlusOneSmallButton.initialize(URL, PLUS_ONE_REQUEST_CODE);
+        mPlusOneMediumButton.initialize(URL, PLUS_ONE_REQUEST_CODE);
+        mPlusOneTallButton.initialize(URL, PLUS_ONE_REQUEST_CODE);
+        mPlusOneStandardButton.initialize(URL, PLUS_ONE_REQUEST_CODE);
+        mPlusOneStandardButtonWithAnnotation.initialize(URL, PLUS_ONE_REQUEST_CODE);
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
-        mPlusClient.disconnect();
-    }
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                Intent intent = new Intent(this, PlusSampleActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                finish();
+                return true;
 
-    @Override
-    public void onConnectionFailed(ConnectionResult status) {
-        // Nothing to do.
-    }
-
-    @Override
-    public void onConnected(Bundle connectionHint) {
-        // Nothing to do.
-    }
-
-    @Override
-    public void onDisconnected() {
-        // Nothing to do.
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }

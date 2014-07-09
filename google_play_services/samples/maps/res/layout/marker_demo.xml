@@ -24,6 +24,26 @@
     android:layout_height="wrap_content"
     android:lines="2"
     android:text="@string/drag_melbourne"/>
+  <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" >
+    <CheckBox
+      android:id="@+id/flat"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="@string/flat"
+      android:textSize="14sp"
+      android:onClick="onToggleFlat" />
+    <TextView
+      android:layout_marginLeft="8dp"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="@string/rotation" />
+    <SeekBar
+      android:id="@+id/rotationSeekBar"
+      android:layout_width="fill_parent"
+      android:layout_height="wrap_content"/>
+  </LinearLayout>
   <FrameLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent">

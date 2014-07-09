@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
 	package="com.yolo" android:versionCode="1" android:versionName="1.0">
 
-	<uses-sdk android:minSdkVersion="9" android:targetSdkVersion="19" />
+	<uses-sdk android:minSdkVersion="11" android:targetSdkVersion="19" />
 
 	<permission android:protectionLevel="signature"
     	android:name="com.yolo.permission.C2D_MESSAGE" />
@@ -119,6 +119,14 @@
    			 <action android:name="com.example.UPDATE_STATUS" />
  			 </intent-filter>
 		</receiver>
+
+        <receiver
+            android:name="com.yolo.LocationBroadcastReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="LOCATION" />
+            </intent-filter>
+        </receiver>
 	</application>
 
 </manifest>

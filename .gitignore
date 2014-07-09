@@ -1,7 +1,7 @@
 # OS
 .DS_Store
 .idea
-
+.metadata
 #Gradle Build
 .gradle
 

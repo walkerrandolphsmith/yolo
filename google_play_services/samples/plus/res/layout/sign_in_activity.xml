@@ -20,25 +20,37 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="20dip">
+    <ToggleButton
+        android:id="@+id/scope_selection_toggle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textOn="profile scope"
+        android:textOff="plus.login scope"
+        android:textColor="@android:color/primary_text_light"
+        android:background="@android:drawable/btn_default"/>
+
     <com.google.android.gms.common.SignInButton
         android:id="@+id/sign_in_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="30dip" />
+        android:layout_marginBottom="30dip"
+        android:visibility="invisible" />
 
     <Button
         android:id="@+id/sign_out_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/sign_out_button_name"
-        android:layout_marginBottom="30dip" />
+        android:layout_marginBottom="30dip"
+        android:enabled="false" />
 
     <Button
         android:id="@+id/revoke_access_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/revoke_access_button_name"
-        android:layout_marginBottom="30dip" />
+        android:layout_marginBottom="30dip"
+        android:enabled="false" />
 
     <TextView
         android:id="@+id/sign_in_status"

@@ -36,7 +36,7 @@ public class MomentUtil {
      * A list of moment target types.
      */
     public static final ArrayList<String> MOMENT_LIST;
-    public static final String[] VISIBLE_ACTIVITIES;
+    public static final String[] ACTIONS;
     static {
         MOMENT_TYPES = new HashMap<String, String>(9);
         MOMENT_TYPES.put("AddActivity",
@@ -59,10 +59,10 @@ public class MomentUtil {
         MOMENT_LIST = new ArrayList<String>(MomentUtil.MOMENT_TYPES.keySet());
         Collections.sort(MOMENT_LIST);
 
-        VISIBLE_ACTIVITIES = MOMENT_TYPES.keySet().toArray(new String[0]);
-        int count = VISIBLE_ACTIVITIES.length;
+        ACTIONS = MOMENT_TYPES.keySet().toArray(new String[0]);
+        int count = ACTIONS.length;
         for (int i = 0; i < count; i++) {
-            VISIBLE_ACTIVITIES[i] = "http://schemas.google.com/" + VISIBLE_ACTIVITIES[i];
+            ACTIONS[i] = "http://schemas.google.com/" + ACTIONS[i];
         }
     }
 

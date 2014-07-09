@@ -19,7 +19,10 @@ package com.google.android.gms.samples.plus;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -36,5 +39,24 @@ public class LicenseActivity extends Activity {
         license.setText(GooglePlayServicesUtil.getOpenSourceSoftwareLicenseInfo(this));
         scroll.addView(license);
         setContentView(scroll);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            getActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                Intent intent = new Intent(this, PlusSampleActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                finish();
+                return true;
+
+            default:
+               return super.onOptionsItemSelected(item);
+        }
     }
 }

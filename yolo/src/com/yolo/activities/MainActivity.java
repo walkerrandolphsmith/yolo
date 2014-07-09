@@ -4,16 +4,18 @@ import org.json.JSONArray;
 import org.json.JSONException;
 
 import android.annotation.SuppressLint;
+import android.content.IntentFilter;
 import android.app.AlertDialog;
 import android.app.admin.DeviceAdminReceiver;
 import android.app.admin.DevicePolicyManager;
+import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.location.Location;
-import android.location.LocationListener;
 import android.location.LocationManager;
+import android.location.Location;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.telephony.SmsManager;
@@ -38,10 +40,10 @@ import com.yolo.R;
 import com.yolo.models.User;
 
 
-public class MainActivity extends BaseActivity implements LocationListener {
+public class MainActivity extends BaseActivity {
 
-	private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 2; // 10 meters
-	private static final long MIN_TIME_BW_UPDATES = 2;
+	private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 10; // 10 meters
+	private static final long MIN_TIME_BW_UPDATES = 100;
 		
 	private DevicePolicyManager devicePolicyManager;
 	private ComponentName mAdminName;
@@ -58,6 +60,46 @@ public class MainActivity extends BaseActivity implements LocationListener {
 			System.out.println("onDisable");
 		}
 	}
+
+    private BroadcastReceiver myReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(final Context context, final Intent intent) {
+            Log.w("responded to location intent", "intent");
+            MainActivity.this.locationChanged();
+        }
+    };
+
+    public void locationChanged() {
+        Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        if(location != null) {
+            double speed = location.getSpeed() * 2.2369;
+
+            if (speed < 20) {
+                Log.w("speed", "is moving at " + speed + " mph");
+                JSONArray channels = install.getJSONArray("channels");
+                for (int i = 0; i < channels.length(); i++) {
+                    try {
+                        String channel = channels.getString(i);
+                        Log.w(channel, "channel: " + i);
+                        if (channel.startsWith(app.PARENT_CHANNEL)) {
+                            sendNotificationsTo(channel);
+                        }
+                    } catch (JSONException e) {
+                        Log.w("Exception Caught", "Channels could not be retreived from install");
+                    }
+                }
+                if (isDriving)
+                    devicePolicyManager.lockNow();
+            }
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        registerReceiver(myReceiver, new IntentFilter("RESPOND_LOCATION"));
+    }
+
 
 	/*********************************
 	 * OnCreate
@@ -82,8 +124,11 @@ public class MainActivity extends BaseActivity implements LocationListener {
 		sms = SmsManager.getDefault();
 		locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 	    if(locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
-	    	locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_DISTANCE_CHANGE_FOR_UPDATES, MIN_TIME_BW_UPDATES, this);
-	    }else{
+	    	//locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_DISTANCE_CHANGE_FOR_UPDATES, MIN_TIME_BW_UPDATES, this);
+            Intent location_intent = new Intent("LOCATION");
+            PendingIntent launchIntent = PendingIntent.getBroadcast(this, 0, location_intent, 0);
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME_BW_UPDATES, MIN_DISTANCE_CHANGE_FOR_UPDATES, launchIntent);
+        }else{
 	    	 final AlertDialog.Builder builder = new AlertDialog.Builder(this);
 	    	    builder.setMessage("Your GPS seems to be disabled, do you want to enable it?")
 	    	           .setCancelable(false)
@@ -95,7 +140,7 @@ public class MainActivity extends BaseActivity implements LocationListener {
 	    	    final AlertDialog alert = builder.create();
 	    	    alert.show();
 	    }
-	    
+
 	    ParseAnalytics.trackAppOpened(getIntent());
 	    PushService.setDefaultPushCallback(this, MainActivity.class);
 		
@@ -119,7 +164,7 @@ public class MainActivity extends BaseActivity implements LocationListener {
 		        }
 		}
   	}
-	
+
 	/*********************************
 	 * isDriving onCheckedChaged Listener
 	 **********************************/
@@ -129,24 +174,8 @@ public class MainActivity extends BaseActivity implements LocationListener {
 			isDriving = (isChecked ? true : false);	
 		}
 	}
-	
-	
-	/*********************************
-	 * MainActivity Behavior
-	 **********************************/
-	
-	@Override
-	public void onProviderDisabled(String disabled) {
-	}
 
-	@Override
-	public void onProviderEnabled(String enabled) {		
-	}
 
-	@Override
-	public void onStatusChanged(String changed, int i, Bundle bundle) {		
-	}
-	
 	/*********************************
 	 * ActionBar MenuItems
 	 **********************************/
@@ -169,35 +198,7 @@ public class MainActivity extends BaseActivity implements LocationListener {
 	            return super.onOptionsItemSelected(item);
 	    }
 	}
-	
-	/*********************************
-	 * Location Change Listener
-	 **********************************/
 
-	@Override
-	public void onLocationChanged(Location l) {
-		
-		double speed =  l.getSpeed()*2.2369;
-		
-		if(speed < 20){
-			Log.w("speed", "is moving at " + speed + " mph");
-			JSONArray channels = install.getJSONArray("channels");
-			for(int i = 0; i < channels.length(); i++){
-				try {
-					String channel = channels.getString(i);
-					Log.w(channel, "channel: "+i);
-					if(channel.startsWith(app.PARENT_CHANNEL)){
-						sendNotificationsTo(channel);
-					}
-				} catch (JSONException e) {
-					Log.w("Exception Caught", "Channels could not be retreived from install");
-				}
-			}
-			if(isDriving)
-				devicePolicyManager.lockNow();
-		}
-	}
-	
 	/*********************************
 	 * Get Users 
 	 **********************************/
