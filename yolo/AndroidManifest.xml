@@ -9,7 +9,6 @@
 	<uses-permission android:name="com.yolo.permission.C2D_MESSAGE" />
 	<uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
 	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-	<uses-permission android:name="android.permission.ACCESS_MOCK_LOCATION" />
 	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 	<uses-permission android:name="android.permission.USES_POLICY_FORCE_LOCK" />
 	<uses-permission android:name="android.permission.INTERNET" />
@@ -85,7 +84,7 @@
 		</activity>
 
 		<receiver 
-		    android:name="com.yolo.activities.MainActivity$MyAdmin" 
+		    android:name="com.yolo.Application$DeviceAdmin"
 		    android:label="@string/app_name"
 			android:description="@string/app_name" 
 			android:permission="android.permission.BIND_DEVICE_ADMIN">

@@ -5,20 +5,14 @@ import org.json.JSONException;
 
 import android.annotation.SuppressLint;
 import android.content.IntentFilter;
-import android.app.AlertDialog;
-import android.app.admin.DeviceAdminReceiver;
 import android.app.admin.DevicePolicyManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
-import android.content.ComponentName;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.LocationManager;
 import android.location.Location;
 import android.os.Bundle;
-import android.provider.Settings;
-import android.telephony.SmsManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -37,21 +31,13 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.PushService;
 import com.yolo.R;
+import com.yolo.dialogs.NoGpsDialog;
 import com.yolo.models.User;
 
 
 public class MainActivity extends BaseActivity {
-
-	private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 10; // 10 meters
-	private static final long MIN_TIME_BW_UPDATES = 10;
 		
-	private DevicePolicyManager devicePolicyManager;
-	private ComponentName mAdminName;
-	private SmsManager sms;
-	private LocationManager locationManager;
-	public boolean isDriving;	
-	
-	public static class MyAdmin extends DeviceAdminReceiver { }
+	public boolean isDriving;
 
     private BroadcastReceiver locationChangedReceiver = new BroadcastReceiver() {
         @Override
@@ -80,38 +66,24 @@ public class MainActivity extends BaseActivity {
 	 * OnCreate
 	 **********************************/
 
-	@SuppressLint("InlinedApi")
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 
 		super.onCreate(savedInstanceState);
-				
 		getActionBar().setDisplayHomeAsUpEnabled(false);
-		//Device Policy Manager require minSDK version 8
-		devicePolicyManager = (DevicePolicyManager)getSystemService(Context.DEVICE_POLICY_SERVICE);
-		mAdminName = new ComponentName(this, MyAdmin.class);
-		 if (!devicePolicyManager.isAdminActive(mAdminName)) {
+
+		 if (!app.devicePolicyManager.isAdminActive(app.mAdminName)) {
      		Intent intent = new Intent(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN);
-     		intent.putExtra(DevicePolicyManager.EXTRA_DEVICE_ADMIN, mAdminName);
+     		intent.putExtra(DevicePolicyManager.EXTRA_DEVICE_ADMIN, app.mAdminName);
      		startActivityForResult(intent, 1);
      	} 
-		sms = SmsManager.getDefault();
-		locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-	    if(locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
+	    if(app.locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
             Intent location_intent = new Intent("com.yolo.action.LOCATIONCHANGE");
             PendingIntent launchIntent = PendingIntent.getBroadcast(this, 0, location_intent, 0);
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME_BW_UPDATES, MIN_DISTANCE_CHANGE_FOR_UPDATES, launchIntent);
+            //provider string, min time between, min distance change, intent
+            app.locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10, 10, launchIntent);
         }else{
-	    	 final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-	    	    builder.setMessage("Your GPS seems to be disabled, please enable it.")
-	    	           .setCancelable(false)
-	    	           .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-	    	               public void onClick(final DialogInterface dialog, final int id){ 
-	    	            	   startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
-	    	               }
-	    	           });
-	    	    final AlertDialog alert = builder.create();
-	    	    alert.show();
+           new NoGpsDialog(this).show();
 	    }
 
 	    ParseAnalytics.trackAppOpened(getIntent());
@@ -177,7 +149,7 @@ public class MainActivity extends BaseActivity {
      **********************************/
 
     public void locationChanged() {
-        Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        Location location = app.locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
         if(location != null) {
             double speed = location.getSpeed() * 2.2369;
 
@@ -206,8 +178,8 @@ public class MainActivity extends BaseActivity {
      **********************************/
 
     public void lock() {
-        if(devicePolicyManager != null) {
-            devicePolicyManager.lockNow();
+        if(app.devicePolicyManager != null) {
+            app.devicePolicyManager.lockNow();
         }
     }
 
@@ -250,7 +222,7 @@ public class MainActivity extends BaseActivity {
 		}
 		if(user.getReceiveSMS()){
 			if(user.getPhone() != null){
-				sms.sendTextMessage(user.getPhone(), "", message, null, null);
+				app.smsManager.sendTextMessage(user.getPhone(), "", message, null, null);
 			}
 		}
 		

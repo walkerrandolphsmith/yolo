@@ -1,7 +1,11 @@
 package com.yolo;
 
+import android.content.ComponentName;
 import android.content.Context;
-import android.support.v4.content.ContextCompat;
+import android.location.LocationManager;
+import android.app.admin.DeviceAdminReceiver;
+import android.app.admin.DevicePolicyManager;
+import android.telephony.SmsManager;
 
 import com.parse.Parse;
 import com.parse.ParseObject;
@@ -13,6 +17,13 @@ public class Application extends android.app.Application {
 
 	public final String DEVICE_CHANNEL = "device_channel_";
 	public final String PARENT_CHANNEL = "parent_channel_";
+
+    public SmsManager smsManager;
+    public LocationManager locationManager;
+    public DevicePolicyManager devicePolicyManager;
+    public ComponentName mAdminName;
+
+    public static class DeviceAdmin extends DeviceAdminReceiver { }
 
     private Context context;
 
@@ -32,6 +43,12 @@ public class Application extends android.app.Application {
         ParseObject.registerSubclass(User.class);
 		Parse.initialize(this, "yG0OKddCMctN5vtCj5ocUbDxrRJjlPuzZLXMOXA9", "FGdSTBZZgOlRTdMkMqSOWydTOG3hliqXigOqm2sk");
 		PushService.setDefaultPushCallback(this, MainActivity.class);
-		
-	}
+
+        //Device Policy Manager require minSDK version 8
+        devicePolicyManager = (DevicePolicyManager)getSystemService(Context.DEVICE_POLICY_SERVICE);
+        mAdminName = new ComponentName(this, DeviceAdmin.class);
+
+        smsManager = SmsManager.getDefault();
+        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+    }
 }
