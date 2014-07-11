@@ -2,6 +2,7 @@ package com.yolo;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.util.Log;
 import android.view.View;
@@ -14,7 +15,7 @@ import com.yolo.activities.ConsoleActivity;
 public class ListAdapterChildren extends ArrayAdapter<String> {
 	private ViewHolder viewHolder;
 	private ConsoleActivity activity;
-	private JSONArray mChildren;
+	public JSONArray mChildren;
 
 	public ListAdapterChildren(ConsoleActivity activity) {
 		super(activity, R.layout.each_child);
@@ -39,8 +40,9 @@ public class ListAdapterChildren extends ArrayAdapter<String> {
 			viewHolder = (ViewHolder) convertView.getTag();
 		}
 		try {
-			viewHolder.device_channel.setText(mChildren.getString(position));
-			viewHolder.name.setText(mChildren.getString(position).replace("device_channel_", ""));
+            JSONObject child = mChildren.getJSONObject(position);
+			viewHolder.device_channel.setText(child.getString("channel"));
+			viewHolder.name.setText(child.getString("name").replace("device_channel_", ""));
 		} catch (JSONException e) {
 			Log.w("exception", "no getString");
 		}

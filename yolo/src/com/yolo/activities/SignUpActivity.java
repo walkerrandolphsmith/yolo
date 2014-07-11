@@ -16,6 +16,8 @@ import com.parse.SignUpCallback;
 import com.yolo.R;
 import com.yolo.models.User;
 
+import org.json.JSONArray;
+
 public class SignUpActivity extends BaseActivity {
 	
 	protected static final String EXTRA_USERNAME = "USERNAME";
@@ -146,7 +148,6 @@ public class SignUpActivity extends BaseActivity {
         {
         	user = new User(userName, email, password);
         	user.setPhone(phone);
-        	user.setChildren(new ArrayList<ParseObject>());
         	user.setReceivePushNotifications(true);
         	user.setReceiveEmails(true);
         	user.setReceiveSMS(true);

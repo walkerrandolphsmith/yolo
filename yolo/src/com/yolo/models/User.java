@@ -3,6 +3,7 @@ package com.yolo.models;
 import java.util.ArrayList;
 
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 import com.parse.ParseObject;
 import com.parse.ParseUser;
@@ -13,6 +14,7 @@ public class User extends ParseUser{
 		this.setEmail(email);
 		this.setUsername(username);
 		this.setPassword(password);
+        this.put("children", new JSONArray());
 	}
 	
 	public User(){
@@ -29,11 +31,7 @@ public class User extends ParseUser{
 	public JSONArray getChildren(){
 		return getJSONArray("children");
 	}	
-	
-	public void setChildren(ArrayList<ParseObject> children) {
-		this.put("children", children);
-	}
-	
+
 	public boolean getReceivePushNotifications(){
 		return getBoolean("receivePushNotifications");
 	}
@@ -55,12 +53,7 @@ public class User extends ParseUser{
 	}
 	
 	public void setReceiveSMS(boolean willReceive){
-		this.put("receiveSMS", willReceive);
+        this.put("receiveSMS", willReceive);
 	}
-	
-	public void setAllNotificationPrefrences(boolean isactive){
-		this.put("receivePushNotifications", isactive);
-		this.put("receiveSMS", isactive);
-		this.put("receiveReceiveEmails", isactive);
-	}
+
 }

@@ -1,9 +1,8 @@
-package com.yolo;
+package com.yolo.broadcast_receivers;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.yolo.activities.MainActivity;
 import com.yolo.util.ConnectionManager;
 
 import android.content.BroadcastReceiver;
@@ -15,7 +14,8 @@ public class NotificationBroadcastReceiver extends BroadcastReceiver {
 	
 	@Override
 	public void onReceive(final Context context, Intent intent) {
-		boolean hasInternetConnection = ConnectionManager.checkInternetConnection(context);
+		/*
+        boolean hasInternetConnection = ConnectionManager.checkInternetConnection(context);
 
 		if (hasInternetConnection) {
 			try {
@@ -31,10 +31,12 @@ public class NotificationBroadcastReceiver extends BroadcastReceiver {
 				Log.d("NotificationBroadcastReceivers",
 						"JSONException: " + e.getMessage());
 			}
-            Intent i = new Intent();
-            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            i.setAction("com.yolo.action.REMOTELOCKCONFIRM");
-            context.sendBroadcast(i);
-		}	
+
+		}
+        */
+        Intent i = new Intent();
+        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        i.setAction("com.yolo.action.REMOTELOCKCONFIRM");
+        context.sendBroadcast(i);
 	}
 }

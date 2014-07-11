@@ -55,7 +55,9 @@ public class ListAdapterSettings extends ArrayAdapter<String> {
 						cButtonState[i] = isChecked;
 						viewHolder.cbutton.setChecked(cButtonState[i]);
 					}
-					activity.currentUser.setAllNotificationPrefrences(isChecked);
+                    activity.currentUser.setReceiveEmails(isChecked);
+                    activity.currentUser.setReceivePushNotifications(isChecked);
+                    activity.currentUser.setReceiveSMS(isChecked);
 					activity.currentUser.saveInBackground();
 					notifyDataSetChanged();
 				}

@@ -8,6 +8,10 @@
     <string name="driving">Driver</string>
     <!-- Action Items -->
     <string name="action_signin">SignIn</string>
+
+    <!-- Notification Format -->
+    <string name="isDriverNotification">Your child is driving a vehicle.</string>
+    <string name="isPassengerNotification">Your child is a passenger of a moving vehicle.</string>
     
     <!-- Login/Account Items -->
     <string name="signIn">Sign In</string>

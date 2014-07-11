@@ -1,6 +1,6 @@
 Yolo
 ==================
-Develop an Android Application that locks phone when driving. Parental control features to send notification and allow remote locking features.
+Android Application to prevent texting and driving by locking android devices while in motion. The app can optionally be set to passenger mode which will disable the locking mechanism. Yolo provides parental controls to allow remotely locking children's devices from their phone.
 
 ## Description
 

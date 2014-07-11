@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:fillViewport="true"
+    style="@style/Match" >
+        
+    <EditText
+        android:id="@+id/name"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:hint="Child's Name"
+        android:inputType="text"
+        android:maxLength="15" />
+
+    <Button
+        android:id="@+id/addDevice"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@id/name"
+        android:layout_below="@id/name"
+        android:layout_marginTop="25dp"
+        android:text="Add Device" />
+ 
+</RelativeLayout>

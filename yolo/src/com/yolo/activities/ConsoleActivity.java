@@ -4,7 +4,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -26,6 +29,57 @@ import com.yolo.models.User;
 public class ConsoleActivity extends BaseActivity {
 	
 	private ListAdapterChildren adapter;
+
+    private BroadcastReceiver remoteLockReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(final Context context, final Intent intent) {
+            Log.w("add device intent", "intent");
+            String channel = app.DEVICE_CHANNEL + install.getObjectId();
+            String name = intent.getStringExtra("name");
+
+            JSONObject obj = new JSONObject();
+            boolean isUnique = true;
+
+            try {
+                obj.put("channel", channel);
+                obj.put("name", name);
+                JSONArray children = currentUser.getChildren();
+                for(int i = 0; i < children.length(); i++){
+                    JSONObject child = children.getJSONObject(i);
+                    String childChannel = (String) child.get("channel");
+                    if(childChannel.equalsIgnoreCase(channel)){
+                        isUnique = false;
+                    }
+                }
+                if(isUnique){
+                    currentUser.addUnique("children", obj);
+                    currentUser.saveInBackground();
+                }
+            }
+            catch (JSONException e){
+
+            }
+            try {
+                if(isUnique) {
+                    adapter.mChildren.put(adapter.mChildren.length(), obj);
+                    adapter.notifyDataSetChanged();
+                }
+            } catch (JSONException e){
+
+            }
+        }
+    };
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        registerReceiver(remoteLockReceiver, new IntentFilter("com.yolo.action.ADDDEVICE"));
+    }
+    @Override
+    public void onPause()
+    {
+        unregisterReceiver(remoteLockReceiver);
+    }
 		
 	/*********************************
 	 * OnCreate
@@ -67,7 +121,8 @@ public class ConsoleActivity extends BaseActivity {
 					);
 				try {
 					Log.v("childrenList.getString(position)", childrenList.getString(position));
-					sendNotificationsTo(childrenList.getString(position), data);
+                    JSONObject child = childrenList.getJSONObject(position);
+					sendNotificationsTo(child.getString("channel"), data);
 					
 				} catch (JSONException e) {
 					Log.w("exception", "Channel null");
@@ -76,7 +131,6 @@ public class ConsoleActivity extends BaseActivity {
 				Log.w("exception", "JSONObject null");
 			}
 		}
-		
 	}
 	
 	/*********************************
@@ -112,10 +166,8 @@ public class ConsoleActivity extends BaseActivity {
 	            startActivity(intent);
 				return true;
 		    case R.id.action_add_device:
-		    	//Add child Installation to parent User
-		    	String childChannel = app.DEVICE_CHANNEL + install.getObjectId();
-		    	currentUser.addUnique("children",childChannel);
-		    	currentUser.saveInBackground(new MySaveCallback(childChannel));
+                intent = new Intent(ConsoleActivity.this, AddDeviceActivity.class);
+                startActivity(intent);
 		    	return true;
 	        case R.id.action_signout:
 	    		logOut();
@@ -124,23 +176,7 @@ public class ConsoleActivity extends BaseActivity {
 	            return super.onOptionsItemSelected(item);
 	    }
 	}
-	
-	public class MySaveCallback extends SaveCallback{
-		
-		String channel;
-		
-		public MySaveCallback(String channel){
-			this.channel = channel;
-		}
-		
-		@Override
-		public void done(ParseException arg0) {
-			adapter.add(channel);
-	    	adapter.notifyDataSetChanged();
-			
-		}
-	}
-	
+
 	//Add parent User to child/current Installation 
 	public void logOut(){
 		if (currentUser != null) {
@@ -152,5 +188,4 @@ public class ConsoleActivity extends BaseActivity {
 		} 	
 		onBackPressed();
 	}
-	
 }

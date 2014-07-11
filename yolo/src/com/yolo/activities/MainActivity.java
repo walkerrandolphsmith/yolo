@@ -3,7 +3,6 @@ package com.yolo.activities;
 import org.json.JSONArray;
 import org.json.JSONException;
 
-import android.annotation.SuppressLint;
 import android.content.IntentFilter;
 import android.app.admin.DevicePolicyManager;
 import android.app.PendingIntent;
@@ -62,7 +61,16 @@ public class MainActivity extends BaseActivity {
         registerReceiver(remoteLockReceiver, new IntentFilter("com.yolo.action.REMOTELOCKCONFIRM"));
     }
 
-	/*********************************
+    @Override
+    public void onPause()
+    {
+        super.onPause();
+        //unregisterReceiver(remoteLockReceiver);
+        //unregisterReceiver(locationChangedReceiver);
+    }
+
+
+    /*********************************
 	 * OnCreate
 	 **********************************/
 
@@ -72,22 +80,22 @@ public class MainActivity extends BaseActivity {
 		super.onCreate(savedInstanceState);
 		getActionBar().setDisplayHomeAsUpEnabled(false);
 
-		 if (!app.devicePolicyManager.isAdminActive(app.mAdminName)) {
+        ParseAnalytics.trackAppOpened(getIntent());
+        PushService.setDefaultPushCallback(this, MainActivity.class);
+
+		 if (!app.getDevicePolicyManager().isAdminActive(app.getAdminName())) {
      		Intent intent = new Intent(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN);
-     		intent.putExtra(DevicePolicyManager.EXTRA_DEVICE_ADMIN, app.mAdminName);
+     		intent.putExtra(DevicePolicyManager.EXTRA_DEVICE_ADMIN, app.getAdminName());
      		startActivityForResult(intent, 1);
      	} 
-	    if(app.locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
+	    if(app.getLocationManager().isProviderEnabled(LocationManager.GPS_PROVIDER)){
             Intent location_intent = new Intent("com.yolo.action.LOCATIONCHANGE");
             PendingIntent launchIntent = PendingIntent.getBroadcast(this, 0, location_intent, 0);
             //provider string, min time between, min distance change, intent
-            app.locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10, 10, launchIntent);
+            app.getLocationManager().requestLocationUpdates(LocationManager.GPS_PROVIDER, 10, 10, launchIntent);
         }else{
            new NoGpsDialog(this).show();
 	    }
-
-	    ParseAnalytics.trackAppOpened(getIntent());
-	    PushService.setDefaultPushCallback(this, MainActivity.class);
 		
 		install.addUnique("channels", app.DEVICE_CHANNEL + install.getObjectId());
 		
@@ -149,7 +157,7 @@ public class MainActivity extends BaseActivity {
      **********************************/
 
     public void locationChanged() {
-        Location location = app.locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        Location location = app.getLocationManager().getLastKnownLocation(LocationManager.GPS_PROVIDER);
         if(location != null) {
             double speed = location.getSpeed() * 2.2369;
 
@@ -178,8 +186,8 @@ public class MainActivity extends BaseActivity {
      **********************************/
 
     public void lock() {
-        if(app.devicePolicyManager != null) {
-            app.devicePolicyManager.lockNow();
+        if(app.getDevicePolicyManager() != null) {
+            app.getDevicePolicyManager().lockNow();
         }
     }
 
@@ -202,13 +210,13 @@ public class MainActivity extends BaseActivity {
 	}
 	
 	/*********************************
-	 * Send Notifications to Parents
+	 * Determine which type of Notifications to send Parents
 	 **********************************/
 	
 	public void sendNotificationsToCallback(ParseUser parseUser){
 		User user = (User) parseUser;
 		String message = constructMessage();
-		
+
 	    if(user.getReceivePushNotifications()){
 	    	if(user.getObjectId() != null){
 	    		ParsePush push = new ParsePush();
@@ -222,22 +230,22 @@ public class MainActivity extends BaseActivity {
 		}
 		if(user.getReceiveSMS()){
 			if(user.getPhone() != null){
-				app.smsManager.sendTextMessage(user.getPhone(), "", message, null, null);
+				app.getSmsManager().sendTextMessage(user.getPhone(), "", message, null, null);
 			}
 		}
-		
+
 	}
-	
+
 	/*********************************
-	 * Construct Notification Message 
+	 * Construct Notification Message
 	 **********************************/
 
 	public String constructMessage() {
-		String message = "Your child is ";
+		String message;
 		if(isDriving){
-			message += "driving a vehicle.";
+            message = getResources().getString(R.string.isDriverNotification);
 		}else{
-			message += "a passenger in a moving vehicle";
+            message = getResources().getString(R.string.isPassengerNotification);
 		}
 		return message;
 	}

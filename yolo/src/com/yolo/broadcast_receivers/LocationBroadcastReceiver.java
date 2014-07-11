@@ -1,15 +1,8 @@
-package com.yolo;
+package com.yolo.broadcast_receivers;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
-
-import com.yolo.activities.MainActivity;
-import com.yolo.util.ConnectionManager;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 public class LocationBroadcastReceiver extends BroadcastReceiver {
 

@@ -18,12 +18,12 @@ public class Application extends android.app.Application {
 	public final String DEVICE_CHANNEL = "device_channel_";
 	public final String PARENT_CHANNEL = "parent_channel_";
 
-    public SmsManager smsManager;
-    public LocationManager locationManager;
-    public DevicePolicyManager devicePolicyManager;
-    public ComponentName mAdminName;
-
     public static class DeviceAdmin extends DeviceAdminReceiver { }
+
+    private SmsManager smsManager;
+    private LocationManager locationManager;
+    private DevicePolicyManager devicePolicyManager;
+    private ComponentName mAdminName;
 
     private Context context;
 
@@ -35,7 +35,23 @@ public class Application extends android.app.Application {
         this.context = context;
     }
 
-	@Override
+    public DevicePolicyManager getDevicePolicyManager() {
+        return devicePolicyManager;
+    }
+
+    public ComponentName getAdminName() {
+        return mAdminName;
+    }
+
+    public SmsManager getSmsManager() {
+        return smsManager;
+    }
+
+    public LocationManager getLocationManager() {
+        return locationManager;
+    }
+
+    @Override
 	public void onCreate() {
 		super.onCreate();
 

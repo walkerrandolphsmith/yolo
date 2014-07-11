@@ -83,6 +83,13 @@
 			android:parentActivityName="com.yolo.activities.ConsoleActivity">
 		</activity>
 
+        <activity
+            android:name="com.yolo.activities.AddDeviceActivity"
+            android:configChanges="orientation|screenSize"
+            android:label="@string/empty"
+            android:parentActivityName="com.yolo.activities.ConsoleActivity">
+        </activity>
+
 		<receiver 
 		    android:name="com.yolo.Application$DeviceAdmin"
 		    android:label="@string/app_name"
@@ -112,7 +119,7 @@
 			</intent-filter>
 		</receiver>
 		<receiver 
-		    android:name="com.yolo.NotificationBroadcastReceiver" 
+		    android:name="com.yolo.broadcast_receivers.NotificationBroadcastReceiver"
 		    android:exported="false">
   			<intent-filter>
    			 <action android:name="com.example.UPDATE_STATUS" />
@@ -120,7 +127,7 @@
 		</receiver>
 
         <receiver
-            android:name="com.yolo.LocationBroadcastReceiver"
+            android:name="com.yolo.broadcast_receivers.LocationBroadcastReceiver"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.yolo.action.LOCATIONCHANGE" />
