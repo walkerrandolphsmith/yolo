@@ -1,9 +1,5 @@
 package com.yolo.activities;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -18,13 +14,15 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
-import com.parse.ParseException;
 import com.parse.ParsePush;
 import com.parse.ParseUser;
-import com.parse.SaveCallback;
 import com.yolo.ListAdapterChildren;
 import com.yolo.R;
 import com.yolo.models.User;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class ConsoleActivity extends BaseActivity {
 	
@@ -78,7 +76,8 @@ public class ConsoleActivity extends BaseActivity {
     @Override
     public void onPause()
     {
-        unregisterReceiver(remoteLockReceiver);
+        super.onPause();
+       // unregisterReceiver(remoteLockReceiver);
     }
 		
 	/*********************************

@@ -3,13 +3,42 @@
     android:fillViewport="true"
     style="@style/Match" >
 
-   <ToggleButton
-       android:id="@+id/isDrivingToggleButton"
-       android:layout_width="fill_parent"
-       android:layout_height="wrap_content"
-       android:layout_alignParentBottom="true"
-       android:layout_marginBottom="28dp"
-       android:textOff="@string/passenger"
-       android:textOn="@string/driving" />
- 
+    <ToggleButton
+        android:id="@+id/isDrivingToggleButton"
+        android:layout_width="260dip"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="35dip"
+        android:textOff="@string/passenger"
+        android:textOn="@string/driving" />
+
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_centerInParent="true"
+        android:src="@drawable/ic_launcher"
+        android:contentDescription="@string/app_name"
+        style="@style/Wrap"/>
+
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dip"
+        android:layout_below="@+id/logo"
+        android:textColor="@color/full_blue"
+        android:textSize="36sp"
+        android:text="@string/app_name"/>
+
+    <TextView
+        android:id="@+id/signIn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="20dp"
+        android:textColor="@color/full_blue"
+        android:textSize="24sp"
+        android:text="@string/signIn"
+        android:clickable="true"/>
 </RelativeLayout>

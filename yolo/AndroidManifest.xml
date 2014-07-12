@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
 	package="com.yolo" android:versionCode="1" android:versionName="1.0">
 
-	<uses-sdk android:minSdkVersion="11" android:targetSdkVersion="19" />
+	<uses-sdk android:minSdkVersion="16" android:targetSdkVersion="19" />
 
 	<permission android:protectionLevel="signature"
     	android:name="com.yolo.permission.C2D_MESSAGE" />
@@ -51,7 +51,7 @@
 
 		<activity 
 		    android:name="com.yolo.activities.MainActivity"
-			android:configChanges="orientation|screenSize" 
+			android:configChanges="orientation|screenSize"
 			android:label="@string/empty">
 		</activity>
 		

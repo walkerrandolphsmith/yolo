@@ -1,13 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:background="@color/black"
+    android:background="@color/full_blue"
     style="@style/Match" >
      
     <ImageView
         android:id="@+id/logo"
         android:layout_centerInParent="true"
-        android:src="@drawable/logo" 
+        android:src="@drawable/ic_launcher"
         android:contentDescription="@string/app_name"
         style="@style/Wrap"/>
+
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dip"
+        android:layout_below="@+id/logo"
+        android:textColor="@color/white"
+        android:textSize="36sp"
+        android:text="@string/app_name"/>
 
 </RelativeLayout>

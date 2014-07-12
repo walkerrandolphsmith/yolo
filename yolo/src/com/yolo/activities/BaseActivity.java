@@ -39,9 +39,7 @@ public class BaseActivity extends Activity {
         }else if(config.isLayoutSizeAtLeast(Configuration.SCREENLAYOUT_SIZE_SMALL)){
         	
         }
-        
-		getActionBar().setDisplayHomeAsUpEnabled(true);
-
+	    getActionBar().setDisplayHomeAsUpEnabled(true);
 	}
 	
 	/*********************************

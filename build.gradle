@@ -15,7 +15,7 @@ android {
     compileSdkVersion 19
     
     defaultConfig {
-    	minSdkVersion 11
+    	minSdkVersion 16
     	targetSdkVersion 19
     	versionCode 1
     	versionName "1.0"
@@ -50,12 +50,17 @@ android {
 
 repositories {
   mavenCentral()
+
+    maven {
+        url "https://repo.commonsware.com.s3.amazonaws.com"
+    }
 }
 
 dependencies {
 	compile 'com.android.support:support-v4:19.0.1'
 	compile 'com.google.android.gms:play-services:4.+'
-	compile files('yolo/libs/Parse-1.5.0.jar')
+    compile 'com.commonsware.cwac:merge:1.0.2'
+    compile files('yolo/libs/Parse-1.5.0.jar')
 }
 
 task wrapper(type: Wrapper) {

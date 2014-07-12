@@ -7,9 +7,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.parse.LogInCallback;
-import com.parse.ParseException;
-import com.parse.ParseUser;
 import com.yolo.R;
 
 public class AddDeviceActivity extends BaseActivity{
@@ -56,7 +53,6 @@ public class AddDeviceActivity extends BaseActivity{
             focusView.requestFocus();
         } else {
             Intent i = new Intent();
-            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             i.putExtra("name", username);
             i.setAction("com.yolo.action.ADDDEVICE");
             sendBroadcast(i);

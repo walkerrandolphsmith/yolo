@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import com.yolo.activities.SettingsActivity;
 
-public class ListAdapterSettings extends ArrayAdapter<String> {
+public class ListAdapterSettingsNotifications extends ArrayAdapter<String> {
 
 	private static final int NOTIFY_PUSH = 0;
 	private static final int NOTIFY_SMS = 1;
@@ -28,8 +28,8 @@ public class ListAdapterSettings extends ArrayAdapter<String> {
 	private CompoundButton selectAll;
 	private boolean isFallback;
 	
-	public ListAdapterSettings(final SettingsActivity activity, int textViewResourceId,
-			String[] settings, CompoundButton selectAll, boolean isFallback) {
+	public ListAdapterSettingsNotifications(final SettingsActivity activity, int textViewResourceId,
+                                            String[] settings, CompoundButton selectAll, boolean isFallback) {
 
 		super(activity, textViewResourceId, settings);
 
@@ -53,7 +53,7 @@ public class ListAdapterSettings extends ArrayAdapter<String> {
 				if(!flag){
 					for (int i = 0; i < cButtonState.length; i++) {
 						cButtonState[i] = isChecked;
-						viewHolder.cbutton.setChecked(cButtonState[i]);
+						viewHolder.cbutton.setChecked(isChecked);
 					}
                     activity.currentUser.setReceiveEmails(isChecked);
                     activity.currentUser.setReceivePushNotifications(isChecked);

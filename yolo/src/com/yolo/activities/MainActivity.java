@@ -1,25 +1,20 @@
 package com.yolo.activities;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-
-import android.content.IntentFilter;
-import android.app.admin.DevicePolicyManager;
 import android.app.PendingIntent;
+import android.app.admin.DevicePolicyManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.location.LocationManager;
+import android.content.IntentFilter;
 import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.CompoundButton;
 import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.ToggleButton;
 
 import com.parse.GetCallback;
@@ -32,6 +27,9 @@ import com.parse.PushService;
 import com.yolo.R;
 import com.yolo.dialogs.NoGpsDialog;
 import com.yolo.models.User;
+
+import org.json.JSONArray;
+import org.json.JSONException;
 
 
 public class MainActivity extends BaseActivity {
@@ -78,8 +76,8 @@ public class MainActivity extends BaseActivity {
 	public void onCreate(Bundle savedInstanceState) {
 
 		super.onCreate(savedInstanceState);
-		getActionBar().setDisplayHomeAsUpEnabled(false);
-
+		//getActionBar().setDisplayHomeAsUpEnabled(false);
+        getActionBar().hide();
         ParseAnalytics.trackAppOpened(getIntent());
         PushService.setDefaultPushCallback(this, MainActivity.class);
 
@@ -116,6 +114,15 @@ public class MainActivity extends BaseActivity {
 		            });
 		        }
 		}
+
+        TextView signIn = (TextView) findViewById(R.id.signIn);
+        signIn.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, SignInActivity.class);
+                startActivity(intent);
+            }
+        });
   	}
 
 	/*********************************
@@ -126,30 +133,6 @@ public class MainActivity extends BaseActivity {
 		public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 			isDriving = (isChecked ? true : false);	
 		}
-	}
-
-
-	/*********************************
-	 * ActionBar MenuItems
-	 **********************************/
-	
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-	    MenuInflater inflater = getMenuInflater();
-	    inflater.inflate(R.menu.activity_main_menu_actions, menu);
-	    return super.onCreateOptionsMenu(menu);
-	}
-	
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-	    switch (item.getItemId()) {
-	        case R.id.action_signin:
-	        	Intent intent = new Intent(MainActivity.this, SignInActivity.class);
-	            startActivity(intent);
-	            return true;
-	        default:
-	            return super.onOptionsItemSelected(item);
-	    }
 	}
 
     /*********************************

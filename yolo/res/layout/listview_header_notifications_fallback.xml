@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
     android:padding="10dip" >
 
@@ -14,6 +14,9 @@
             android:id="@+id/selectAllCheckBoxLabel"
             android:layout_width="240dp"
             android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerInParent="true"
+            android:textSize="24sp"
             android:text="@string/notifications" />
 
         <CheckBox
@@ -24,19 +27,4 @@
             android:scaleX="1.50"
             android:scaleY="1.50" />
     </RelativeLayout>
-
-    <ListView
-        android:id="@android:id/list"
-        android:layout_width="match_parent"
-        android:layout_height="fill_parent"
-        android:choiceMode="singleChoice"
-        android:divider="@android:color/transparent"
-        android:dividerHeight="0dp" />
-
-    <TextView
-        android:id="@android:id/empty"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:text="@string/app_name" />
-
 </LinearLayout>
