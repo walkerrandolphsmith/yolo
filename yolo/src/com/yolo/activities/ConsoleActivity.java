@@ -103,11 +103,7 @@ public class ConsoleActivity extends BaseActivity {
 	 **********************************/
 	
 	public class remoteLockDeviceItemClickListener implements OnItemClickListener {
-		public JSONArray childrenList;
-		public remoteLockDeviceItemClickListener(){
-			this.childrenList = currentUser.getChildren();
-		}
-		
+
 		@Override
 		public void onItemClick(AdapterView<?> adapterView, View v, int position, long l){
 			//Parent send notification to child to remote lock
@@ -120,8 +116,9 @@ public class ConsoleActivity extends BaseActivity {
 					+ "}"
 					);
 				try {
-					Log.v("childrenList.getString(position)", childrenList.getString(position));
-                    JSONObject child = childrenList.getJSONObject(position);
+					Log.v("childrenList.getString(position)", adapter.mChildren.getJSONObject(position).toString());
+
+                    JSONObject child = adapter.mChildren.getJSONObject(position); //childrenList.getJSONObject(position);
 					sendNotificationsTo(child.getString("channel"), data);
 					
 				} catch (JSONException e) {
