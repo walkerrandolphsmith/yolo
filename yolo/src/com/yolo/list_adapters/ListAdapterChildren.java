@@ -1,4 +1,4 @@
-package com.yolo;
+package com.yolo.list_adapters;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import com.yolo.R;
 import com.yolo.activities.ConsoleActivity;
 
 public class ListAdapterChildren extends ArrayAdapter<String> {

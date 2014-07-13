@@ -16,7 +16,7 @@ import android.widget.ListView;
 
 import com.parse.ParsePush;
 import com.parse.ParseUser;
-import com.yolo.ListAdapterChildren;
+import com.yolo.list_adapters.ListAdapterChildren;
 import com.yolo.R;
 import com.yolo.models.User;
 
@@ -59,6 +59,7 @@ public class ConsoleActivity extends BaseActivity {
             }
             try {
                 if(isUnique) {
+                    if(obj != null)
                     adapter.mChildren.put(adapter.mChildren.length(), obj);
                     adapter.notifyDataSetChanged();
                 }

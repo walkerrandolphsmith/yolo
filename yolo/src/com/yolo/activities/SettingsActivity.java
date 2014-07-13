@@ -10,8 +10,8 @@ import android.widget.Switch;
 
 import com.commonsware.cwac.merge.MergeAdapter;
 import com.parse.ParseUser;
-import com.yolo.ListAdapterSettingsNotifications;
-import com.yolo.ListAdapterSettingsAccount;
+import com.yolo.list_adapters.ListAdapterSettingsNotifications;
+import com.yolo.list_adapters.ListAdapterSettingsAccount;
 import com.yolo.R;
 import com.yolo.models.User;
 

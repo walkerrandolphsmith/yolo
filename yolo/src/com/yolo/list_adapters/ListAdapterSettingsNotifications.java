@@ -1,4 +1,4 @@
-package com.yolo;
+package com.yolo.list_adapters;
 
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import com.yolo.R;
 import com.yolo.activities.SettingsActivity;
 
 public class ListAdapterSettingsNotifications extends ArrayAdapter<String> {
