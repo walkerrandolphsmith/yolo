@@ -5,20 +5,21 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ListView;
 
+import com.fortysevendeg.swipelistview.BaseSwipeListViewListener;
+import com.fortysevendeg.swipelistview.SwipeListView;
 import com.parse.ParsePush;
 import com.parse.ParseUser;
-import com.yolo.list_adapters.ListAdapterChildren;
 import com.yolo.R;
+import com.yolo.list_adapters.ListAdapterChildren;
 import com.yolo.models.User;
+import com.yolo.util.SettingsManager;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -69,10 +70,30 @@ public class ConsoleActivity extends BaseActivity {
         }
     };
 
+    private BroadcastReceiver editDeviceReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(final Context context, final Intent intent) {
+            String name = intent.getStringExtra("name");
+            int editedPosition = intent.getIntExtra("position", 0);
+
+            try {
+                JSONObject ob = adapter.mChildren.getJSONObject(editedPosition);
+                ob.put("name", name);
+                adapter.mChildren.put(editedPosition,ob);
+                adapter.notifyDataSetChanged();
+                currentUser.getChildren().put(editedPosition,ob);
+                currentUser.saveInBackground();
+            }catch (JSONException e){
+
+            }
+        }
+    };
+
     @Override
     public void onResume() {
         super.onResume();
         registerReceiver(remoteLockReceiver, new IntentFilter("com.yolo.action.ADDDEVICE"));
+        registerReceiver(editDeviceReceiver, new IntentFilter("com.yolo.action.EDITDEVICE"));
     }
     @Override
     public void onPause()
@@ -92,44 +113,76 @@ public class ConsoleActivity extends BaseActivity {
 
 		currentUser = (User) ParseUser.getCurrentUser();
 
-		final ListView mListView = (ListView)findViewById(android.R.id.list);
-		adapter = new ListAdapterChildren(this);
+        adapter = new ListAdapterChildren(this, currentUser.getChildren());
+        final SwipeListView mListView = (SwipeListView)findViewById(R.id.swipelist);
+        mListView.setSwipeListViewListener(new BaseSwipeListViewListener() {
+            @Override
+            public void onOpened(int position, boolean toRight) {
+
+            }
+
+            @Override
+            public void onClosed(int position, boolean fromRight) {
+
+            }
+
+            @Override
+            public void onListChanged() {
+            }
+
+            @Override
+            public void onMove(int position, float x) {
+            }
+
+            @Override
+            public void onStartOpen(final int position, int action, boolean right) {
+
+            }
+
+            @Override
+            public void onStartClose(int position, boolean right) {
+
+            }
+
+            @Override
+            public void onClickFrontView(int position) {
+
+            }
+
+            @Override
+            public void onClickBackView(int position) {
+
+            }
+
+            @Override
+            public void onDismiss(int[] reverseSortedPositions) {
+                for (int position : reverseSortedPositions) {
+                }
+                adapter.notifyDataSetChanged();
+            }
+
+        });
 		mListView.setAdapter(adapter);
-		mListView.setOnItemClickListener(new remoteLockDeviceItemClickListener()); 
+        load(mListView);
 	}
-	
-	/*********************************
-	 * Remote Lock Device Item Click Listener
-	 **********************************/
-	
-	public class remoteLockDeviceItemClickListener implements OnItemClickListener {
 
-		@Override
-		public void onItemClick(AdapterView<?> adapterView, View v, int position, long l){
-			//Parent send notification to child to remote lock
-	        JSONObject data = null;
-			try {
-				data = new JSONObject(
-					  "{"
-					+ "\"action\": \"com.example.UPDATE_STATUS\","
-					+  "\"alert\": \"Your phone has been locked by Yolo. Contact Parent or Guardian.\""
-					+ "}"
-					);
-				try {
-					Log.v("childrenList.getString(position)", adapter.mChildren.getJSONObject(position).toString());
+    public void load (SwipeListView mListView) {
+        SettingsManager settings = SettingsManager.getInstance();
+        mListView.setSwipeMode(settings.getSwipeMode());
+        mListView.setSwipeActionLeft(settings.getSwipeActionLeft());
+        mListView.setSwipeActionRight(settings.getSwipeActionRight());
+        mListView.setOffsetLeft(convertDpToPixel(settings.getSwipeOffsetLeft()));
+        mListView.setOffsetRight(convertDpToPixel(settings.getSwipeOffsetRight()));
+        mListView.setAnimationTime(settings.getSwipeAnimationTime());
+        mListView.setSwipeOpenOnLongPress(settings.isSwipeOpenOnLongPress());
+    }
 
-                    JSONObject child = adapter.mChildren.getJSONObject(position); //childrenList.getJSONObject(position);
-					sendNotificationsTo(child.getString("channel"), data);
-					
-				} catch (JSONException e) {
-					Log.w("exception", "Channel null");
-				}
-			} catch (JSONException e) {
-				Log.w("exception", "JSONObject null");
-			}
-		}
-	}
-	
+    public int convertDpToPixel(float dp) {
+        DisplayMetrics metrics = getResources().getDisplayMetrics();
+        float px = dp * (metrics.densityDpi / 160f);
+        return (int) px;
+    }
+
 	/*********************************
 	 * Send Notifications to Child 
 	 **********************************/
@@ -166,9 +219,6 @@ public class ConsoleActivity extends BaseActivity {
                 intent = new Intent(ConsoleActivity.this, AddDeviceActivity.class);
                 startActivity(intent);
 		    	return true;
-	        case R.id.action_signout:
-	    		logOut();
-	            return true;
 	        default:
 	            return super.onOptionsItemSelected(item);
 	    }
@@ -185,4 +235,53 @@ public class ConsoleActivity extends BaseActivity {
 		} 	
 		onBackPressed();
 	}
+
+    /*********************************
+     * Remote Lock Device Item Click Listener
+     **********************************/
+
+    public class remoteLockListener implements View.OnClickListener {
+        public int position;
+        public remoteLockListener (int position) {this.position = position;}
+        @Override
+        public void onClick(View view) {
+            JSONObject data = null;
+            try {
+                data = new JSONObject(
+                        "{"
+                                + "\"action\": \"com.example.UPDATE_STATUS\","
+                                +  "\"alert\": \"Your phone has been locked by Yolo. Contact Parent or Guardian.\""
+                                + "}"
+                );
+                try {
+                    Log.v("childrenList.getString(position)", adapter.mChildren.getJSONObject(position).toString());
+
+                    JSONObject child = adapter.mChildren.getJSONObject(position);
+                    sendNotificationsTo(child.getString("channel"), data);
+
+                } catch (JSONException e) {
+                    Log.w("exception", "Channel null");
+                }
+            } catch (JSONException e) {
+                Log.w("exception", "JSONObject null");
+            }
+        }
+    }
+
+    /*********************************
+     * Remote Lock Device Item Click Listener
+     **********************************/
+
+    public class deleteChildListener implements View.OnClickListener {
+        public int position;
+        public deleteChildListener (int position) {this.position = position;}
+        @Override
+        public void onClick(View view) {
+            adapter.mChildren.remove(position);
+            currentUser.getChildren().remove(position);
+            currentUser.saveInBackground();
+            adapter.notifyDataSetChanged();
+        }
+    }
+
 }

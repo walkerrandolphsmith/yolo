@@ -28,7 +28,10 @@
     
      <!-- Conosle Activity -->
     <string name="settings">Settings</string>
-  
+
+    <string name="delete">delete</string>
+    <string name="lock">lock</string>
+    <string name="edit">rename</string>
     <!-- Settings Fragment -->
     <string name="notifications">Notifications</string>
     <string name="receivePushNotifications">Push Notifications</string>

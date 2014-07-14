@@ -20,7 +20,7 @@ public class ListAdapterSettingsAccount extends ArrayAdapter<String> {
 
 	private SettingsActivity activity;
 	private int textViewResourceId;
-	private String[] settings;
+	public String[] settings;
 
 	public ListAdapterSettingsAccount(final SettingsActivity activity, int textViewResourceId,
                                       String[] settings) {

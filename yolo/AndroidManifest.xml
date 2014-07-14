@@ -66,7 +66,7 @@
 		    android:name="com.yolo.activities.SignUpActivity"
 			android:configChanges="orientation|screenSize" 
 			android:label="@string/empty"
-			android:parentActivityName="com.yolo.activities.ConsoleActivity">	
+			android:parentActivityName="com.yolo.activities.SignInActivity">
 		</activity>
 		
 		<activity 
@@ -75,6 +75,20 @@
 			android:label="@string/empty"
 			android:parentActivityName="com.yolo.activities.MainActivity">
 		</activity>
+
+        <activity
+            android:name="com.yolo.activities.AddDeviceActivity"
+            android:configChanges="orientation|screenSize"
+            android:label="@string/empty"
+            android:parentActivityName="com.yolo.activities.ConsoleActivity">
+        </activity>
+
+        <activity
+            android:name="com.yolo.activities.EditDeviceActivity"
+            android:configChanges="orientation|screenSize"
+            android:label="@string/empty"
+            android:parentActivityName="com.yolo.activities.ConsoleActivity">
+        </activity>
 		
 		<activity 
 		    android:name="com.yolo.activities.SettingsActivity"
@@ -84,10 +98,10 @@
 		</activity>
 
         <activity
-            android:name="com.yolo.activities.AddDeviceActivity"
+            android:name="com.yolo.activities.EditPasswordActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/empty"
-            android:parentActivityName="com.yolo.activities.ConsoleActivity">
+            android:parentActivityName="com.yolo.activities.SettingsActivity">
         </activity>
 
 		<receiver 

@@ -1,7 +1,5 @@
 package com.yolo.activities;
 
-import java.util.ArrayList;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -11,12 +9,9 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.parse.ParseException;
-import com.parse.ParseObject;
 import com.parse.SignUpCallback;
 import com.yolo.R;
 import com.yolo.models.User;
-
-import org.json.JSONArray;
 
 public class SignUpActivity extends BaseActivity {
 	
@@ -136,6 +131,18 @@ public class SignUpActivity extends BaseActivity {
         {
             mEmail.setError(getString(R.string.error_invalid_email));
             focusView = mEmail;
+            cancel = true;
+        }
+
+        if (TextUtils.isEmpty(phone))
+        {
+            mPhone.setError("This feild is required.");
+            focusView = mPhone;
+            cancel = true;
+        }
+        else if(phone.length() < 7 || phone.length() > 10){
+            mPhone.setError("This is not a valid phone number.");
+            focusView = mPhone;
             cancel = true;
         }
         

@@ -12,9 +12,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.Switch;
-import android.widget.TextView;
 import android.widget.ToggleButton;
 
 import com.parse.GetCallback;
@@ -115,7 +115,7 @@ public class MainActivity extends BaseActivity {
 		        }
 		}
 
-        TextView signIn = (TextView) findViewById(R.id.signIn);
+        Button signIn = (Button) findViewById(R.id.signIn);
         signIn.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {

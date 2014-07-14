@@ -54,12 +54,17 @@ repositories {
     maven {
         url "https://repo.commonsware.com.s3.amazonaws.com"
     }
+
+    maven { url 'http://clinker.47deg.com/nexus/content/groups/public' }
 }
 
 dependencies {
 	compile 'com.android.support:support-v4:19.0.1'
 	compile 'com.google.android.gms:play-services:4.+'
     compile 'com.commonsware.cwac:merge:1.0.2'
+    compile ('com.fortysevendeg.swipelistview:swipelistview:1.0-SNAPSHOT@aar') {
+        transitive = true
+    }
     compile files('yolo/libs/Parse-1.5.0.jar')
 }
 

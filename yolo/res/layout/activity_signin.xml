@@ -31,7 +31,9 @@
         android:layout_alignRight="@id/password"
         android:layout_below="@id/password"
         android:layout_marginTop="25dp"
-        android:text="@string/signIn" />
+        android:text="@string/signIn"
+        style="@style/Button"
+        />
     
     <Button
         android:id="@+id/signUp"
@@ -40,6 +42,8 @@
         android:layout_alignRight="@id/password"
         android:layout_below="@id/signIn"
         android:layout_marginTop="25dp"
-        android:text="@string/createAccount" />
+        android:text="@string/createAccount"
+        style="@style/Button"
+        />
  
 </RelativeLayout>

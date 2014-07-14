@@ -7,8 +7,4 @@
           android:showAsAction="always"
           android:icon="@drawable/ic_action_add"
           android:title="@string/signOut" />
-    <item android:id="@+id/action_signout"
-          android:showAsAction="always"
-          android:icon="@drawable/ic_action_signout"
-          android:title="@string/signOut" />
 </menu>

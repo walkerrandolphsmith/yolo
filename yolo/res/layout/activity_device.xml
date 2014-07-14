@@ -13,13 +13,27 @@
         android:inputType="text"
         android:maxLength="15" />
 
+    <EditText
+        android:id="@+id/confirm"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/name"
+        android:layout_marginTop="50dp"
+        android:hint="Child's Name"
+        android:inputType="text"
+        android:maxLength="15"
+        android:visibility="gone"
+        />
+
     <Button
-        android:id="@+id/addDevice"
+        android:id="@+id/device_button"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_alignRight="@id/name"
-        android:layout_below="@id/name"
+        android:layout_below="@id/confirm"
         android:layout_marginTop="25dp"
-        android:text="Add Device" />
+        android:text="Add Device"
+        style="@style/Button"/>
  
 </RelativeLayout>
