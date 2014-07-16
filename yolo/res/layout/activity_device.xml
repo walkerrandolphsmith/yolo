@@ -27,7 +27,7 @@
         />
 
     <Button
-        android:id="@+id/device_button"
+        android:id="@+id/update_account_btn"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_alignRight="@id/name"

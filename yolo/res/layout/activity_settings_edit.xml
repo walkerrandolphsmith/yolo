@@ -47,7 +47,7 @@
         />
 
     <Button
-        android:id="@+id/device_button"
+        android:id="@+id/update_account_btn"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_alignRight="@id/name"
@@ -55,5 +55,16 @@
         android:layout_marginTop="25dp"
         android:text="Update Account"
         style="@style/Button"/>
+
+    <Button
+        android:id="@+id/delete_account_btn"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@id/name"
+        android:layout_below="@id/update_account_btn"
+        android:layout_marginTop="25dp"
+        android:text="Delete Account"
+        style="@style/Button"
+        android:background="@drawable/btn_red_light"/>
  
 </RelativeLayout>

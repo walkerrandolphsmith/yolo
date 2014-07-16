@@ -1,12 +1,8 @@
 package com.yolo.models;
 
-import java.util.ArrayList;
+import com.parse.ParseUser;
 
 import org.json.JSONArray;
-import org.json.JSONObject;
-
-import com.parse.ParseObject;
-import com.parse.ParseUser;
 
 public class User extends ParseUser{
 		
@@ -55,5 +51,7 @@ public class User extends ParseUser{
 	public void setReceiveSMS(boolean willReceive){
         this.put("receiveSMS", willReceive);
 	}
+
+    public boolean getEmailVerified() { return getBoolean("emailVerified");}
 
 }

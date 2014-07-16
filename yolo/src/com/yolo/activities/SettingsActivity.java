@@ -14,44 +14,70 @@ import android.widget.ListView;
 import android.widget.Switch;
 
 import com.commonsware.cwac.merge.MergeAdapter;
+import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.yolo.R;
+import com.yolo.dialogs.EmailVerificationDialog;
 import com.yolo.list_adapters.ListAdapterSettingsAccount;
 import com.yolo.list_adapters.ListAdapterSettingsNotifications;
 import com.yolo.models.User;
+
+import java.util.ArrayList;
 
 public class SettingsActivity extends BaseActivity {
 		
 	private final String[] notificationTypes = {"Push Notifications", "Text Messages", "Emails"};
     public ListAdapterSettingsAccount accountAdapter;
 
-    private BroadcastReceiver editPasswordReceiver = new BroadcastReceiver() {
+    private BroadcastReceiver updateAccountReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(final Context context, final Intent intent) {
             String password = intent.getStringExtra("password");
             String email = intent.getStringExtra("email");
             String phone = intent.getStringExtra("phone");
-
-            if (!password.isEmpty()) {
-                currentUser.setPassword(password);
+            try {
+                currentUser.refresh();
+            } catch (ParseException e) {
+                e.printStackTrace();
             }
+            if(currentUser.getEmailVerified()) {
+                if (!password.isEmpty()) {
+                    currentUser.setPassword(password);
+                }
+                if (!phone.isEmpty()) {
+                    currentUser.setPhone(phone);
+                    accountAdapter.settings[2] = phone;
+                }
+            }
+            else{
+                showEmailVerificationDialog();
+            }
+
             if (!email.isEmpty()) {
                 currentUser.setEmail(email);
                 accountAdapter.settings[3] = email;
-            }
-            if(!phone.isEmpty()) {
-                currentUser.setPhone(phone);
-                accountAdapter.settings[2] = phone;
             }
             accountAdapter.notifyDataSetChanged();
             currentUser.saveInBackground();
         }
     };
 
+    private BroadcastReceiver deleteAccountReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(final Context context, final Intent intent) {
+            currentUser.deleteInBackground();
+            install.put("channels", new ArrayList<String>());
+            install.saveInBackground();
+            Intent i = new Intent(SettingsActivity.this, MainActivity.class);
+            startActivity(i);
+        }
+    };
+
     @Override
     public void onResume() {
         super.onResume();
-        registerReceiver(editPasswordReceiver, new IntentFilter("com.yolo.action.EDITACCOUNT"));
+        registerReceiver(updateAccountReceiver, new IntentFilter("com.yolo.action.EDITACCOUNT"));
+        registerReceiver(deleteAccountReceiver, new IntentFilter("com.yolo.action.DELETEACCOUNT"));
     }
 
 	/*********************************
@@ -63,7 +89,7 @@ public class SettingsActivity extends BaseActivity {
 		super.onCreate(savedInstanceState);
 		currentUser = (User) ParseUser.getCurrentUser();
 
-        View header;
+        View notificationPreferencesHeader;
 		CompoundButton chkAll;
 		boolean isFallback;
 		int resourceId;
@@ -72,25 +98,26 @@ public class SettingsActivity extends BaseActivity {
 			isFallback = false;
 
 			resourceId = R.layout.each_settings_notifications;
-            header = getLayoutInflater().inflate(R.layout.listview_header_notifications, null, false);
-            chkAll = (Switch) header.findViewById(R.id.selectAllSwitch);
+            notificationPreferencesHeader = getLayoutInflater().inflate(R.layout.listview_header_notifications, null, false);
+            chkAll = (Switch) notificationPreferencesHeader.findViewById(R.id.selectAllSwitch);
 		}else{
 			isFallback = true;
 
 			resourceId = R.layout.each_settings_notifications_fallback;
-            header = getLayoutInflater().inflate(R.layout.listview_header_notifications_fallback, null, false);
-            chkAll = (CheckBox) header.findViewById(R.id.selectAllCheckBox);
+            notificationPreferencesHeader = getLayoutInflater().inflate(R.layout.listview_header_notifications_fallback, null, false);
+            chkAll = (CheckBox) notificationPreferencesHeader.findViewById(R.id.selectAllCheckBox);
         }
 		final ListView mListView = (ListView)findViewById(android.R.id.list);
         ListAdapterSettingsNotifications notificationAdapter = new ListAdapterSettingsNotifications(this, resourceId, notificationTypes, chkAll, isFallback);
         accountAdapter = new ListAdapterSettingsAccount(this,R.layout.each_settings_account,new String[]{currentUser.getUsername().toUpperCase(), "Change Password", currentUser.getPhone(), currentUser.getEmail()});
 
         MergeAdapter mergeAdapter = new MergeAdapter();
-        mergeAdapter.addView(header);
+        mergeAdapter.addView(notificationPreferencesHeader);
         mergeAdapter.addAdapter(notificationAdapter);
-        View header2 = getLayoutInflater().inflate(R.layout.listview_header_account, null, false);
-        mergeAdapter.addView(header2);
-        Button updateAccount = (Button) header2.findViewById(R.id.update_account);
+
+        View accountHeader = getLayoutInflater().inflate(R.layout.listview_header_account, null, false);
+        mergeAdapter.addView(accountHeader);
+        Button updateAccount = (Button) accountHeader.findViewById(R.id.update_account);
         updateAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -99,10 +126,12 @@ public class SettingsActivity extends BaseActivity {
             }
         });
         mergeAdapter.addAdapter(accountAdapter);
-
-
 		mListView.setAdapter(mergeAdapter);
 	}
+
+    public void showEmailVerificationDialog(){
+        new EmailVerificationDialog(this).show();
+    }
 	
 	
 	/*********************************

@@ -32,6 +32,16 @@ android {
             assets.srcDirs = ['yolo/assets']
         }
     }
+
+    packagingOptions {
+        exclude 'META-INF/jersey-module-version'
+        exclude 'META-INF/services/com.sun.jersey.spi.inject.InjectableProvider'
+        exclude 'META-INF/services/java.ws.rs.ext.MessageBodyReader'
+        exclude 'META-INF/services/javax.ws.rs.ext.MessageBodyReader'
+        exclude 'META-INF/services/javax.ws.rs.ext.MessageBodyWriter'
+
+
+    }
     
     signingConfigs{
       unsigned{
@@ -62,6 +72,8 @@ dependencies {
 	compile 'com.android.support:support-v4:19.0.1'
 	compile 'com.google.android.gms:play-services:4.+'
     compile 'com.commonsware.cwac:merge:1.0.2'
+    compile 'org.apache.commons:commons-lang3:3.0'
+
     compile ('com.fortysevendeg.swipelistview:swipelistview:1.0-SNAPSHOT@aar') {
         transitive = true
     }

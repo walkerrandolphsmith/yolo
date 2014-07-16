@@ -17,8 +17,10 @@ import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.ToggleButton;
 
+import com.parse.FunctionCallback;
 import com.parse.GetCallback;
 import com.parse.ParseAnalytics;
+import com.parse.ParseCloud;
 import com.parse.ParseException;
 import com.parse.ParsePush;
 import com.parse.ParseQuery;
@@ -31,10 +33,12 @@ import com.yolo.models.User;
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import java.util.HashMap;
 
 public class MainActivity extends BaseActivity {
 		
 	public boolean isDriving;
+    private PendingIntent launchIntent;
 
     private BroadcastReceiver locationChangedReceiver = new BroadcastReceiver() {
         @Override
@@ -63,6 +67,7 @@ public class MainActivity extends BaseActivity {
     public void onPause()
     {
         super.onPause();
+        //app.getLocationManager().removeUpdates(launchIntent);
         //unregisterReceiver(remoteLockReceiver);
         //unregisterReceiver(locationChangedReceiver);
     }
@@ -80,6 +85,8 @@ public class MainActivity extends BaseActivity {
         getActionBar().hide();
         ParseAnalytics.trackAppOpened(getIntent());
         PushService.setDefaultPushCallback(this, MainActivity.class);
+        install.addUnique("channels", app.DEVICE_CHANNEL + install.getObjectId());
+        install.saveInBackground();
 
 		 if (!app.getDevicePolicyManager().isAdminActive(app.getAdminName())) {
      		Intent intent = new Intent(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN);
@@ -88,15 +95,13 @@ public class MainActivity extends BaseActivity {
      	} 
 	    if(app.getLocationManager().isProviderEnabled(LocationManager.GPS_PROVIDER)){
             Intent location_intent = new Intent("com.yolo.action.LOCATIONCHANGE");
-            PendingIntent launchIntent = PendingIntent.getBroadcast(this, 0, location_intent, 0);
+            launchIntent = PendingIntent.getBroadcast(this, 0, location_intent, 0);
             //provider string, min time between, min distance change, intent
             app.getLocationManager().requestLocationUpdates(LocationManager.GPS_PROVIDER, 10, 10, launchIntent);
         }else{
            new NoGpsDialog(this).show();
 	    }
-		
-		install.addUnique("channels", app.DEVICE_CHANNEL + install.getObjectId());
-		
+
 		if(currentSDKVersion >= 14){
 			setContentView(R.layout.activity_main);
 			  CompoundButton s = (Switch) findViewById(R.id.isDrivingSwitch);
@@ -125,13 +130,14 @@ public class MainActivity extends BaseActivity {
         });
   	}
 
+
 	/*********************************
 	 * isDriving onCheckedChaged Listener
 	 **********************************/
 	private class isDrivingCheckedChangedListener implements CompoundButton.OnCheckedChangeListener {
 		@Override
 		public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-			isDriving = (isChecked ? true : false);	
+			isDriving = isChecked;
 		}
 	}
 
@@ -152,7 +158,7 @@ public class MainActivity extends BaseActivity {
                         String channel = channels.getString(i);
                         Log.w(channel, "channel: " + i);
                         if (channel.startsWith(app.PARENT_CHANNEL)) {
-                            sendNotificationsTo(channel);
+                            sendNotificationsTo(channel.replace(app.PARENT_CHANNEL, ""));
                         }
                     } catch (JSONException e) {
                         Log.w("Exception Caught", "Channels could not be retrieved from install");
@@ -179,9 +185,8 @@ public class MainActivity extends BaseActivity {
 	 **********************************/
 	
 	public void sendNotificationsTo(String channel){
-		String objectId = channel.replace(app.PARENT_CHANNEL, "");
 		ParseQuery<ParseUser> query = ParseUser.getQuery();
-		query.getInBackground(objectId, new GetCallback<ParseUser>() {
+		query.getInBackground(channel, new GetCallback<ParseUser>() {
 			public void done(ParseUser parseUser, ParseException e) {
 				if (e == null) {
 					sendNotificationsToCallback(parseUser);
@@ -209,7 +214,17 @@ public class MainActivity extends BaseActivity {
 			}
 		}
 		if(user.getReceiveEmails()){
-			//Send Email
+            HashMap<String, Object> map = new HashMap<String, Object>();
+            map.put("email",currentUser.getEmail());
+            ParseCloud.callFunctionInBackground("sendEmail",map, new FunctionCallback<String>() {
+                public void done(String result, ParseException e) {
+                    Log.w("Cloud Code", "Hello World");
+                    if (e == null) {
+                        Log.w("result is", result);
+                    }
+
+                }
+            });
 		}
 		if(user.getReceiveSMS()){
 			if(user.getPhone() != null){

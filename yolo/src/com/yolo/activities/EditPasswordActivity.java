@@ -27,22 +27,27 @@ public class EditPasswordActivity extends BaseActivity{
 		
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 
-
         mPassword = (EditText)findViewById(R.id.name);
         mPasswordConfirm = (EditText) findViewById(R.id.confirm);
         mEmail = (EditText) findViewById(R.id.email);
         mPhone = (EditText) findViewById(R.id.phone);
 
-        mPassword.setHint("New Password.");
-        mPasswordConfirm.setVisibility(View.VISIBLE);
-        mPasswordConfirm.setHint("Confirm New Password.");
-	     final Button editDevice = (Button) findViewById(R.id.device_button);
-        editDevice.setText("Update Password");
-        editDevice.setOnClickListener(new View.OnClickListener() {
-	         public void onClick(View v) {
-	        	 updatePassword();
-	         }
-	     });
+	    final Button updateAccountBtn = (Button) findViewById(R.id.update_account_btn);
+        updateAccountBtn.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                updatePassword();
+            }
+        });
+
+        final Button deleteAccountBtn = (Button) findViewById(R.id.delete_account_btn);
+        deleteAccountBtn.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent i = new Intent();
+                i.setAction("com.yolo.action.DELETEACCOUNT");
+                sendBroadcast(i);
+                onBackPressed();
+            }
+        });
 	}
 	
 	public void updatePassword() {

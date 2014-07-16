@@ -62,7 +62,6 @@
         android:layout_below="@id/passwordConfirm"
         android:layout_marginTop="25dp"
         android:text="@string/createAccount"
-        style="@style/Button"
-        />
+        style="@style/Button"/>
  
 </RelativeLayout>

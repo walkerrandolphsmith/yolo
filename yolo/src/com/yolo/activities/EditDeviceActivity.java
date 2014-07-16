@@ -28,7 +28,7 @@ public class EditDeviceActivity extends BaseActivity{
         Bundle bundle = getIntent().getExtras();
 		position = bundle.getInt("position");
 		mUserName = (EditText)findViewById(R.id.name);
-	     final Button editDevice = (Button) findViewById(R.id.device_button);
+	     final Button editDevice = (Button) findViewById(R.id.update_account_btn);
         editDevice.setText("Rename Device");
         editDevice.setOnClickListener(new View.OnClickListener() {
 	         public void onClick(View v) {

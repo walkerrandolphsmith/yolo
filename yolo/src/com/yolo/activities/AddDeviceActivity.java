@@ -26,7 +26,7 @@ public class AddDeviceActivity extends BaseActivity{
 		
 		mUserName = (EditText)findViewById(R.id.name);
 	     
-	     final Button signInButton = (Button) findViewById(R.id.device_button);
+	     final Button signInButton = (Button) findViewById(R.id.update_account_btn);
 	     signInButton.setOnClickListener(new View.OnClickListener() {
 	         public void onClick(View v) {
 	        	 addDevice();
