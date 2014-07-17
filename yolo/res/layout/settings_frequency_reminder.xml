@@ -19,27 +19,34 @@
             android:textSize="24sp"
             android:text="Reminder Frequency" />
 
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dip" >
+
         <TextView
             android:id="@+id/interval"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/header_label"
+            android:gravity="center"
             android:textSize="20sp"
             android:text="0" />
-
-    </RelativeLayout>
 
     <SeekBar
         android:id="@+id/frequency_slider"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/interval"
         android:layout_marginTop="20dp"
+        android:layout_below="@id/interval"
         android:max="20"
         android:progress="0"
         android:secondaryProgress="0"
         android:progressDrawable="@drawable/btn_blue"
         android:thumb="@drawable/abc_ab_stacked_solid_dark_holo"
         />
+
+    </RelativeLayout>
 
 </LinearLayout>

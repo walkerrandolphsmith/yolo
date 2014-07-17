@@ -20,7 +20,7 @@ public class ChildAddActivity extends BaseActivity{
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_device);
+		setContentView(R.layout.activity_child_action);
 		
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		

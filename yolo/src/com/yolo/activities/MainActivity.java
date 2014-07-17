@@ -71,7 +71,6 @@ public class MainActivity extends BaseActivity {
     public void onPause()
     {
         super.onPause();
-        //app.getLocationManager().removeUpdates(launchIntent);
         //unregisterReceiver(remoteLockReceiver);
         //unregisterReceiver(locationChangedReceiver);
     }

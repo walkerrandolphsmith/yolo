@@ -25,7 +25,7 @@ public class UpdateAccountActivity extends BaseActivity{
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_settings_edit);
+		setContentView(R.layout.activity_update_account);
 		isVerified = getIntent().getBooleanExtra("isVerified", false);
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 

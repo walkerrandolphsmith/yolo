@@ -1,6 +1,7 @@
 package com.yolo.activities;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -17,7 +18,6 @@ import com.commonsware.cwac.merge.MergeAdapter;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.yolo.R;
-import com.yolo.list_adapters.ListAdapterSettingsAccount;
 import com.yolo.list_adapters.ListAdapterSettingsNotifications;
 import com.yolo.models.User;
 
@@ -52,13 +52,13 @@ public class SettingsActivity extends BaseActivity {
 			isFallback = false;
 
 			resourceId = R.layout.each_settings_notifications;
-            notificationPreferencesHeader = getLayoutInflater().inflate(R.layout.listview_header_notifications, null, false);
+            notificationPreferencesHeader = getLayoutInflater().inflate(R.layout.settings_notifications, null, false);
             chkAll = (Switch) notificationPreferencesHeader.findViewById(R.id.selectAllSwitch);
 		}else{
 			isFallback = true;
 
 			resourceId = R.layout.each_settings_notifications_fallback;
-            notificationPreferencesHeader = getLayoutInflater().inflate(R.layout.listview_header_notifications_fallback, null, false);
+            notificationPreferencesHeader = getLayoutInflater().inflate(R.layout.settings_notifications_fallback, null, false);
             chkAll = (CheckBox) notificationPreferencesHeader.findViewById(R.id.selectAllCheckBox);
         }
 		final ListView mListView = (ListView)findViewById(android.R.id.list);
@@ -72,7 +72,7 @@ public class SettingsActivity extends BaseActivity {
          /*
             Reminder Frequency
          */
-        View reminderFrequencyHeader = getLayoutInflater().inflate(R.layout.listview_header_reminder_freq, null, false);
+        View reminderFrequencyHeader = getLayoutInflater().inflate(R.layout.settings_frequency_reminder, null, false);
         SeekBar slider = (SeekBar) reminderFrequencyHeader.findViewById(R.id.frequency_slider);
 
         final TextView intervalTextView = (TextView) reminderFrequencyHeader.findViewById(R.id.interval);
@@ -112,18 +112,23 @@ public class SettingsActivity extends BaseActivity {
         /*
             Account Settings
          */
-        ListAdapterSettingsAccount accountAdapter = new ListAdapterSettingsAccount(this,R.layout.each_settings_account,new String[]{currentUser.getUsername().toUpperCase(), "*****", currentUser.getPhone(), currentUser.getEmail()});
+        View accountHeader = getLayoutInflater().inflate(R.layout.settings_account, null, false);
 
-        boolean isUpdated = getIntent().getBooleanExtra("updated", false);
-        if(isUpdated){
-            updateAccount(accountAdapter);
-        }
-        boolean isDeleted = getIntent().getBooleanExtra("deleted", false);
-        if(isDeleted){
-            deleteAccount();
-        }
+        TextView usernameTextView = (TextView)accountHeader.findViewById(R.id.username);
+        TextView phoneTextView = (TextView)accountHeader.findViewById(R.id.phone);
+        TextView emailTextView = (TextView)accountHeader.findViewById(R.id.email);
+        TextView emailVerifiedTextView = (TextView)accountHeader.findViewById(R.id.verifiedText);
 
-        View accountHeader = getLayoutInflater().inflate(R.layout.listview_header_account, null, false);
+        usernameTextView.setText(currentUser.getUsername());
+        phoneTextView.setText(currentUser.getPhone());
+        emailTextView.setText(currentUser.getEmail());
+        if(currentUser.getEmailVerified()) {
+            emailVerifiedTextView.setText("VERIFIED");
+            emailVerifiedTextView.setTextColor(Color.GREEN);
+        }else {
+            emailVerifiedTextView.setText("NOT VERIFIED");
+            emailVerifiedTextView.setTextColor(Color.RED);
+        }
         Button updateAccount = (Button) accountHeader.findViewById(R.id.update_account);
         updateAccount.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -134,10 +139,19 @@ public class SettingsActivity extends BaseActivity {
             }
         });
         mergeAdapter.addView(accountHeader);
-        mergeAdapter.addAdapter(accountAdapter);
         /* End Account Settings */
 
-		mListView.setAdapter(mergeAdapter);
+        boolean isUpdated = getIntent().getBooleanExtra("updated", false);
+        if(isUpdated){
+            updateAccount(phoneTextView, emailTextView);
+        }
+        boolean isDeleted = getIntent().getBooleanExtra("deleted", false);
+        if(isDeleted){
+            deleteAccount();
+        }
+
+
+        mListView.setAdapter(mergeAdapter);
 	}
 
     public void deleteAccount(){
@@ -148,7 +162,7 @@ public class SettingsActivity extends BaseActivity {
         startActivity(i);
     }
 
-    public void updateAccount(ListAdapterSettingsAccount accountAdapter){
+    public void updateAccount(TextView phoneTextView, TextView emailTextView){
         String password = getIntent().getStringExtra("password");
         String email = getIntent().getStringExtra("email");
         String phone = getIntent().getStringExtra("phone");
@@ -163,19 +177,17 @@ public class SettingsActivity extends BaseActivity {
         }
         if (!phone.isEmpty()) {
             currentUser.setPhone(phone);
-            accountAdapter.settings[2] = phone;
+            phoneTextView.setText(phone);
         }
 
         if (!email.isEmpty()) {
             currentUser.setEmail(email);
-            accountAdapter.settings[3] = email;
+           emailTextView.setText(email);
         }
         else if(!currentUser.getEmailVerified()){
             currentUser.setEmail(currentUser.getEmail());
             currentUser.saveInBackground();
         }
-
-        accountAdapter.notifyDataSetChanged();
         currentUser.saveInBackground();
     }
 

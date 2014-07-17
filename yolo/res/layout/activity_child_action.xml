@@ -5,7 +5,7 @@
         
     <EditText
         android:id="@+id/name"
-        android:layout_width="250dp"
+        android:layout_width="260dp"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="50dp"
@@ -15,7 +15,7 @@
 
     <EditText
         android:id="@+id/confirm"
-        android:layout_width="250dp"
+        android:layout_width="260dp"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/name"
@@ -28,7 +28,7 @@
 
     <Button
         android:id="@+id/update_account_btn"
-        android:layout_width="250dp"
+        android:layout_width="260dp"
         android:layout_height="wrap_content"
         android:layout_alignRight="@id/name"
         android:layout_below="@id/confirm"
