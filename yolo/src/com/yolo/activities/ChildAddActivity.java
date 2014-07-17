@@ -53,9 +53,11 @@ public class ChildAddActivity extends BaseActivity{
             focusView.requestFocus();
         } else {
             Intent i = new Intent(ChildAddActivity.this, ConsoleActivity.class);
+            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             i.putExtra("added", true);
             i.putExtra("name", username);
             startActivity(i);
+
         }
     }
 }

@@ -2,6 +2,7 @@ package com.yolo.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -25,8 +26,8 @@ import java.util.ArrayList;
 public class SettingsActivity extends BaseActivity {
 		
     private static int hour = 3600000;
-    private static final int[] milis = new int[] { 900000, 1800000, hour, hour*4, hour*5, hour*6, hour*7, hour*8, hour*9, hour*10, hour*11, hour*12, hour*13, hour*14, hour*15, hour*16, hour*17, hour*24, hour*48, hour*168 };
-    private static final String[] milis_phrases = new String[] { "15 mins", "30 mins", "1 hr", "4 hrs", "5 hrs","6 hrs", "7 hrs","8 hrs", "9 hrs","10 hrs", "11 hrs","12 hrs", "13 hrs","14 hrs", "15 hrs","16 hrs", "17 hrs", "Daily", "2 days", "Weekly"};
+    private static final int[] milis = new int[] { 900000, 1800000, hour, hour*4, hour*5, hour*6, hour*7, hour*8, hour*9, hour*10, hour*11, hour*12, hour*13, hour*14, hour*15, hour*16, hour*17, hour*18, hour*24, hour*48, hour*168 };
+    private static final String[] milis_phrases = new String[] { "15 mins", "30 mins", "1 hr", "4 hrs", "5 hrs","6 hrs", "7 hrs","8 hrs", "9 hrs","10 hrs", "11 hrs","12 hrs", "13 hrs","14 hrs", "15 hrs","16 hrs", "17 hrs", "18 hrs", "Daily", "2 days", "Weekly"};
 
 	/*********************************
 	 * OnCreate
@@ -89,6 +90,7 @@ public class SettingsActivity extends BaseActivity {
         slider.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                Log.w("Swipe is in position ", i+"");
                 intervalTextView.setText(milis_phrases[i]);
                 currentUser.setReminderFrequency(milis[i]);
                 currentUser.saveInBackground();

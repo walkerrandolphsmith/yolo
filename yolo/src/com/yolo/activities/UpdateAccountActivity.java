@@ -48,7 +48,6 @@ public class UpdateAccountActivity extends BaseActivity{
                     Intent i = new Intent(UpdateAccountActivity.this, SettingsActivity.class);
                     i.putExtra("deleted", true);
                     startActivity(i);
-                    finish();
                 }
             });
         }
@@ -121,12 +120,12 @@ public class UpdateAccountActivity extends BaseActivity{
             focusView.requestFocus();
         } else {
             Intent i = new Intent(UpdateAccountActivity.this, SettingsActivity.class);
+            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             i.putExtra("updated", true);
             i.putExtra("password", password);
             i.putExtra("email", email);
             i.putExtra("phone", phone);
             startActivity(i);
-            finish();
         }
     }
 }

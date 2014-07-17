@@ -56,6 +56,7 @@ public class ChildEditActivity extends BaseActivity{
             focusView.requestFocus();
         } else {
             Intent i = new Intent(ChildEditActivity.this, ConsoleActivity.class);
+            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             i.putExtra("name", username);
             i.putExtra("position", position);
             i.putExtra("edited", true);
