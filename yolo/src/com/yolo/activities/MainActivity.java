@@ -10,6 +10,7 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.format.Time;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -34,17 +35,18 @@ import com.yolo.models.User;
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends BaseActivity {
 		
 	public boolean isDriving;
-    private PendingIntent launchIntent;
+    private static ArrayList<Long> timeStamps = new ArrayList<Long>();
 
     private BroadcastReceiver locationChangedReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(final Context context, final Intent intent) {
-            Log.w("responded to location intent", "intent");
             //MainActivity.this.locationChanged();
             Send sender = new Send();
             sender.execute(new String[]{"Yolo"});
@@ -54,7 +56,6 @@ public class MainActivity extends BaseActivity {
     private BroadcastReceiver remoteLockReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(final Context context, final Intent intent) {
-            Log.w("responded to remote lock intent", "intent");
             MainActivity.this.lock();
         }
     };
@@ -84,12 +85,11 @@ public class MainActivity extends BaseActivity {
 	public void onCreate(Bundle savedInstanceState) {
 
 		super.onCreate(savedInstanceState);
-		//getActionBar().setDisplayHomeAsUpEnabled(false);
         getActionBar().hide();
         ParseAnalytics.trackAppOpened(getIntent());
         PushService.setDefaultPushCallback(this, MainActivity.class);
-        install.addUnique("channels", app.DEVICE_CHANNEL + install.getObjectId());
-        install.saveInBackground();
+        app.getInstall().addUnique("channels", app.DEVICE_CHANNEL + app.getInstall().getObjectId());
+        app.getInstall().saveInBackground();
 
 		 if (!app.getDevicePolicyManager().isAdminActive(app.getAdminName())) {
      		Intent intent = new Intent(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN);
@@ -98,9 +98,9 @@ public class MainActivity extends BaseActivity {
      	} 
 	    if(app.getLocationManager().isProviderEnabled(LocationManager.GPS_PROVIDER)){
             Intent location_intent = new Intent("com.yolo.action.LOCATIONCHANGE");
-            launchIntent = PendingIntent.getBroadcast(this, 0, location_intent, 0);
+            PendingIntent launchIntent = PendingIntent.getBroadcast(this, 0, location_intent, 0);
             //provider string, min time between, min distance change, intent
-            app.getLocationManager().requestLocationUpdates(LocationManager.GPS_PROVIDER, 10, 10, launchIntent);
+            app.getLocationManager().requestLocationUpdates(LocationManager.GPS_PROVIDER, 2, 10, launchIntent);
         }else{
            new NoGpsDialog(this).show();
 	    }
@@ -159,22 +159,32 @@ public class MainActivity extends BaseActivity {
      **********************************/
 
     public void locationChanged() {
+
+        Time now = new Time();
+        now.setToNow();
+        long mili = now.toMillis(true);
+        timeStamps.add(mili);
+        long diff = TimeUnit.MILLISECONDS.toSeconds(mili-timeStamps.get(0));
+        if(timeStamps.size()>1)
+            timeStamps.remove(0);
+        Log.w("TIMESTAMP: ", diff+"");
+
         Location location = app.getLocationManager().getLastKnownLocation(LocationManager.GPS_PROVIDER);
         if(location != null) {
             double speed = location.getSpeed() * 2.2369;
 
             if (speed < 20) {
-                Log.w("speed", "is moving at " + speed + " mph");
-                JSONArray channels = install.getJSONArray("channels");
+                //Log.w("speed", "is moving at " + speed + " mph");
+                JSONArray channels = app.getInstall().getJSONArray("channels");
                 for (int i = 0; i < channels.length(); i++) {
                     try {
                         String channel = channels.getString(i);
-                        Log.w(channel, "channel: " + i);
+                        //Log.w(channel, "channel: " + i);
                         if (channel.startsWith(app.PARENT_CHANNEL)) {
                             sendNotificationsTo(channel.replace(app.PARENT_CHANNEL, ""));
                         }
                     } catch (JSONException e) {
-                        Log.w("Exception Caught", "Channels could not be retrieved from install");
+                        //Log.w("Exception Caught", "Channels could not be retrieved from install");
                     }
                 }
                 if (isDriving)
@@ -194,7 +204,7 @@ public class MainActivity extends BaseActivity {
 				if (e == null) {
 					sendNotificationsToCallback(parseUser);
 			    }else{
-			    	Log.w("ParseUser Exception", e.getLocalizedMessage());
+			    	//Log.w("ParseUser Exception", e.getLocalizedMessage());
 			    }
 			}
 		});
@@ -224,7 +234,7 @@ public class MainActivity extends BaseActivity {
                 ParseCloud.callFunctionInBackground("sendEmail", map, new FunctionCallback<String>() {
                     public void done(String result, ParseException e) {
                         if (e == null) {
-                            Log.w("result is", result);
+                            //Log.w("result is", result);
                         }
                     }
                 });

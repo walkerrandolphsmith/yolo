@@ -2,6 +2,16 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:fillViewport="true"
     style="@style/Match" >
+
+    <EditText
+        android:id="@+id/phone"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        android:hint="New Phone Number"
+        android:inputType="phone"
+        />
         
     <EditText
         android:id="@+id/name"
@@ -9,6 +19,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="50dp"
+        android:layout_below="@id/phone"
         android:hint="New Password"
         android:inputType="textPassword"
         android:maxLength="15" />
@@ -35,23 +46,12 @@
         android:hint="New Email"
         android:inputType="textEmailAddress"/>
 
-    <EditText
-        android:id="@+id/phone"
-        android:layout_width="250dp"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@id/email"
-        android:layout_marginTop="50dp"
-        android:hint="New Phone Number"
-        android:inputType="phone"
-        />
-
     <Button
         android:id="@+id/update_account_btn"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_alignRight="@id/name"
-        android:layout_below="@id/phone"
+        android:layout_below="@id/email"
         android:layout_marginTop="25dp"
         android:text="Update Account"
         style="@style/Button"/>

@@ -8,6 +8,7 @@ import android.app.admin.DevicePolicyManager;
 import android.telephony.SmsManager;
 
 import com.parse.Parse;
+import com.parse.ParseInstallation;
 import com.parse.ParseObject;
 import com.parse.PushService;
 import com.yolo.activities.MainActivity;
@@ -24,6 +25,7 @@ public class Application extends android.app.Application {
     private LocationManager locationManager;
     private DevicePolicyManager devicePolicyManager;
     private ComponentName mAdminName;
+    private ParseInstallation install;
 
     private Context context;
 
@@ -51,6 +53,8 @@ public class Application extends android.app.Application {
         return locationManager;
     }
 
+    public ParseInstallation getInstall() { return install; }
+
     @Override
 	public void onCreate() {
 		super.onCreate();
@@ -66,5 +70,7 @@ public class Application extends android.app.Application {
 
         smsManager = SmsManager.getDefault();
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+
+        install = ParseInstallation.getCurrentInstallation();
     }
 }

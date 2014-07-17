@@ -10,8 +10,8 @@ import android.widget.TextView;
 
 import com.fortysevendeg.swipelistview.SwipeListView;
 import com.yolo.R;
+import com.yolo.activities.ChildEditActivity;
 import com.yolo.activities.ConsoleActivity;
-import com.yolo.activities.EditChildActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -69,6 +69,42 @@ public class ListAdapterChildren extends ArrayAdapter<String> {
 		return mChildren.length();
 	}
 
+
+
+    public class deleteListener implements View.OnClickListener {
+
+        public int position;
+
+        public deleteListener(int position){
+            this.position = position;
+        }
+
+        @Override
+        public void onClick(View v){
+            mChildren.remove(position);
+            activity.currentUser.getChildren().remove(position);
+            activity.currentUser.saveInBackground();
+            notifyDataSetChanged();
+        }
+    }
+
+    public class editListener implements View.OnClickListener {
+
+        public int position;
+
+        public editListener(int position){
+            this.position = position;
+        }
+
+        @Override
+        public void onClick(View v){
+            Log.w("Edit Option Button", "Selected");
+            Intent intent = new Intent(activity, ChildEditActivity.class);
+            intent.putExtra("position", position);
+            activity.startActivity(intent);
+        }
+    }
+
     public class lockListener implements View.OnClickListener {
 
         public int position;
@@ -99,40 +135,6 @@ public class ListAdapterChildren extends ArrayAdapter<String> {
             } catch (JSONException e) {
                 Log.w("exception", "JSONObject null");
             }
-        }
-    }
-
-    public class deleteListener implements View.OnClickListener {
-
-        public int position;
-
-        public deleteListener(int position){
-            this.position = position;
-        }
-
-        @Override
-        public void onClick(View v){
-            mChildren.remove(position);
-            activity.currentUser.getChildren().remove(position);
-            activity.currentUser.saveInBackground();
-            notifyDataSetChanged();
-        }
-    }
-
-    public class editListener implements View.OnClickListener {
-
-        public int position;
-
-        public editListener(int position){
-            this.position = position;
-        }
-
-        @Override
-        public void onClick(View v){
-            Log.w("Edit Option Button", "Selected");
-            Intent intent = new Intent(activity, EditChildActivity.class);
-            intent.putExtra("position", position);
-            activity.startActivity(intent);
         }
     }
 

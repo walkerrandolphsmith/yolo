@@ -45,10 +45,10 @@ public class UpdateAccountActivity extends BaseActivity{
         if(isVerified) {
             deleteAccountBtn.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
-                    Intent i = new Intent();
-                    i.setAction("com.yolo.action.DELETEACCOUNT");
-                    sendBroadcast(i);
-                    onBackPressed();
+                    Intent i = new Intent(UpdateAccountActivity.this, SettingsActivity.class);
+                    i.putExtra("deleted", true);
+                    startActivity(i);
+                    finish();
                 }
             });
         }
@@ -120,13 +120,13 @@ public class UpdateAccountActivity extends BaseActivity{
         if (cancel) {
             focusView.requestFocus();
         } else {
-            Intent i = new Intent();
+            Intent i = new Intent(UpdateAccountActivity.this, SettingsActivity.class);
+            i.putExtra("updated", true);
             i.putExtra("password", password);
             i.putExtra("email", email);
             i.putExtra("phone", phone);
-            i.setAction("com.yolo.action.EDITACCOUNT");
-            sendBroadcast(i);
-            onBackPressed();
+            startActivity(i);
+            finish();
         }
     }
 }

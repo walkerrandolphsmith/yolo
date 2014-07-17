@@ -1,16 +1,11 @@
 package com.yolo.activities;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 
 import com.fortysevendeg.swipelistview.BaseSwipeListViewListener;
 import com.fortysevendeg.swipelistview.SwipeListView;
@@ -28,81 +23,6 @@ import org.json.JSONObject;
 public class ConsoleActivity extends BaseActivity {
 	
 	private ListAdapterChildren adapter;
-
-    private BroadcastReceiver remoteLockReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(final Context context, final Intent intent) {
-            Log.w("add device intent", "intent");
-            String channel = app.DEVICE_CHANNEL + install.getObjectId();
-            String name = intent.getStringExtra("name");
-
-            JSONObject obj = new JSONObject();
-            boolean isUnique = true;
-
-            try {
-                obj.put("channel", channel);
-                obj.put("name", name);
-                JSONArray children = currentUser.getChildren();
-                for(int i = 0; i < children.length(); i++){
-                    JSONObject child = children.getJSONObject(i);
-                    String childChannel = (String) child.get("channel");
-                    if(childChannel.equalsIgnoreCase(channel)){
-                        isUnique = false;
-                    }
-                }
-                if(isUnique){
-                    currentUser.addUnique("children", obj);
-                    currentUser.saveInBackground();
-                }
-            }
-            catch (JSONException e){
-
-            }
-            try {
-                if(isUnique) {
-                    if(obj != null)
-                    adapter.mChildren.put(adapter.mChildren.length(), obj);
-                    adapter.notifyDataSetChanged();
-                }
-            } catch (JSONException e){
-
-            }
-        }
-    };
-
-    private BroadcastReceiver editDeviceReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(final Context context, final Intent intent) {
-            String name = intent.getStringExtra("name");
-            int editedPosition = intent.getIntExtra("position", 0);
-
-            try {
-                JSONObject ob = adapter.mChildren.getJSONObject(editedPosition);
-                ob.put("name", name);
-                adapter.mChildren.put(editedPosition,ob);
-                adapter.notifyDataSetChanged();
-                currentUser.getChildren().put(editedPosition,ob);
-                currentUser.saveInBackground();
-            }catch (JSONException e){
-
-            }
-        }
-    };
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        registerReceiver(remoteLockReceiver, new IntentFilter("com.yolo.action.ADDDEVICE"));
-        registerReceiver(editDeviceReceiver, new IntentFilter("com.yolo.action.EDITDEVICE"));
-    }
-    @Override
-    public void onPause()
-    {
-        super.onPause();
-        //unregisterReceiver(remoteLockReceiver);
-        //unregisterReceiver(editDeviceReceiver);
-
-    }
 		
 	/*********************************
 	 * OnCreate
@@ -116,6 +36,14 @@ public class ConsoleActivity extends BaseActivity {
 		currentUser = (User) ParseUser.getCurrentUser();
 
         adapter = new ListAdapterChildren(this, currentUser.getChildren());
+        if(getIntent().getBooleanExtra("edited", false)){
+           updateChild();
+        }
+
+        if(getIntent().getBooleanExtra("added", false)){
+            addChild();
+        }
+
         final SwipeListView mListView = (SwipeListView)findViewById(R.id.swipelist);
         mListView.setSwipeListViewListener(new BaseSwipeListViewListener() {
             @Override
@@ -165,10 +93,7 @@ public class ConsoleActivity extends BaseActivity {
 
         });
 		mListView.setAdapter(adapter);
-        load(mListView);
-	}
-
-    public void load (SwipeListView mListView) {
+        //Configure the Swipe List View
         SettingsManager settings = SettingsManager.getInstance();
         mListView.setSwipeMode(settings.getSwipeMode());
         mListView.setSwipeActionLeft(settings.getSwipeActionLeft());
@@ -177,9 +102,9 @@ public class ConsoleActivity extends BaseActivity {
         mListView.setOffsetRight(convertDpToPixel(settings.getSwipeOffsetRight()));
         mListView.setAnimationTime(settings.getSwipeAnimationTime());
         mListView.setSwipeOpenOnLongPress(settings.isSwipeOpenOnLongPress());
-    }
+	}
 
-    public int convertDpToPixel(float dp) {
+    private int convertDpToPixel(float dp) {
         DisplayMetrics metrics = getResources().getDisplayMetrics();
         float px = dp * (metrics.densityDpi / 160f);
         return (int) px;
@@ -195,6 +120,71 @@ public class ConsoleActivity extends BaseActivity {
 		push.setData(data); 
 		push.sendInBackground();
 	}
+
+    public void addChild(){
+        String channel = app.DEVICE_CHANNEL + app.getInstall().getObjectId();
+        String name = getIntent().getStringExtra("name");
+
+        JSONObject obj = new JSONObject();
+        boolean isUnique = true;
+
+        try {
+            obj.put("channel", channel);
+            obj.put("name", name);
+            JSONArray children = currentUser.getChildren();
+            for(int i = 0; i < children.length(); i++){
+                JSONObject child = children.getJSONObject(i);
+                String childChannel = (String) child.get("channel");
+                if(childChannel.equalsIgnoreCase(channel)){
+                    isUnique = false;
+                }
+            }
+            if(isUnique){
+                currentUser.addUnique("children", obj);
+                currentUser.saveInBackground();
+            }
+        }
+        catch (JSONException e){
+
+        }
+        try {
+            if(isUnique) {
+                if(obj != null)
+                    adapter.mChildren.put(adapter.mChildren.length(), obj);
+                adapter.notifyDataSetChanged();
+            }
+        } catch (JSONException e){
+
+        }
+    }
+
+    public void updateChild(){
+        String name = getIntent().getStringExtra("name");
+        int editedPosition = getIntent().getIntExtra("position", 0);
+
+        try {
+            JSONObject ob = adapter.mChildren.getJSONObject(editedPosition);
+            ob.put("name", name);
+            adapter.mChildren.put(editedPosition,ob);
+            adapter.notifyDataSetChanged();
+            currentUser.getChildren().put(editedPosition,ob);
+            currentUser.saveInBackground();
+        }catch (JSONException e){
+
+        }
+    }
+
+    //Add parent User to child/current Installation
+    public void logOut(){
+        if (currentUser != null) {
+            //Log.w("Logging out: ", currentUser.getObjectId());
+            String parentChannel = app.PARENT_CHANNEL + currentUser.getObjectId();
+            app.getInstall().addUnique("channels", parentChannel);
+            app.getInstall().saveInBackground();
+            ParseUser.logOut();
+        }
+        onBackPressed();
+    }
 	
 	/*********************************
 	 * ActionBar MenuItems
@@ -218,7 +208,7 @@ public class ConsoleActivity extends BaseActivity {
 	            startActivity(intent);
 				return true;
 		    case R.id.action_add_device:
-                intent = new Intent(ConsoleActivity.this, AddDeviceActivity.class);
+                intent = new Intent(ConsoleActivity.this, ChildAddActivity.class);
                 startActivity(intent);
 		    	return true;
 	        default:
@@ -226,64 +216,5 @@ public class ConsoleActivity extends BaseActivity {
 	    }
 	}
 
-	//Add parent User to child/current Installation 
-	public void logOut(){
-		if (currentUser != null) {
-			Log.w("Logging out: ", currentUser.getObjectId());
-			String parentChannel = app.PARENT_CHANNEL + currentUser.getObjectId();
-			install.addUnique("channels", parentChannel);
-			install.saveInBackground();
-			ParseUser.logOut();
-		} 	
-		onBackPressed();
-	}
-
-    /*********************************
-     * Remote Lock Device Item Click Listener
-     **********************************/
-
-    public class remoteLockListener implements View.OnClickListener {
-        public int position;
-        public remoteLockListener (int position) {this.position = position;}
-        @Override
-        public void onClick(View view) {
-            JSONObject data = null;
-            try {
-                data = new JSONObject(
-                        "{"
-                                + "\"action\": \"com.example.UPDATE_STATUS\","
-                                +  "\"alert\": \"Your phone has been locked by Yolo. Contact Parent or Guardian.\""
-                                + "}"
-                );
-                try {
-                    Log.v("childrenList.getString(position)", adapter.mChildren.getJSONObject(position).toString());
-
-                    JSONObject child = adapter.mChildren.getJSONObject(position);
-                    sendNotificationsTo(child.getString("channel"), data);
-
-                } catch (JSONException e) {
-                    Log.w("exception", "Channel null");
-                }
-            } catch (JSONException e) {
-                Log.w("exception", "JSONObject null");
-            }
-        }
-    }
-
-    /*********************************
-     * Remote Lock Device Item Click Listener
-     **********************************/
-
-    public class deleteChildListener implements View.OnClickListener {
-        public int position;
-        public deleteChildListener (int position) {this.position = position;}
-        @Override
-        public void onClick(View view) {
-            adapter.mChildren.remove(position);
-            currentUser.getChildren().remove(position);
-            currentUser.saveInBackground();
-            adapter.notifyDataSetChanged();
-        }
-    }
 
 }

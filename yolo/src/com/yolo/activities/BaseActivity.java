@@ -5,7 +5,6 @@ import android.app.FragmentManager;
 import android.content.res.Configuration;
 import android.os.Bundle;
 
-import com.parse.ParseInstallation;
 import com.yolo.Application;
 import com.yolo.models.User;
 
@@ -14,7 +13,6 @@ public class BaseActivity extends Activity {
 	public int currentSDKVersion;	
 	public Application app;
 	public FragmentManager fragmentManager;
-	public ParseInstallation install;
 	public User currentUser;
 
 
@@ -27,7 +25,6 @@ public class BaseActivity extends Activity {
 		app = (Application)getApplication();
         app.setContext(this);
 		fragmentManager = getFragmentManager();
-		install = ParseInstallation.getCurrentInstallation();
 		
 		Configuration config = getResources().getConfiguration();
         if (config.smallestScreenWidthDp >= 600) {

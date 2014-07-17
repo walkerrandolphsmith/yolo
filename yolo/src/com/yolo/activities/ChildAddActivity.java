@@ -9,10 +9,9 @@ import android.widget.EditText;
 
 import com.yolo.R;
 
-public class EditChildActivity extends BaseActivity{
+public class ChildAddActivity extends BaseActivity{
 	
 	EditText mUserName;
-    int position;
 
 	/*********************************
 	 * OnCreate
@@ -24,20 +23,18 @@ public class EditChildActivity extends BaseActivity{
 		setContentView(R.layout.activity_device);
 		
 		getActionBar().setDisplayHomeAsUpEnabled(true);
-
-        Bundle bundle = getIntent().getExtras();
-		position = bundle.getInt("position");
+		
 		mUserName = (EditText)findViewById(R.id.name);
-	     final Button editDevice = (Button) findViewById(R.id.update_account_btn);
-        editDevice.setText("Rename Device");
-        editDevice.setOnClickListener(new View.OnClickListener() {
+	     
+	     final Button signInButton = (Button) findViewById(R.id.update_account_btn);
+	     signInButton.setOnClickListener(new View.OnClickListener() {
 	         public void onClick(View v) {
-	        	 editDevice();
+	        	 addDevice();
 	         }
 	     });
 	}
 	
-	public void editDevice() {
+	public void addDevice() {
 
         // Store values at the time of the login attempt.
         String username = mUserName.getText().toString();
@@ -55,12 +52,10 @@ public class EditChildActivity extends BaseActivity{
         if (cancel) {
             focusView.requestFocus();
         } else {
-            Intent i = new Intent();
+            Intent i = new Intent(ChildAddActivity.this, ConsoleActivity.class);
+            i.putExtra("added", true);
             i.putExtra("name", username);
-            i.putExtra("position", position);
-            i.setAction("com.yolo.action.EDITDEVICE");
-            sendBroadcast(i);
-            onBackPressed();
+            startActivity(i);
         }
     }
 }

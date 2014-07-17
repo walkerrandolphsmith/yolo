@@ -77,14 +77,14 @@
 		</activity>
 
         <activity
-            android:name="com.yolo.activities.AddDeviceActivity"
+            android:name=".activities.ChildAddActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/empty"
             android:parentActivityName="com.yolo.activities.ConsoleActivity">
         </activity>
 
         <activity
-            android:name=".activities.EditChildActivity"
+            android:name=".activities.ChildEditActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/empty"
             android:parentActivityName="com.yolo.activities.ConsoleActivity">
