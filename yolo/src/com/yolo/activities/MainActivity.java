@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.location.Location;
 import android.location.LocationManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -44,7 +45,9 @@ public class MainActivity extends BaseActivity {
         @Override
         public void onReceive(final Context context, final Intent intent) {
             Log.w("responded to location intent", "intent");
-            MainActivity.this.locationChanged();
+            //MainActivity.this.locationChanged();
+            Send sender = new Send();
+            sender.execute(new String[]{"Yolo"});
         }
     };
 
@@ -132,7 +135,7 @@ public class MainActivity extends BaseActivity {
 
 
 	/*********************************
-	 * isDriving onCheckedChaged Listener
+	 * isDriving onCheckedChanged Listener
 	 **********************************/
 	private class isDrivingCheckedChangedListener implements CompoundButton.OnCheckedChangeListener {
 		@Override
@@ -140,6 +143,16 @@ public class MainActivity extends BaseActivity {
 			isDriving = isChecked;
 		}
 	}
+
+    /*********************************
+     * Lock Device
+     **********************************/
+
+    public void lock() {
+        if(app.getDevicePolicyManager() != null) {
+            app.getDevicePolicyManager().lockNow();
+        }
+    }
 
     /*********************************
      * locationChanged
@@ -167,16 +180,6 @@ public class MainActivity extends BaseActivity {
                 if (isDriving)
                    lock();
             }
-        }
-    }
-
-    /*********************************
-     * Lock Device
-     **********************************/
-
-    public void lock() {
-        if(app.getDevicePolicyManager() != null) {
-            app.getDevicePolicyManager().lockNow();
         }
     }
 
@@ -214,25 +217,25 @@ public class MainActivity extends BaseActivity {
 			}
 		}
 		if(user.getReceiveEmails()){
-            HashMap<String, Object> map = new HashMap<String, Object>();
-            map.put("email",currentUser.getEmail());
-            ParseCloud.callFunctionInBackground("sendEmail",map, new FunctionCallback<String>() {
-                public void done(String result, ParseException e) {
-                    Log.w("Cloud Code", "Hello World");
-                    if (e == null) {
-                        Log.w("result is", result);
+            if(user.getEmailVerified()) {
+                HashMap<String, Object> map = new HashMap<String, Object>();
+                map.put("email", user.getEmail());
+                map.put("message", message);
+                ParseCloud.callFunctionInBackground("sendEmail", map, new FunctionCallback<String>() {
+                    public void done(String result, ParseException e) {
+                        if (e == null) {
+                            Log.w("result is", result);
+                        }
                     }
-
-                }
-            });
+                });
+            }
 		}
 		if(user.getReceiveSMS()){
 			if(user.getPhone() != null){
 				app.getSmsManager().sendTextMessage(user.getPhone(), "", message, null, null);
 			}
 		}
-
-	}
+    }
 
 	/*********************************
 	 * Construct Notification Message
@@ -247,4 +250,22 @@ public class MainActivity extends BaseActivity {
 		}
 		return message;
 	}
+
+    /*********************************
+     * Async Task that is unused
+     **********************************/
+
+    private class Send extends AsyncTask<String, Void, String> {
+        @Override
+        protected String doInBackground(String ...urls) {
+            String response = "";
+            locationChanged();
+            return response;
+        }
+
+        @Override
+        protected void onPostExecute(String result){
+            Log.w("onPostExecute", "async");
+        }
+    }
 }

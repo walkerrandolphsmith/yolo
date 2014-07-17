@@ -99,7 +99,9 @@ public class ConsoleActivity extends BaseActivity {
     public void onPause()
     {
         super.onPause();
-       // unregisterReceiver(remoteLockReceiver);
+        //unregisterReceiver(remoteLockReceiver);
+        //unregisterReceiver(editDeviceReceiver);
+
     }
 		
 	/*********************************

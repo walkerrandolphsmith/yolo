@@ -16,6 +16,9 @@ public class User extends ParseUser{
 	public User(){
 
 	}
+
+    public boolean getEmailVerified() { return getBoolean("emailVerified");}
+
 	public String getPhone(){
 		return getString("phone");
 	}
@@ -52,6 +55,8 @@ public class User extends ParseUser{
         this.put("receiveSMS", willReceive);
 	}
 
-    public boolean getEmailVerified() { return getBoolean("emailVerified");}
+    public int getReminderFrequency() { return getInt("frequency"); }
+
+    public void setReminderFrequency(int frequency){ this.put("frequency", frequency); }
 
 }

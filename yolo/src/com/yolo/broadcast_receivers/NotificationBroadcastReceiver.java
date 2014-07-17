@@ -35,7 +35,6 @@ public class NotificationBroadcastReceiver extends BroadcastReceiver {
 		}
         */
         Intent i = new Intent();
-        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         i.setAction("com.yolo.action.REMOTELOCKCONFIRM");
         context.sendBroadcast(i);
 	}

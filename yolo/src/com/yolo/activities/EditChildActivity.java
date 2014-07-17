@@ -9,7 +9,7 @@ import android.widget.EditText;
 
 import com.yolo.R;
 
-public class EditDeviceActivity extends BaseActivity{
+public class EditChildActivity extends BaseActivity{
 	
 	EditText mUserName;
     int position;

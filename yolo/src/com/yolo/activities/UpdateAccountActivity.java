@@ -9,12 +9,14 @@ import android.widget.EditText;
 
 import com.yolo.R;
 
-public class EditPasswordActivity extends BaseActivity{
+public class UpdateAccountActivity extends BaseActivity{
 	
 	EditText mPassword;
     EditText mPasswordConfirm;
     EditText mEmail;
     EditText mPhone;
+
+    boolean isVerified;
 
 	/*********************************
 	 * OnCreate
@@ -24,7 +26,7 @@ public class EditPasswordActivity extends BaseActivity{
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_settings_edit);
-		
+		isVerified = getIntent().getBooleanExtra("isVerified", false);
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 
         mPassword = (EditText)findViewById(R.id.name);
@@ -32,25 +34,34 @@ public class EditPasswordActivity extends BaseActivity{
         mEmail = (EditText) findViewById(R.id.email);
         mPhone = (EditText) findViewById(R.id.phone);
 
+
 	    final Button updateAccountBtn = (Button) findViewById(R.id.update_account_btn);
         updateAccountBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                updatePassword();
+                updateAccount();
             }
         });
-
         final Button deleteAccountBtn = (Button) findViewById(R.id.delete_account_btn);
-        deleteAccountBtn.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Intent i = new Intent();
-                i.setAction("com.yolo.action.DELETEACCOUNT");
-                sendBroadcast(i);
-                onBackPressed();
-            }
-        });
+        if(isVerified) {
+            deleteAccountBtn.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    Intent i = new Intent();
+                    i.setAction("com.yolo.action.DELETEACCOUNT");
+                    sendBroadcast(i);
+                    onBackPressed();
+                }
+            });
+        }
+        else{
+            updateAccountBtn.setText("Update Email.");
+            deleteAccountBtn.setVisibility(View.INVISIBLE);
+            mPassword.setVisibility(View.INVISIBLE);
+            mPasswordConfirm.setVisibility(View.INVISIBLE);
+            mPhone.setVisibility(View.INVISIBLE);
+        }
 	}
 	
-	public void updatePassword() {
+	public void updateAccount() {
 
         // Store values at the time of the login attempt.
         String password = mPassword.getText().toString();
@@ -74,7 +85,6 @@ public class EditPasswordActivity extends BaseActivity{
             cancel = true;
         }
 
-
         else if (!password.isEmpty() && password.length() < 4)
         {
             mPassword.setError(getString(R.string.error_invalid_password));
@@ -94,6 +104,18 @@ public class EditPasswordActivity extends BaseActivity{
             focusView = mPhone;
             cancel = true;
         }
+
+       if(!isVerified  && !password.isEmpty()){
+           mPassword.setError("Verify email first.");
+           focusView = mPassword;
+           cancel = true;
+       }
+
+       if(!isVerified && !phone.isEmpty()){
+           mPhone.setError("Verify email first.");
+           focusView = mPhone;
+           cancel = true;
+       }
 
         if (cancel) {
             focusView.requestFocus();

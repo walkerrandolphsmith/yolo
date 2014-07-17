@@ -1,5 +1,6 @@
 package com.yolo.list_adapters;
 
+import android.graphics.Color;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -53,6 +54,15 @@ public class ListAdapterSettingsAccount extends ArrayAdapter<String> {
 			viewHolder = (ViewHolder) convertView.getTag();
 		}
 		viewHolder.preference_id.setText(settings[position]);
+        if(position == EMAIL){
+            viewHolder.preference_id.setVisibility(View.VISIBLE);
+            if(activity.currentUser.getEmailVerified()) {
+                viewHolder.preference_id.setText("VERIFIED");
+            }else{
+                viewHolder.preference_id.setText("NOT VERIFIED");
+                viewHolder.preference_id.setTextColor(Color.RED);
+            }
+        }
 		viewHolder.name.setText(settings[position]);
 
 		return convertView;

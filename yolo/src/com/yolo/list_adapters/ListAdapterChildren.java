@@ -10,9 +10,8 @@ import android.widget.TextView;
 
 import com.fortysevendeg.swipelistview.SwipeListView;
 import com.yolo.R;
-import com.yolo.activities.AddDeviceActivity;
 import com.yolo.activities.ConsoleActivity;
-import com.yolo.activities.EditDeviceActivity;
+import com.yolo.activities.EditChildActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -131,7 +130,7 @@ public class ListAdapterChildren extends ArrayAdapter<String> {
         @Override
         public void onClick(View v){
             Log.w("Edit Option Button", "Selected");
-            Intent intent = new Intent(activity, EditDeviceActivity.class);
+            Intent intent = new Intent(activity, EditChildActivity.class);
             intent.putExtra("position", position);
             activity.startActivity(intent);
         }

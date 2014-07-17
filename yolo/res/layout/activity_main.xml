@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:fillViewport="true"
-    style="@style/Match" >
+    android:layout_height="fill_parent"
+    android:layout_width="fill_parent">
 
     <Switch
         android:id="@+id/isDrivingSwitch"
@@ -14,6 +15,8 @@
 
     <ImageView
         android:id="@+id/logo"
+        android:layout_width="260dp"
+        android:layout_height="260dp"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="100dip"
         android:src="@drawable/ic_launcher"
@@ -33,7 +36,7 @@
 
     <Button
         android:id="@+id/signIn"
-        android:layout_width="wrap_content"
+        android:layout_width="260dp"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"

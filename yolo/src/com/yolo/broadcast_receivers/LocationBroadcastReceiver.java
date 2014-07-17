@@ -9,7 +9,6 @@ public class LocationBroadcastReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(final Context context, Intent intent) {
         Intent i = new Intent();
-        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         i.setAction("com.yolo.action.LOCATIONCHANGECONFIRM");
         context.sendBroadcast(i);
     }
