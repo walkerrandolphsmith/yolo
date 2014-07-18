@@ -8,7 +8,8 @@
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:padding="10dip" >
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp" >
 
         <TextView
             android:id="@+id/header_label"
@@ -43,8 +44,7 @@
         android:max="20"
         android:progress="0"
         android:secondaryProgress="0"
-        android:progressDrawable="@drawable/btn_blue"
-        android:thumb="@drawable/abc_ab_stacked_solid_dark_holo"
+        style="@style/SeekBarYoloTheme"
         />
 
     </RelativeLayout>

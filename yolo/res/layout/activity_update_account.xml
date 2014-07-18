@@ -53,8 +53,7 @@
         android:layout_alignRight="@id/name"
         android:layout_below="@id/email"
         android:layout_marginTop="25dp"
-        android:text="Update Account"
-        style="@style/Button"/>
+        android:text="Update Account" />
 
     <Button
         android:id="@+id/delete_account_btn"
@@ -64,7 +63,6 @@
         android:layout_below="@id/update_account_btn"
         android:layout_marginTop="25dp"
         android:text="Delete Account"
-        style="@style/Button"
-        android:background="@drawable/btn_red_light"/>
+        android:background="@color/yolotheme_red"/>
  
 </RelativeLayout>

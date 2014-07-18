@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- Generated with http://android-holo-colors.com -->
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+  <style name="YoloTheme" parent="@style/_YoloTheme"/>
+
+  <style name="_YoloTheme" parent="@android:style/Theme.Holo.Light">
+
+    <item name="android:editTextBackground">@drawable/yolotheme_edit_text_holo_light</item>
+
+    <item name="android:textColorHighlight">#994575a4</item>
+    <item name="android:textSelectHandleLeft">@drawable/yolotheme_text_select_handle_left</item>
+    <item name="android:textSelectHandleRight">@drawable/yolotheme_text_select_handle_right</item>
+    <item name="android:textSelectHandle">@drawable/yolotheme_text_select_handle_middle</item>
+
+    <item name="android:listChoiceIndicatorMultiple">@drawable/yolotheme_btn_check_holo_light</item>
+
+    <item name="android:buttonStyle">@style/ButtonYoloTheme</item>
+
+    <item name="android:imageButtonStyle">@style/ImageButtonYoloTheme</item>
+
+    <item name="android:dropDownSpinnerStyle">@style/SpinnerYoloTheme</item>
+
+    <item name="android:seekBarStyle">@style/SeekBarYoloTheme</item>
+
+    <item name="android:buttonStyleToggle">@style/ToggleYoloTheme</item>
+
+    <item name="android:fastScrollThumbDrawable">@drawable/yolotheme_fastscroll_thumb_holo</item>
+
+  </style>
+
+</resources>

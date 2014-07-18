@@ -8,7 +8,8 @@
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:padding="10dip" >
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp" >
 
         <TextView
             android:id="@+id/header_label"
@@ -21,11 +22,12 @@
 
     </RelativeLayout>
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <RelativeLayout
         style="@style/Wrap"
         android:orientation="vertical"
         android:paddingBottom="10dp"
-        android:paddingTop="10dp" >
+        android:paddingTop="10dp"
+        android:paddingLeft="10dip"  >
 
         <ImageView
             android:id="@+id/user_icon"
@@ -46,11 +48,12 @@
 
     </RelativeLayout>
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <RelativeLayout
         style="@style/Wrap"
         android:orientation="vertical"
         android:paddingBottom="10dp"
-        android:paddingTop="10dp" >
+        android:paddingTop="10dp"
+        android:paddingLeft="10dip"  >
 
         <ImageView
             android:id="@+id/password_icon"
@@ -72,11 +75,12 @@
 
     </RelativeLayout>
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <RelativeLayout
         style="@style/Wrap"
         android:orientation="vertical"
         android:paddingBottom="10dp"
-        android:paddingTop="10dp" >
+        android:paddingTop="10dp"
+        android:paddingLeft="10dip" >
 
         <ImageView
             android:id="@+id/phone_icon"
@@ -97,12 +101,13 @@
 
     </RelativeLayout>
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <RelativeLayout
         android:id="@+id/list_layout"
         style="@style/Wrap"
         android:orientation="vertical"
         android:paddingBottom="10dp"
-        android:paddingTop="10dp" >
+        android:paddingTop="10dp"
+        android:paddingLeft="10dip" >
 
         <ImageView
             android:id="@+id/email_icon"
@@ -138,19 +143,20 @@
         </FrameLayout>
     </RelativeLayout>
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <RelativeLayout
         style="@style/Wrap"
         android:orientation="vertical"
         android:paddingBottom="10dp"
         android:paddingTop="10dp" >
-    <Button
-        android:id="@+id/update_account"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_centerInParent="true"
-        android:text="Update Account"
-        style="@style/Button"/>
+
+        <Button
+            android:id="@+id/update_account"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerInParent="true"
+            android:text="Update Account"
+            style="@style/ButtonYoloTheme"/>
     </RelativeLayout>
 
 

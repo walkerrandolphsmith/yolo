@@ -9,7 +9,8 @@
             android:id="@+id/list_image"
             android:layout_width="50dip"
             android:layout_height="50dip"
-            android:contentDescription="@string/app_name"/>
+            android:contentDescription="@string/app_name"
+            android:paddingLeft="10dp"/>
 
     <!-- ID -->
 
@@ -30,7 +31,9 @@
         android:textOn="" 
         android:layout_centerVertical="true"
         android:layout_alignParentRight="true"
-        android:layout_alignTop="@+id/name" />
+        android:layout_alignTop="@+id/name"
+        android:thumb="@drawable/yolotheme_switch_inner_holo_light"
+        android:track="@drawable/yolotheme_switch_track_holo_light"/>
 
     <TextView
         android:id="@+id/name"

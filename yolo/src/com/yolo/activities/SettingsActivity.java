@@ -1,7 +1,6 @@
 package com.yolo.activities;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -48,7 +47,7 @@ public class SettingsActivity extends BaseActivity {
 		CompoundButton chkAll;
 		boolean isFallback;
 		int resourceId;
-		if(currentSDKVersion >= 14){
+		if(currentSDKVersion >= REQUIRE_SDK_14){
 			isFallback = false;
 
 			resourceId = R.layout.each_settings_notifications;
@@ -123,11 +122,11 @@ public class SettingsActivity extends BaseActivity {
         phoneTextView.setText(currentUser.getPhone());
         emailTextView.setText(currentUser.getEmail());
         if(currentUser.getEmailVerified()) {
-            emailVerifiedTextView.setText("VERIFIED");
-            emailVerifiedTextView.setTextColor(Color.GREEN);
+            emailVerifiedTextView.setText(getResources().getString(R.string.emailVerified));
+            emailVerifiedTextView.setTextColor(getResources().getColor(R.color.yolotheme_green));
         }else {
-            emailVerifiedTextView.setText("NOT VERIFIED");
-            emailVerifiedTextView.setTextColor(Color.RED);
+            emailVerifiedTextView.setText(getResources().getString(R.string.emailNotVerified));
+            emailVerifiedTextView.setTextColor(getResources().getColor(R.color.yolotheme_red));
         }
         Button updateAccount = (Button) accountHeader.findViewById(R.id.update_account);
         updateAccount.setOnClickListener(new View.OnClickListener() {

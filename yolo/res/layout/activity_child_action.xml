@@ -33,7 +33,6 @@
         android:layout_alignRight="@id/name"
         android:layout_below="@id/confirm"
         android:layout_marginTop="25dp"
-        android:text="Add Device"
-        style="@style/Button"/>
+        android:text="Add Device"/>
  
 </RelativeLayout>

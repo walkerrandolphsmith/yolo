@@ -25,6 +25,9 @@
     <string name="usernameHint">Username</string>
     <string name="passwordHint">Password</string>
     <string name="confirmPasswordHint">Confirm Password</string>
+
+    <string name="emailVerified">VERIFIED</string>
+    <string name="emailNotVerified">NOT VERIFIED</string>
     
      <!-- Conosle Activity -->
     <string name="settings">Settings</string>
@@ -36,7 +39,7 @@
     <string name="notifications">Notifications</string>
     <string name="receivePushNotifications">Push Notifications</string>
     <string name="receiveEmail">Email</string>
-    <string name="receiveSMS">SMS</string>
+    <string name="receiveSMS">Text Message</string>
     
 
      <!-- Errors -->

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- Generated with http://android-holo-colors.com -->
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+  <style name="YoloTheme" parent="@style/_YoloTheme"/>
+
+  <style name="_YoloTheme" parent="@android:style/Theme.Holo.Light">
+
+    <item name="android:editTextStyle">@style/EditTextYoloTheme</item>
+
+    <item name="android:textColorHighlight">#994575a4</item>
+
+    <item name="android:checkboxStyle">@style/CheckBoxYoloTheme</item>
+
+    <item name="android:buttonStyle">@style/ButtonYoloTheme</item>
+
+    <item name="android:imageButtonStyle">@style/ImageButtonYoloTheme</item>
+
+    <item name="android:spinnerStyle">@style/SpinnerYoloTheme</item>
+
+    <item name="android:spinnerDropDownItemStyle">@style/SpinnerDropDownItemYoloTheme</item>
+
+    <item name="android:seekBarStyle">@style/SeekBarYoloTheme</item>
+
+    <item name="android:buttonStyleToggle">@style/ToggleYoloTheme</item>
+
+  </style>
+
+</resources>

@@ -9,7 +9,9 @@ import com.yolo.Application;
 import com.yolo.models.User;
 
 public class BaseActivity extends Activity {
-	
+
+    public static final int REQUIRE_SDK_14 = 14;
+
 	public int currentSDKVersion;	
 	public Application app;
 	public FragmentManager fragmentManager;

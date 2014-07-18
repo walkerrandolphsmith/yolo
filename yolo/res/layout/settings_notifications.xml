@@ -8,7 +8,8 @@
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:padding="10dip" >
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp" >
 
         <TextView
             android:id="@+id/selectAllCheckBoxLabel"
@@ -23,6 +24,8 @@
             android:id="@+id/selectAllSwitch"
             style="@style/Wrap"
             android:layout_alignParentRight="true"
-            android:layout_centerInParent="true" />
+            android:layout_centerInParent="true"
+            android:thumb="@drawable/yolotheme_switch_inner_holo_light"
+            android:track="@drawable/yolotheme_switch_track_holo_light"/>
     </RelativeLayout>
 </LinearLayout>

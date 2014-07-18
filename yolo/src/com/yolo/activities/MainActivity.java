@@ -71,8 +71,8 @@ public class MainActivity extends BaseActivity {
     public void onPause()
     {
         super.onPause();
-        //unregisterReceiver(remoteLockReceiver);
-        //unregisterReceiver(locationChangedReceiver);
+        unregisterReceiver(remoteLockReceiver);
+        unregisterReceiver(locationChangedReceiver);
     }
 
 
@@ -104,7 +104,7 @@ public class MainActivity extends BaseActivity {
            new NoGpsDialog(this).show();
 	    }
 
-		if(currentSDKVersion >= 14){
+		if(currentSDKVersion >= REQUIRE_SDK_14){
 			setContentView(R.layout.activity_main);
 			  CompoundButton s = (Switch) findViewById(R.id.isDrivingSwitch);
 		        if (s != null) {
