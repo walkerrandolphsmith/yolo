@@ -118,8 +118,8 @@
 				<action android:name="android.app.action.DEVICE_ADMIN_ENABLED" />
 			</intent-filter>
 		</receiver>
-
-		<service android:name="com.parse.PushService" />
+        <service android:name=".services.YoloService"></service>
+        <service android:name="com.parse.PushService" />
 		<receiver 
 		    android:name="com.parse.ParseBroadcastReceiver">
 			<intent-filter>

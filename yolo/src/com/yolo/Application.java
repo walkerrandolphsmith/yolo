@@ -25,7 +25,8 @@ public class Application extends android.app.Application {
     private LocationManager locationManager;
     private DevicePolicyManager devicePolicyManager;
     private ComponentName mAdminName;
-    private ParseInstallation install;
+
+    public static boolean isDriving;
 
     private Context context;
 
@@ -53,7 +54,7 @@ public class Application extends android.app.Application {
         return locationManager;
     }
 
-    public ParseInstallation getInstall() { return install; }
+    public ParseInstallation getInstall() { return ParseInstallation.getCurrentInstallation(); }
 
     @Override
 	public void onCreate() {
@@ -71,6 +72,16 @@ public class Application extends android.app.Application {
         smsManager = SmsManager.getDefault();
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 
-        install = ParseInstallation.getCurrentInstallation();
+        ParseInstallation.getCurrentInstallation().saveInBackground();
+    }
+
+    /*********************************
+     * Lock Device
+     **********************************/
+
+    public void lock() {
+        if(getDevicePolicyManager() != null) {
+            getDevicePolicyManager().lockNow();
+        }
     }
 }

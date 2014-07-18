@@ -72,6 +72,7 @@ dependencies {
 	compile 'com.android.support:support-v4:19.0.1'
 	compile 'com.google.android.gms:play-services:4.+'
     compile 'com.commonsware.cwac:merge:1.0.2'
+    compile 'com.commonsware.cwac:wakeful:1.0.+'
     compile 'org.apache.commons:commons-lang3:3.0'
 
     compile ('com.fortysevendeg.swipelistview:swipelistview:1.0-SNAPSHOT@aar') {

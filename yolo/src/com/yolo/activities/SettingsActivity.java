@@ -155,8 +155,8 @@ public class SettingsActivity extends BaseActivity {
 
     public void deleteAccount(){
         currentUser.deleteInBackground();
-        app.getInstall().put("channels", new ArrayList<String>());
-        app.getInstall().saveInBackground();
+        getApp().getInstall().put("channels", new ArrayList<String>());
+        getApp().getInstall().saveInBackground();
         Intent i = new Intent(SettingsActivity.this, MainActivity.class);
         startActivity(i);
     }
@@ -173,21 +173,24 @@ public class SettingsActivity extends BaseActivity {
 
         if (!password.isEmpty()) {
             currentUser.setPassword(password);
+            currentUser.saveInBackground();
         }
         if (!phone.isEmpty()) {
             currentUser.setPhone(phone);
+            currentUser.saveInBackground();
             phoneTextView.setText(phone);
         }
 
         if (!email.isEmpty()) {
             currentUser.setEmail(email);
+            currentUser.saveInBackground();
            emailTextView.setText(email);
         }
         else if(!currentUser.getEmailVerified()){
             currentUser.setEmail(currentUser.getEmail());
             currentUser.saveInBackground();
         }
-        currentUser.saveInBackground();
+
     }
 
 	

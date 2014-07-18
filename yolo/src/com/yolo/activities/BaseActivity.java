@@ -1,7 +1,6 @@
 package com.yolo.activities;
 
 import android.app.Activity;
-import android.app.FragmentManager;
 import android.content.res.Configuration;
 import android.os.Bundle;
 
@@ -13,20 +12,23 @@ public class BaseActivity extends Activity {
     public static final int REQUIRE_SDK_14 = 14;
 
 	public int currentSDKVersion;	
-	public Application app;
-	public FragmentManager fragmentManager;
+	private Application app;
+	//public FragmentManager fragmentManager;
 	public User currentUser;
 
+    public Application getApp(){
+        return app;
+    }
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		
 		super.onCreate(savedInstanceState);
 		
-		currentSDKVersion = android.os.Build.VERSION.SDK_INT;	
-		app = (Application)getApplication();
-        app.setContext(this);
-		fragmentManager = getFragmentManager();
+		currentSDKVersion = android.os.Build.VERSION.SDK_INT;
+        app = (Application)getApplication();
+        getApp().setContext(this);
+		//fragmentManager = getFragmentManager();
 		
 		Configuration config = getResources().getConfiguration();
         if (config.smallestScreenWidthDp >= 600) {
@@ -60,7 +62,8 @@ public class BaseActivity extends Activity {
 		super.onResume();		
 	}
 	
-	@Override public void onDestroy(){
+	@Override
+    public void onDestroy(){
 		super.onDestroy();
 	}
 }

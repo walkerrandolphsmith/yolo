@@ -1,6 +1,7 @@
 package com.yolo.activities;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.Menu;
@@ -22,7 +23,7 @@ import org.json.JSONObject;
 
 public class ConsoleActivity extends BaseActivity {
 	
-	private ListAdapterChildren adapter;
+	public ListAdapterChildren adapter;
 		
 	/*********************************
 	 * OnCreate
@@ -122,40 +123,7 @@ public class ConsoleActivity extends BaseActivity {
 	}
 
     public void addChild(){
-        String channel = app.DEVICE_CHANNEL + app.getInstall().getObjectId();
-        String name = getIntent().getStringExtra("name");
-
-        JSONObject obj = new JSONObject();
-        boolean isUnique = true;
-
-        try {
-            obj.put("channel", channel);
-            obj.put("name", name);
-            JSONArray children = currentUser.getChildren();
-            for(int i = 0; i < children.length(); i++){
-                JSONObject child = children.getJSONObject(i);
-                String childChannel = (String) child.get("channel");
-                if(childChannel.equalsIgnoreCase(channel)){
-                    isUnique = false;
-                }
-            }
-            if(isUnique){
-                currentUser.addUnique("children", obj);
-                currentUser.saveInBackground();
-            }
-        }
-        catch (JSONException e){
-
-        }
-        try {
-            if(isUnique) {
-                if(obj != null)
-                    adapter.mChildren.put(adapter.mChildren.length(), obj);
-                adapter.notifyDataSetChanged();
-            }
-        } catch (JSONException e){
-
-        }
+        new AddTask(this).execute();
     }
 
     public void updateChild(){
@@ -174,13 +142,8 @@ public class ConsoleActivity extends BaseActivity {
         }
     }
 
-    //Add parent User to child/current Installation
     public void logOut(){
         if (currentUser != null) {
-            //Log.w("Logging out: ", currentUser.getObjectId());
-            String parentChannel = app.PARENT_CHANNEL + currentUser.getObjectId();
-            app.getInstall().addUnique("channels", parentChannel);
-            app.getInstall().saveInBackground();
             ParseUser.logOut();
         }
         onBackPressed();
@@ -215,6 +178,64 @@ public class ConsoleActivity extends BaseActivity {
 	            return super.onOptionsItemSelected(item);
 	    }
 	}
+
+    private class AddTask extends AsyncTask<Void, Void, JSONObject> {
+
+        private ConsoleActivity activity;
+
+        public AddTask(ConsoleActivity activity){
+            this.activity = activity;
+        }
+
+        @Override
+        protected JSONObject doInBackground(Void... voids) {
+            //Add Parent to Child Device
+            String parentChannel = getApp().PARENT_CHANNEL + currentUser.getObjectId();
+            getApp().getInstall().addUnique("channels", parentChannel);
+            getApp().getInstall().saveInBackground();
+
+            //Add Child to Parent's List of Children
+            String channel = getApp().DEVICE_CHANNEL + getApp().getInstall().getObjectId();
+            String name = getIntent().getStringExtra("name");
+
+            JSONObject obj = new JSONObject();
+            boolean isUnique = true;
+
+            try {
+                obj.put("channel", channel);
+                obj.put("name", name);
+                JSONArray children = currentUser.getChildren();
+                for(int i = 0; i < children.length(); i++){
+                    JSONObject child = children.getJSONObject(i);
+                    String childChannel = (String) child.get("channel");
+                    if(childChannel.equalsIgnoreCase(channel)){
+                        isUnique = false;
+                    }
+                }
+                if(isUnique){
+                    currentUser.addUnique("children", obj);
+                    currentUser.saveInBackground();
+                }
+            }
+            catch (JSONException e){
+
+            }
+            return obj;
+        }
+
+        protected void onPostExecute(JSONObject obj){
+            if(obj != null) {
+                try {
+                    activity.adapter.mChildren.put(adapter.mChildren.length(), obj);
+                } catch (JSONException e){
+
+                }
+            }
+            activity.adapter.notifyDataSetChanged();
+        }
+
+
+    }
 
 
 }

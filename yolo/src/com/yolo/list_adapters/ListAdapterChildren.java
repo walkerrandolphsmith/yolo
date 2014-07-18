@@ -118,7 +118,7 @@ public class ListAdapterChildren extends ArrayAdapter<String> {
             JSONObject data = null;
             try {
                 data = new JSONObject(
-                        "{"
+                                "{"
                                 + "\"action\": \"com.example.UPDATE_STATUS\","
                                 +  "\"alert\": \"Your phone has been locked by Yolo. Contact Parent or Guardian.\""
                                 + "}"

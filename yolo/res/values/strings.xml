@@ -31,16 +31,17 @@
     
      <!-- Conosle Activity -->
     <string name="settings">Settings</string>
-
-    <string name="delete">delete</string>
-    <string name="lock">lock</string>
-    <string name="edit">rename</string>
+    <!-- Child Actions -->
+    <string name="delete">Delete</string>
+    <string name="lock">Lock</string>
+    <string name="edit">Rename</string>
+    <!-- Child Edit -->
+    <string name="editNameHint">Child Name</string>
     <!-- Settings Fragment -->
     <string name="notifications">Notifications</string>
     <string name="receivePushNotifications">Push Notifications</string>
     <string name="receiveEmail">Email</string>
     <string name="receiveSMS">Text Message</string>
-    
 
      <!-- Errors -->
     <string name="error_invalid_email">This email address is invalid</string>
