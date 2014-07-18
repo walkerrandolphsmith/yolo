@@ -1,45 +1,36 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="fill_parent"
     android:orientation="vertical"
     android:padding="10dip" >
-
-    <RelativeLayout xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:fillViewport="true"
-        android:layout_height="fill_parent"
-        android:layout_width="fill_parent">
-
-        <Switch
-            android:id="@+id/isDrivingSwitch"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="35dip"
-            android:textOff="@string/passenger"
-            android:textOn="@string/driving"
-            android:thumbTextPadding="25dp"
-            android:thumb="@drawable/yolotheme_switch_inner_holo_light"
-            android:track="@drawable/yolotheme_switch_track_holo_light"
-            />
 
         <ImageView
             android:id="@+id/logo"
             android:layout_width="260dp"
             android:layout_height="260dp"
-            android:layout_centerHorizontal="true"
             android:layout_marginTop="100dip"
+            android:layout_gravity="center"
             android:src="@drawable/ic_launcher"
             android:contentDescription="@string/app_name"
+            android:clickable="true"
             style="@style/Wrap"/>
+
+        <TextView
+            android:id="@+id/status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dip"
+            android:layout_gravity="center"
+            android:textSize="18sp"
+            android:text="@string/passenger"/>
 
         <TextView
             android:id="@+id/name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
             android:layout_marginTop="10dip"
-            android:layout_below="@+id/logo"
+            android:layout_gravity="center"
             android:textColor="@color/full_blue"
             android:textSize="36sp"
             android:text="@string/app_name"/>
@@ -48,9 +39,8 @@
             android:id="@+id/signIn"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/name"
             android:layout_marginTop="25dp"
+            android:layout_gravity="bottom"
             android:text="@string/signIn"
             style="@style/ButtonYoloTheme" />
-    </RelativeLayout>
 </LinearLayout>

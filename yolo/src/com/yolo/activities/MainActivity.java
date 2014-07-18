@@ -15,9 +15,8 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.CompoundButton;
-import android.widget.Switch;
-import android.widget.ToggleButton;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.parse.FunctionCallback;
 import com.parse.GetCallback;
@@ -84,6 +83,8 @@ public class MainActivity extends BaseActivity {
 	public void onCreate(Bundle savedInstanceState) {
 
 		super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
         getActionBar().hide();
         ParseAnalytics.trackAppOpened(getIntent());
         PushService.setDefaultPushCallback(this, MainActivity.class);
@@ -103,24 +104,9 @@ public class MainActivity extends BaseActivity {
         }else{
            new NoGpsDialog(this).show();
 	    }
-
-		if(currentSDKVersion >= REQUIRE_SDK_14){
-			setContentView(R.layout.activity_main);
-			  CompoundButton s = (Switch) findViewById(R.id.isDrivingSwitch);
-		        if (s != null) {
-		            s.setOnCheckedChangeListener(new isDrivingCheckedChangedListener());
-		        }
-		}else{
-			setContentView(R.layout.activity_main_fallback);
-			 CompoundButton s = (ToggleButton) findViewById(R.id.isDrivingToggleButton);
-		        if (s != null) {
-		            s.setOnCheckedChangeListener(new isDrivingCheckedChangedListener());
-		            s.setOnClickListener(new OnClickListener() {
-						@Override
-						public void onClick(View v) { /*ignore*/ }
-		            });
-		        }
-		}
+        TextView status = (TextView) findViewById(R.id.status);
+        ImageView logo = (ImageView) findViewById(R.id.logo);
+        logo.setOnClickListener(new isDrivingCheckedChangedListener(logo, status));
 
         Button signIn = (Button) findViewById(R.id.signIn);
         signIn.setOnClickListener(new OnClickListener() {
@@ -132,16 +118,31 @@ public class MainActivity extends BaseActivity {
         });
   	}
 
+    /*********************************
+     * isDriving onCheckedChanged Listener
+     **********************************/
 
-	/*********************************
-	 * isDriving onCheckedChanged Listener
-	 **********************************/
-	private class isDrivingCheckedChangedListener implements CompoundButton.OnCheckedChangeListener {
-		@Override
-		public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-			isDriving = isChecked;
-		}
-	}
+    public class isDrivingCheckedChangedListener implements OnClickListener {
+
+        public ImageView logo;
+        public TextView status;
+
+        public isDrivingCheckedChangedListener(ImageView logo, TextView status) {
+            this.logo = logo;
+            this.status = status;
+        }
+        @Override
+        public void onClick(View view) {
+            if(isDriving) {
+                logo.setImageResource(R.drawable.ic_launcher);
+                status.setText(getResources().getString(R.string.passenger));
+            }else{
+                logo.setImageResource(R.drawable.ic_message);
+                status.setText(getResources().getString(R.string.driving));
+            }
+            isDriving = !isDriving;
+        }
+    }
 
     /*********************************
      * Lock Device
