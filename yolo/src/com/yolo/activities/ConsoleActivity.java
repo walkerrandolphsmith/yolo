@@ -127,9 +127,9 @@ public class ConsoleActivity extends BaseActivity {
     }
 
     public void updateChild(){
+
         String name = getIntent().getStringExtra("name");
         int editedPosition = getIntent().getIntExtra("position", 0);
-
         try {
             JSONObject ob = adapter.mChildren.getJSONObject(editedPosition);
             ob.put("name", name);
@@ -140,6 +140,14 @@ public class ConsoleActivity extends BaseActivity {
         }catch (JSONException e){
 
         }
+
+       /* String name = getIntent().getStringExtra("name");
+        int editedPosition = getIntent().getIntExtra("position", 0);
+
+        String[] arr = new String[]{name, String.valueOf(editedPosition)};
+
+        new UpdateTask(this).execute(arr);
+        */
     }
 
     public void logOut(){
@@ -178,6 +186,11 @@ public class ConsoleActivity extends BaseActivity {
 	            return super.onOptionsItemSelected(item);
 	    }
 	}
+
+
+    /*********************************
+     * Async Task Add Child
+     **********************************/
 
     private class AddTask extends AsyncTask<Void, Void, JSONObject> {
 
@@ -228,6 +241,52 @@ public class ConsoleActivity extends BaseActivity {
                 try {
                     activity.adapter.mChildren.put(adapter.mChildren.length(), obj);
                 } catch (JSONException e){
+
+                }
+            }
+            activity.adapter.notifyDataSetChanged();
+        }
+
+
+    }
+
+    /*********************************
+     * Async Task Update Child
+     **********************************/
+
+    private class UpdateTask extends AsyncTask<String , Void, JSONObject> {
+
+        private ConsoleActivity activity;
+
+        public UpdateTask(ConsoleActivity activity){
+            this.activity = activity;
+        }
+
+        @Override
+        protected JSONObject doInBackground(String ... config) {
+            String name = config[0];
+            int position = Integer.parseInt(config[1]);
+
+            JSONObject obj = null;
+            try {
+                obj = currentUser.getChildren().getJSONObject(position);
+                obj.put("name", name);
+                currentUser.getChildren().put(position,obj);
+                currentUser.saveInBackground();
+                obj.put("position", config[1]);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return obj;
+        }
+
+        protected void onPostExecute(JSONObject obj){
+
+            if(obj != null){
+                try{
+                    String position = obj.getString("position");
+                    activity.adapter.mChildren.put(Integer.parseInt(position),obj);
+                }catch (JSONException e){
 
                 }
             }

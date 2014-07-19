@@ -91,6 +91,9 @@ public class MainActivity extends BaseActivity {
         }
     }
 
+    /*********************************
+     * Async Task Init Parse
+     **********************************/
 
     private class ParseTask extends AsyncTask<Void, Void, Void> {
 

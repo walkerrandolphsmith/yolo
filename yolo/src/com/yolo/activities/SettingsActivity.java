@@ -1,6 +1,7 @@
 package com.yolo.activities;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -28,6 +29,7 @@ public class SettingsActivity extends BaseActivity {
     private static final int[] milis = new int[] { 900000, 1800000, hour, hour*4, hour*5, hour*6, hour*7, hour*8, hour*9, hour*10, hour*11, hour*12, hour*13, hour*14, hour*15, hour*16, hour*17, hour*18, hour*24, hour*48, hour*168 };
     private static final String[] milis_phrases = new String[] { "15 mins", "30 mins", "1 hr", "4 hrs", "5 hrs","6 hrs", "7 hrs","8 hrs", "9 hrs","10 hrs", "11 hrs","12 hrs", "13 hrs","14 hrs", "15 hrs","16 hrs", "17 hrs", "18 hrs", "Daily", "2 days", "Weekly"};
 
+    private TextView phoneTextView,emailTextView;
 	/*********************************
 	 * OnCreate
 	 **********************************/
@@ -114,8 +116,8 @@ public class SettingsActivity extends BaseActivity {
         View accountHeader = getLayoutInflater().inflate(R.layout.settings_account, null, false);
 
         TextView usernameTextView = (TextView)accountHeader.findViewById(R.id.username);
-        TextView phoneTextView = (TextView)accountHeader.findViewById(R.id.phone);
-        TextView emailTextView = (TextView)accountHeader.findViewById(R.id.email);
+        phoneTextView = (TextView)accountHeader.findViewById(R.id.phone);
+        emailTextView = (TextView)accountHeader.findViewById(R.id.email);
         TextView emailVerifiedTextView = (TextView)accountHeader.findViewById(R.id.verifiedText);
 
         usernameTextView.setText(currentUser.getUsername());
@@ -154,9 +156,7 @@ public class SettingsActivity extends BaseActivity {
 	}
 
     public void deleteAccount(){
-        currentUser.deleteInBackground();
-        getApp().getInstall().put("channels", new ArrayList<String>());
-        getApp().getInstall().saveInBackground();
+        new DeleteUserTask().execute();
         Intent i = new Intent(SettingsActivity.this, MainActivity.class);
         startActivity(i);
     }
@@ -165,32 +165,8 @@ public class SettingsActivity extends BaseActivity {
         String password = getIntent().getStringExtra("password");
         String email = getIntent().getStringExtra("email");
         String phone = getIntent().getStringExtra("phone");
-        try {
-            currentUser.refresh();
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
 
-        if (!password.isEmpty()) {
-            currentUser.setPassword(password);
-            currentUser.saveInBackground();
-        }
-        if (!phone.isEmpty()) {
-            currentUser.setPhone(phone);
-            currentUser.saveInBackground();
-            phoneTextView.setText(phone);
-        }
-
-        if (!email.isEmpty()) {
-            currentUser.setEmail(email);
-            currentUser.saveInBackground();
-           emailTextView.setText(email);
-        }
-        else if(!currentUser.getEmailVerified()){
-            currentUser.setEmail(currentUser.getEmail());
-            currentUser.saveInBackground();
-        }
-
+        new UpdateUserTask(this).execute(new String[]{password, email, phone});
     }
 
 	
@@ -209,4 +185,81 @@ public class SettingsActivity extends BaseActivity {
 	            return super.onOptionsItemSelected(item);
 	    }
 	}
+
+
+    /*********************************
+     * Async Task Delete User
+     **********************************/
+
+    public class DeleteUserTask extends  AsyncTask<Void, Void, Void>{
+        @Override
+        protected Void doInBackground(Void ... config) {
+            currentUser.deleteInBackground();
+            getApp().getInstall().put("channels", new ArrayList<String>());
+            getApp().getInstall().saveInBackground();
+            return null;
+        }
+    }
+
+
+    /*********************************
+     * Async Task Update User
+     **********************************/
+
+    private class UpdateUserTask extends AsyncTask<String , Void, String[]> {
+
+        private SettingsActivity activity;
+
+        public UpdateUserTask(SettingsActivity activity){
+            this.activity = activity;
+        }
+
+        @Override
+        protected String[] doInBackground(String ... config) {
+            String password = config[0];
+            String email = config[1];
+            String phone = config[2];
+
+            try {
+                currentUser.refresh();
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+            if (!password.isEmpty()) {
+                currentUser.setPassword(password);
+                currentUser.saveInBackground();
+            }
+            if (!phone.isEmpty()) {
+                currentUser.setPhone(phone);
+                currentUser.saveInBackground();
+            }
+
+            if (!email.isEmpty()) {
+                currentUser.setEmail(email);
+                currentUser.saveInBackground();
+            }
+            else if(!currentUser.getEmailVerified()){
+                currentUser.setEmail(currentUser.getEmail());
+                currentUser.saveInBackground();
+            }
+            return config;
+        }
+
+        protected void onPostExecute(String[] config){
+            String email = config[1];
+            String phone = config[2];
+
+            if (!phone.isEmpty()) {
+                phoneTextView.setText(phone);
+            }
+
+            if (!email.isEmpty()) {
+                emailTextView.setText(email);
+            }
+
+        }
+
+
+    }
 }
