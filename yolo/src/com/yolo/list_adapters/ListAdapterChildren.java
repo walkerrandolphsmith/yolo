@@ -1,6 +1,7 @@
 package com.yolo.list_adapters;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -81,10 +82,7 @@ public class ListAdapterChildren extends ArrayAdapter<String> {
 
         @Override
         public void onClick(View v){
-            mChildren.remove(position);
-            activity.currentUser.getChildren().remove(position);
-            activity.currentUser.saveInBackground();
-            notifyDataSetChanged();
+            new DeleteTask().execute(new Integer[]{ position });
         }
     }
 
@@ -98,7 +96,6 @@ public class ListAdapterChildren extends ArrayAdapter<String> {
 
         @Override
         public void onClick(View v){
-            Log.w("Edit Option Button", "Selected");
             Intent intent = new Intent(activity, ChildEditActivity.class);
             intent.putExtra("position", position);
             activity.startActivity(intent);
@@ -124,8 +121,6 @@ public class ListAdapterChildren extends ArrayAdapter<String> {
                                 + "}"
                 );
                 try {
-                    Log.v("childrenList.getString(position)", mChildren.getJSONObject(position).toString());
-
                     JSONObject child = mChildren.getJSONObject(position);
                     activity.sendNotificationsTo(child.getString("channel"), data);
 
@@ -135,6 +130,27 @@ public class ListAdapterChildren extends ArrayAdapter<String> {
             } catch (JSONException e) {
                 Log.w("exception", "JSONObject null");
             }
+        }
+    }
+
+    /*********************************
+     * Async Task Init Parse
+     **********************************/
+
+    private class DeleteTask extends AsyncTask<Integer, Void, Integer> {
+
+        @Override
+        protected Integer doInBackground(Integer... config) {
+
+            int position = config[0];
+            activity.currentUser.getChildren().remove(position);
+            activity.currentUser.saveInBackground();
+            return position;
+        }
+
+        protected void onPostExecute(Integer position){
+            mChildren.remove(position);
+            notifyDataSetChanged();
         }
     }
 

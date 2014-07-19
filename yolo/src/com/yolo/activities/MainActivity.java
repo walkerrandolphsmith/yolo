@@ -76,18 +76,18 @@ public class MainActivity extends BaseActivity {
         }
         @Override
         public void onClick(View view) {
-            setDrivingState(logo, status);
             Application.isDriving = !Application.isDriving;
+            setDrivingState(logo, status);
         }
     }
 
     public void setDrivingState(ImageView logo, TextView status){
         if(Application.isDriving) {
-            logo.setImageResource(R.drawable.ic_launcher);
-            status.setText(getResources().getString(R.string.passenger));
-        }else{
             logo.setImageResource(R.drawable.ic_message);
             status.setText(getResources().getString(R.string.driving));
+        }else{
+            logo.setImageResource(R.drawable.ic_launcher);
+            status.setText(getResources().getString(R.string.passenger));
         }
     }
 

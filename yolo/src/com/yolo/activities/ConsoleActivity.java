@@ -94,7 +94,14 @@ public class ConsoleActivity extends BaseActivity {
 
         });
 		mListView.setAdapter(adapter);
-        //Configure the Swipe List View
+        initializeSwipeList(mListView);
+	}
+
+    /*********************************
+     * Initialize Swipe List View
+     **********************************/
+
+    public void initializeSwipeList(SwipeListView mListView){
         SettingsManager settings = SettingsManager.getInstance();
         mListView.setSwipeMode(settings.getSwipeMode());
         mListView.setSwipeActionLeft(settings.getSwipeActionLeft());
@@ -103,7 +110,7 @@ public class ConsoleActivity extends BaseActivity {
         mListView.setOffsetRight(convertDpToPixel(settings.getSwipeOffsetRight()));
         mListView.setAnimationTime(settings.getSwipeAnimationTime());
         mListView.setSwipeOpenOnLongPress(settings.isSwipeOpenOnLongPress());
-	}
+    }
 
     private int convertDpToPixel(float dp) {
         DisplayMetrics metrics = getResources().getDisplayMetrics();
@@ -122,33 +129,23 @@ public class ConsoleActivity extends BaseActivity {
 		push.sendInBackground();
 	}
 
+    /*********************************
+     * Edit Children List
+     **********************************/
+
     public void addChild(){
         new AddTask(this).execute();
     }
 
     public void updateChild(){
-
         String name = getIntent().getStringExtra("name");
-        int editedPosition = getIntent().getIntExtra("position", 0);
-        try {
-            JSONObject ob = adapter.mChildren.getJSONObject(editedPosition);
-            ob.put("name", name);
-            adapter.mChildren.put(editedPosition,ob);
-            adapter.notifyDataSetChanged();
-            currentUser.getChildren().put(editedPosition,ob);
-            currentUser.saveInBackground();
-        }catch (JSONException e){
-
-        }
-
-       /* String name = getIntent().getStringExtra("name");
-        int editedPosition = getIntent().getIntExtra("position", 0);
-
-        String[] arr = new String[]{name, String.valueOf(editedPosition)};
-
-        new UpdateTask(this).execute(arr);
-        */
+        int position = getIntent().getIntExtra("position", 0);
+        new UpdateTask(this).execute(new String[]{name, String.valueOf(position)});
     }
+
+    /*********************************
+     * Log Out
+     **********************************/
 
     public void logOut(){
         if (currentUser != null) {
@@ -254,7 +251,7 @@ public class ConsoleActivity extends BaseActivity {
      * Async Task Update Child
      **********************************/
 
-    private class UpdateTask extends AsyncTask<String , Void, JSONObject> {
+    private class UpdateTask extends AsyncTask<String , Void, JSONObject[]> {
 
         private ConsoleActivity activity;
 
@@ -263,29 +260,35 @@ public class ConsoleActivity extends BaseActivity {
         }
 
         @Override
-        protected JSONObject doInBackground(String ... config) {
+        protected JSONObject[] doInBackground(String ... config) {
             String name = config[0];
             int position = Integer.parseInt(config[1]);
 
             JSONObject obj = null;
+            JSONObject loc = new JSONObject();
             try {
                 obj = currentUser.getChildren().getJSONObject(position);
                 obj.put("name", name);
                 currentUser.getChildren().put(position,obj);
                 currentUser.saveInBackground();
-                obj.put("position", config[1]);
+                loc.put("position", position);
+
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            return obj;
+            return new JSONObject[]{ obj, loc };
+
         }
 
-        protected void onPostExecute(JSONObject obj){
+        protected void onPostExecute(JSONObject[] objs){
+
+            JSONObject obj = objs[0];
+            JSONObject loc = objs[1];
 
             if(obj != null){
                 try{
-                    String position = obj.getString("position");
-                    activity.adapter.mChildren.put(Integer.parseInt(position),obj);
+                    int position = loc.getInt("position");
+                    activity.adapter.mChildren.put(position, obj);
                 }catch (JSONException e){
 
                 }
