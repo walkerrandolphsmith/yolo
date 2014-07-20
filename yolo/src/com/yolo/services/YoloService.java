@@ -46,6 +46,15 @@ public class YoloService extends WakefulIntentService {
         }else if(location){
             Time now = new Time();
             now.setToNow();
+
+            timeStamps.add(now.toMillis(true));
+            if(timeStamps.size() > 1){
+                long timeSinceLastMessage = TimeUnit.MILLISECONDS.toSeconds(timeStamps.get(1)-timeStamps.get(0));
+                timeStamps.remove(0);
+            }
+
+
+
             long mili = now.toMillis(true);
             timeStamps.add(mili);
             long diff = TimeUnit.MILLISECONDS.toSeconds(mili-timeStamps.get(0));

@@ -24,12 +24,21 @@ import com.yolo.models.User;
 import java.util.ArrayList;
 
 public class SettingsActivity extends BaseActivity {
-		
-    private static int hour = 3600000;
-    private static final int[] milis = new int[] { 900000, 1800000, hour, hour*4, hour*5, hour*6, hour*7, hour*8, hour*9, hour*10, hour*11, hour*12, hour*13, hour*14, hour*15, hour*16, hour*17, hour*18, hour*24, hour*48, hour*168 };
-    private static final String[] milis_phrases = new String[] { "15 mins", "30 mins", "1 hr", "4 hrs", "5 hrs","6 hrs", "7 hrs","8 hrs", "9 hrs","10 hrs", "11 hrs","12 hrs", "13 hrs","14 hrs", "15 hrs","16 hrs", "17 hrs", "18 hrs", "Daily", "2 days", "Weekly"};
 
-    private TextView phoneTextView,emailTextView;
+    /* Milliseconds per unit */
+    private static int second = 1000;
+    private static int minute = 6000; //60 * second;
+    private static int quarter_hour = 90000; //15 * minute
+    private static int half_hour = 180000; //30 * minute
+    private static int hour = 360000; //60 * minute;
+    private static int half_day = 4320000; //12 * hour
+    private static int day = 8640000; //24 * hour;
+    private static int week = 60480000; //7 * day;
+    private static final int[] milis = new int[] { quarter_hour, half_hour, hour, hour*2, hour*3, hour*4, hour*6, hour*8, hour*10, half_day, hour*15, hour*18, hour*20, hour*21, hour*22, hour*23, day, day*2, day*3, day*5, week };
+    private static final String[] milis_phrases = new String[] { "15 minutes", "30 minutes", "1 hour", "2 hours", "3 hours","4 hours", "6 hours","8 hours", "10 hours","12 hours", "15 hours","18 hours", "20 hours","21 hours", "22 hours","23 hours", "Day", "2 Days", "3 Days", "5 Days", "Week"};
+
+    private TextView phoneTextView,emailTextView, emailVerifiedTextView;
+
 	/*********************************
 	 * OnCreate
 	 **********************************/
@@ -118,7 +127,7 @@ public class SettingsActivity extends BaseActivity {
         TextView usernameTextView = (TextView)accountHeader.findViewById(R.id.username);
         phoneTextView = (TextView)accountHeader.findViewById(R.id.phone);
         emailTextView = (TextView)accountHeader.findViewById(R.id.email);
-        TextView emailVerifiedTextView = (TextView)accountHeader.findViewById(R.id.verifiedText);
+        emailVerifiedTextView = (TextView)accountHeader.findViewById(R.id.verifiedText);
 
         usernameTextView.setText(currentUser.getUsername());
         phoneTextView.setText(currentUser.getPhone());
@@ -142,6 +151,8 @@ public class SettingsActivity extends BaseActivity {
         mergeAdapter.addView(accountHeader);
         /* End Account Settings */
 
+
+
         boolean isUpdated = getIntent().getBooleanExtra("updated", false);
         if(isUpdated){
             updateAccount(phoneTextView, emailTextView);
@@ -150,10 +161,12 @@ public class SettingsActivity extends BaseActivity {
         if(isDeleted){
             deleteAccount();
         }
-
-
         mListView.setAdapter(mergeAdapter);
 	}
+
+    /*********************************
+     * Update Account
+     **********************************/
 
     public void deleteAccount(){
         new DeleteUserTask().execute();
@@ -173,7 +186,6 @@ public class SettingsActivity extends BaseActivity {
 	/*********************************
 	 * ActionBar MenuItems
 	 **********************************/
-
 	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
