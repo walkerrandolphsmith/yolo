@@ -1,6 +1,7 @@
 package com.yolo.activities;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -153,42 +154,61 @@ public class SignUpActivity extends BaseActivity {
         }
         else
         {
-        	user = new User(userName, email, password);
-        	user.setPhone(phone);
-        	user.setReceivePushNotifications(true);
-        	user.setReceiveEmails(true);
-        	user.setReceiveSMS(true);
-            user.setReminderFrequency(10);
-        	
-        	user.signUpInBackground(new SignUpCallback() {
-  	 		  public void done(ParseException e) {
-  	 		    if (e == null) {
-  	 		    	Intent i = new Intent(SignUpActivity.this, MainActivity.class);
-  	 	            startActivity(i); 
-  	 		    } else {
-  	 		    	removeErrors();
-  	 		    	switch (e.getCode()) {
-  	 					case ParseException.INVALID_EMAIL_ADDRESS:
-  	 						mEmail.setError(getString(R.string.error_invalid_email));
-  	 						mEmail.requestFocus();
-  	 						break;
-  	 					case ParseException.EMAIL_TAKEN:
-  	 						mEmail.setError(getString(R.string.error_duplicate_email));
-  	 						mEmail.requestFocus();
-  	 						break;
-  	 					case ParseException.USERNAME_TAKEN:
-  	 						mUserName.setError(getString(R.string.error_duplicate_username));
-  	 						mUserName.requestFocus();
-  	 						break;
-  	 					default:
-  	 						Log.w("Error", "Unknown");
-  	 						break;
-  	 		    	}
-  	 		    }
-  	 		  }
-  	 		});
+        	new ParseTask().execute();
         }
 	}
+
+    /*********************************
+     * Async Task Init Parse
+     **********************************/
+
+    private class ParseTask extends AsyncTask<Void, Void, Void> {
+
+        public ParseTask(){
+
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            user = new User(userName, email, password);
+            user.setPhone(phone);
+            user.setReceivePushNotifications(true);
+            user.setReceiveEmails(true);
+            user.setReceiveSMS(true);
+            user.setReminderFrequency(10);
+
+
+            user.signUpInBackground(new SignUpCallback() {
+                public void done(ParseException e) {
+                    if (e == null) {
+                        getApp().getInstall().addUnique("channels", userName + user.getObjectId());
+                        Intent i = new Intent(SignUpActivity.this, MainActivity.class);
+                        startActivity(i);
+                    } else {
+                        removeErrors();
+                        switch (e.getCode()) {
+                            case ParseException.INVALID_EMAIL_ADDRESS:
+                                mEmail.setError(getString(R.string.error_invalid_email));
+                                mEmail.requestFocus();
+                                break;
+                            case ParseException.EMAIL_TAKEN:
+                                mEmail.setError(getString(R.string.error_duplicate_email));
+                                mEmail.requestFocus();
+                                break;
+                            case ParseException.USERNAME_TAKEN:
+                                mUserName.setError(getString(R.string.error_duplicate_username));
+                                mUserName.requestFocus();
+                                break;
+                            default:
+                                Log.w("Error", "Unknown");
+                                break;
+                        }
+                    }
+                }
+            });
+            return null;
+        }
+    }
 	
 	public void getStrings(){
 		userName = mUserName.getText().toString();

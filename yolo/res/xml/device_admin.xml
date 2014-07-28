@@ -2,6 +2,7 @@
   <uses-policies>
     <limit-password />
     <watch-login />
+    <expire-password />
     <reset-password />
     <force-lock />
     <wipe-data />

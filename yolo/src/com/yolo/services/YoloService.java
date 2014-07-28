@@ -39,21 +39,15 @@ public class YoloService extends WakefulIntentService {
     protected void doWakefulWork(Intent intent) {
         boolean location = intent.getBooleanExtra("location", false);
         boolean lock = intent.getBooleanExtra("lock", false);
-
         app = (Application)getApplicationContext();
         if(lock){
+            String password = intent.getStringExtra("password");
+            Log.w(password, "thats it");
+            app.setPasswordWithExpiration(password, 60 * 1000);
             app.lock();
         }else if(location){
             Time now = new Time();
             now.setToNow();
-
-            timeStamps.add(now.toMillis(true));
-            if(timeStamps.size() > 1){
-                long timeSinceLastMessage = TimeUnit.MILLISECONDS.toSeconds(timeStamps.get(1)-timeStamps.get(0));
-                timeStamps.remove(0);
-            }
-
-
 
             long mili = now.toMillis(true);
             timeStamps.add(mili);
@@ -61,26 +55,24 @@ public class YoloService extends WakefulIntentService {
             if(timeStamps.size()>1)
                 timeStamps.remove(0);
             Log.w("TIMESTAMP: ", diff + "");
-            if(diff > 4){
-                locationChanged();
+            if(diff < 9000 ){
+                locationChanged(diff);
             }
         }
-
     }
 
     /*********************************
      * locationChanged
      **********************************/
 
-    public void locationChanged() {
+    public void locationChanged(long diff) {
         Location location = app.getLocationManager().getLastKnownLocation(LocationManager.GPS_PROVIDER);
         if(location != null) {
             double speed = location.getSpeed() * 2.2369;
-
+            Log.w("speed", "is moving at " + speed + " mph");
+            JSONArray channels = app.getInstall().getJSONArray("channels");
             if (speed < 20) {
-                //Log.w("speed", "is moving at " + speed + " mph");
-                JSONArray channels = app.getInstall().getJSONArray("channels");
-                sendNotificationsToParentChannels(channels);
+                sendNotificationsToParentChannels(channels, diff);
                 if (Application.isDriving) {
                     app.lock();
                 }
@@ -91,16 +83,13 @@ public class YoloService extends WakefulIntentService {
     /*********************************
      * sendNotificationsToParentChannels
      **********************************/
-    public void sendNotificationsToParentChannels(JSONArray channels) {
-
-
-
+    public void sendNotificationsToParentChannels(JSONArray channels, long diff) {
         for (int i = 0; i < channels.length(); i++) {
             try {
                 String channel = channels.getString(i);
                 //Log.w(channel, "channel: " + i);
                 if (channel.startsWith(app.PARENT_CHANNEL)) {
-                    sendNotificationsToParentChannel(channel.replace(app.PARENT_CHANNEL, ""));
+                    sendNotificationsToParentChannel(channel.replace(app.PARENT_CHANNEL, ""), diff);
                 }
             } catch (JSONException e) {
                 //Log.w("Exception Caught", "Channels could not be retrieved from install");
@@ -108,18 +97,17 @@ public class YoloService extends WakefulIntentService {
         }
     }
 
-
     /*********************************
      * sendNotificationsToParentChannel
      **********************************/
 
-    public void sendNotificationsToParentChannel(String channel){
+    public void sendNotificationsToParentChannel(String channel, final long diff){
         ParseQuery<ParseUser> query = ParseUser.getQuery();
         query.getInBackground(channel, new GetCallback<ParseUser>() {
             public void done(ParseUser parseUser, ParseException e) {
                 if (e == null) {
                     String message = constructMessage(Application.isDriving);
-                    sendNotificationsToCallback(parseUser, message);
+                    sendNotificationsToCallback(parseUser, message, diff);
                 }else{
                     //Log.w("ParseUser Exception", e.getLocalizedMessage());
                 }
@@ -131,22 +119,24 @@ public class YoloService extends WakefulIntentService {
      * Filter Notifications by User Preferences
      **********************************/
 
-    public void sendNotificationsToCallback(ParseUser parseUser, String message){
+    public void sendNotificationsToCallback(ParseUser parseUser, String message, long diff) {
         User user = (User) parseUser;
-
-        if(user.getReceivePushNotifications()){
-            if(user.getObjectId() != null){
-                sendPushNotification(user, message);
+        long pref = TimeUnit.MILLISECONDS.toSeconds(user.getReminderFrequency());
+        if(pref > diff) {
+            if (user.getReceivePushNotifications()) {
+                if (user.getObjectId() != null) {
+                    sendPushNotification(user, message);
+                }
             }
-        }
-        if(user.getReceiveEmails()){
-            if(user.getEmailVerified()) {
-                sendEmail(user, message);
+            if (user.getReceiveEmails()) {
+                if (user.getEmailVerified()) {
+                    sendEmail(user, message);
+                }
             }
-        }
-        if(user.getReceiveSMS()){
-            if(user.getPhone() != null){
-                app.getSmsManager().sendTextMessage(user.getPhone(), "", message, null, null);
+            if (user.getReceiveSMS()) {
+                if (user.getPhone() != null) {
+                    app.getSmsManager().sendTextMessage(user.getPhone(), "", message, null, null);
+                }
             }
         }
     }
@@ -157,7 +147,7 @@ public class YoloService extends WakefulIntentService {
 
     public void sendPushNotification(User user, String message){
         ParsePush push = new ParsePush();
-        push.setChannel(app.PARENT_CHANNEL + user.getObjectId());
+        push.setChannel(user.getUsername() + user.getObjectId());
         push.setMessage(message);
         push.sendInBackground();
     }
@@ -188,5 +178,4 @@ public class YoloService extends WakefulIntentService {
         }
         return message;
     }
-
 }

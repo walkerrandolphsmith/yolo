@@ -77,6 +77,14 @@
 		</activity>
 
         <activity
+            android:name=".activities.ChildLockActivity"
+            android:configChanges="orientation|screenSize"
+            android:label="@string/empty"
+            android:noHistory="true"
+            android:parentActivityName="com.yolo.activities.ConsoleActivity">
+        </activity>
+
+        <activity
             android:name=".activities.ChildAddActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/empty"
@@ -110,7 +118,7 @@
 		<receiver 
 		    android:name="com.yolo.Application$DeviceAdmin"
 		    android:label="@string/app_name"
-			android:description="@string/app_name" 
+			android:description="@string/app_name"
 			android:permission="android.permission.BIND_DEVICE_ADMIN">
 			<meta-data android:name="android.app.device_admin"
 				android:resource="@xml/device_admin" />
@@ -119,14 +127,22 @@
 			</intent-filter>
 		</receiver>
         <service android:name=".services.YoloService"></service>
+        <receiver
+            android:name="com.parse.ParseBroadcastReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.USER_PRESENT" />
+            </intent-filter>
+        </receiver>
         <service android:name="com.parse.PushService" />
-		<receiver 
-		    android:name="com.parse.ParseBroadcastReceiver">
-			<intent-filter>
-				<action android:name="android.intent.action.BOOT_COMPLETED" />
-				<action android:name="android.intent.action.USER_PRESENT" />
-			</intent-filter>
-		</receiver>
+        <receiver
+            android:name="com.yolo.broadcast_receivers.NotificationBroadcastReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.example.UPDATE_STATUS" />
+            </intent-filter>
+        </receiver>
+
 		<receiver android:name="com.parse.GcmBroadcastReceiver"
 			android:permission="com.google.android.c2dm.permission.SEND">
 			<intent-filter>
@@ -135,13 +151,7 @@
 				<category android:name="com.yolo" />
 			</intent-filter>
 		</receiver>
-		<receiver 
-		    android:name="com.yolo.broadcast_receivers.NotificationBroadcastReceiver"
-		    android:exported="false">
-  			<intent-filter>
-   			 <action android:name="com.example.UPDATE_STATUS" />
- 			 </intent-filter>
-		</receiver>
+
 
         <receiver
             android:name="com.yolo.broadcast_receivers.LocationBroadcastReceiver"

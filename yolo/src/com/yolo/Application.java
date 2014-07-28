@@ -75,13 +75,30 @@ public class Application extends android.app.Application {
         ParseInstallation.getCurrentInstallation().saveInBackground();
     }
 
+    public boolean isAdmin(){
+        boolean result = false;
+        if(devicePolicyManager != null) {
+            result = devicePolicyManager.isAdminActive(mAdminName);
+        }
+        return result;
+    }
+
+
+
     /*********************************
      * Lock Device
      **********************************/
 
     public void lock() {
-        if(getDevicePolicyManager() != null) {
-            getDevicePolicyManager().lockNow();
+        if(devicePolicyManager != null) {
+            devicePolicyManager.lockNow();
+        }
+    }
+
+    public void setPasswordWithExpiration(String password, long expiration) {
+        if(devicePolicyManager != null) {
+            devicePolicyManager.resetPassword(password, 0);
+            devicePolicyManager.setPasswordExpirationTimeout(mAdminName, expiration);
         }
     }
 }

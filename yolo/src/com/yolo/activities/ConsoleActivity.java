@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -36,13 +37,17 @@ public class ConsoleActivity extends BaseActivity {
 
 		currentUser = (User) ParseUser.getCurrentUser();
 
-        adapter = new ListAdapterChildren(this, currentUser.getChildren());
+        adapter = new ListAdapterChildren(this);
         if(getIntent().getBooleanExtra("edited", false)){
            updateChild();
         }
 
         if(getIntent().getBooleanExtra("added", false)){
             addChild();
+        }
+
+        if(getIntent().getBooleanExtra("locked", false)){
+            lockChild();
         }
 
         final SwipeListView mListView = (SwipeListView)findViewById(R.id.swipelist);
@@ -128,6 +133,25 @@ public class ConsoleActivity extends BaseActivity {
 		push.setData(data); 
 		push.sendInBackground();
 	}
+
+    public void lockChild(){
+        String name = getIntent().getStringExtra("name");
+        String channel = getIntent().getStringExtra("channel");
+        Log.w("the password to the remote lock ", name);
+        JSONObject data = null;
+        try {
+            data = new JSONObject(
+                    "{"
+                            + "\"action\": \"com.example.UPDATE_STATUS\","
+                            +  "\"alert\": \"Your phone has been locked by Yolo. Contact Parent or Guardian.\","
+                            + "\"password\": \"" + name + "\""
+                            + "}"
+            );
+            sendNotificationsTo(channel, data);
+        } catch (JSONException e) {
+            Log.w("exception", "JSONObject null");
+        }
+    }
 
     /*********************************
      * Edit Children List

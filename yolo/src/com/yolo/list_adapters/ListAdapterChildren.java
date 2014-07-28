@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.fortysevendeg.swipelistview.SwipeListView;
 import com.yolo.R;
 import com.yolo.activities.ChildEditActivity;
+import com.yolo.activities.ChildLockActivity;
 import com.yolo.activities.ConsoleActivity;
 
 import org.json.JSONArray;
@@ -23,10 +24,10 @@ public class ListAdapterChildren extends ArrayAdapter<String> {
 	private ConsoleActivity activity;
 	public JSONArray mChildren;
 
-	public ListAdapterChildren(ConsoleActivity activity, JSONArray mChildren) {
+	public ListAdapterChildren(ConsoleActivity activity) {
 		super(activity, R.layout.each_child);
 		this.activity = activity;
-		this.mChildren = mChildren;
+		this.mChildren = activity.currentUser.getChildren();
 	}
 	
 	private class ViewHolder {
@@ -52,7 +53,7 @@ public class ListAdapterChildren extends ArrayAdapter<String> {
 
         ((SwipeListView) parent).recycle(convertView, position);
 		try {
-            JSONObject child = mChildren.getJSONObject(position);
+            JSONObject child = activity.currentUser.getChildren().getJSONObject(position);
 			viewHolder.device_channel.setText(child.getString("channel"));
 			viewHolder.name.setText(child.getString("name"));
 		} catch (JSONException e) {
@@ -112,24 +113,17 @@ public class ListAdapterChildren extends ArrayAdapter<String> {
 
         @Override
         public void onClick(View v){
-            JSONObject data = null;
-            try {
-                data = new JSONObject(
-                                "{"
-                                + "\"action\": \"com.example.UPDATE_STATUS\","
-                                +  "\"alert\": \"Your phone has been locked by Yolo. Contact Parent or Guardian.\""
-                                + "}"
-                );
-                try {
-                    JSONObject child = mChildren.getJSONObject(position);
-                    activity.sendNotificationsTo(child.getString("channel"), data);
+            String channel = "";
+            try{
+                JSONObject child = mChildren.getJSONObject(position);
+                channel = child.getString("channel");
+            }catch (JSONException e){
 
-                } catch (JSONException e) {
-                    Log.w("exception", "Channel null");
-                }
-            } catch (JSONException e) {
-                Log.w("exception", "JSONObject null");
             }
+
+            Intent intent = new Intent(activity, ChildLockActivity.class);
+            intent.putExtra("channel", channel);
+            activity.startActivity(intent);
         }
     }
 

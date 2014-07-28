@@ -33,7 +33,7 @@ public class MainActivity extends BaseActivity {
 
         new ParseTask(this).execute();
 
-		if (!getApp().getDevicePolicyManager().isAdminActive(getApp().getAdminName())) {
+		if (!getApp().isAdmin()) {
      		Intent intent = new Intent(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN);
      		intent.putExtra(DevicePolicyManager.EXTRA_DEVICE_ADMIN, getApp().getAdminName());
      		startActivityForResult(intent, 1);
@@ -58,7 +58,6 @@ public class MainActivity extends BaseActivity {
                 startActivity(intent);
             }
         });
-
   	}
 
     /*********************************
