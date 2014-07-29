@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:fillViewport="true"
+    style="@style/Match" >
+        
+    <EditText
+        android:id="@+id/password"
+        android:layout_width="260dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:layout_centerHorizontal="true"
+        android:hint="Set Child's Password"
+        android:inputType="text"
+        android:maxLength="15" />
+
+    <EditText
+        android:id="@+id/confirm"
+        android:layout_width="260dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/password"
+        android:hint="Confirm Password"
+        android:inputType="text"
+        android:maxLength="15" />
+
+    <TextView
+        android:id="@+id/slider_label"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:layout_below="@id/confirm"
+        android:gravity="center"
+        android:textSize="20sp"
+        android:text="Password Expiration" />
+
+        <TextView
+            android:id="@+id/interval"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:layout_below="@id/slider_label"
+            android:gravity="center"
+            android:textSize="20sp"
+            android:text="5 minutes" />
+
+        <SeekBar
+            android:id="@+id/expiration_slider"
+            android:layout_width="260dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_below="@id/interval"
+            android:layout_centerHorizontal="true"
+            android:max="6"
+            android:progress="0"
+            android:secondaryProgress="0"
+            style="@style/SeekBarYoloTheme" />
+
+    <Button
+        android:id="@+id/lock_btn"
+        android:layout_width="260dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:layout_alignRight="@id/confirm"
+        android:layout_below="@id/expiration_slider"
+        android:text="Lock"/>
+ 
+</RelativeLayout>

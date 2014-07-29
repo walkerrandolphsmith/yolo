@@ -72,7 +72,6 @@ public class ListAdapterChildren extends ArrayAdapter<String> {
 	}
 
 
-
     public class deleteListener implements View.OnClickListener {
 
         public int position;
@@ -118,9 +117,8 @@ public class ListAdapterChildren extends ArrayAdapter<String> {
                 JSONObject child = mChildren.getJSONObject(position);
                 channel = child.getString("channel");
             }catch (JSONException e){
-
+                Log.w("JSON Exception", "Error retrieving child from list.");
             }
-
             Intent intent = new Intent(activity, ChildLockActivity.class);
             intent.putExtra("channel", channel);
             activity.startActivity(intent);

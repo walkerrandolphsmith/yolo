@@ -39,11 +39,17 @@ public class YoloService extends WakefulIntentService {
     protected void doWakefulWork(Intent intent) {
         boolean location = intent.getBooleanExtra("location", false);
         boolean lock = intent.getBooleanExtra("lock", false);
+        boolean expired = intent.getBooleanExtra("expired", false);
         app = (Application)getApplicationContext();
-        if(lock){
+
+        if(expired){
+            app.setPassword("milly");
+        }
+        else if(lock){
             String password = intent.getStringExtra("password");
-            Log.w(password, "thats it");
-            app.setPasswordWithExpiration(password, 60 * 1000);
+            long expiration = intent.getLongExtra("expiration", 0);
+            app.setPassword(password);
+            app.setPasswordExpiration(expiration);
             app.lock();
         }else if(location){
             Time now = new Time();

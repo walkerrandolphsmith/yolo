@@ -135,21 +135,25 @@ public class ConsoleActivity extends BaseActivity {
 	}
 
     public void lockChild(){
-        String name = getIntent().getStringExtra("name");
+        String password = getIntent().getStringExtra("password");
+        long expiration = getIntent().getLongExtra("expiration", 0);
         String channel = getIntent().getStringExtra("channel");
-        Log.w("the password to the remote lock ", name);
+        Log.w("ConsoleActivity received lock with intent", "Lock sent as Push");
+        Log.w("the password to the remote lock ", password);
+        Log.w("the expiration to the remote lock ", expiration+"");
         JSONObject data = null;
         try {
             data = new JSONObject(
                     "{"
                             + "\"action\": \"com.example.UPDATE_STATUS\","
                             +  "\"alert\": \"Your phone has been locked by Yolo. Contact Parent or Guardian.\","
-                            + "\"password\": \"" + name + "\""
+                            + "\"password\": \"" + password + "\","
+                            + "\"expiration\": \"" + expiration + "\""
                             + "}"
             );
             sendNotificationsTo(channel, data);
         } catch (JSONException e) {
-            Log.w("exception", "JSONObject null");
+            Log.w("JSON Exception", "The remote lock did not succeed.");
         }
     }
 

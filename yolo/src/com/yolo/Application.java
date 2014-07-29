@@ -1,11 +1,16 @@
 package com.yolo;
 
-import android.content.ComponentName;
-import android.content.Context;
-import android.location.LocationManager;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.app.admin.DeviceAdminReceiver;
 import android.app.admin.DevicePolicyManager;
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
+import android.location.LocationManager;
+import android.os.SystemClock;
 import android.telephony.SmsManager;
+import android.util.Log;
 
 import com.parse.Parse;
 import com.parse.ParseInstallation;
@@ -13,6 +18,7 @@ import com.parse.ParseObject;
 import com.parse.PushService;
 import com.yolo.activities.MainActivity;
 import com.yolo.models.User;
+import com.yolo.services.YoloService;
 
 public class Application extends android.app.Application {
 
@@ -22,6 +28,7 @@ public class Application extends android.app.Application {
     public static class DeviceAdmin extends DeviceAdminReceiver { }
 
     private SmsManager smsManager;
+    private AlarmManager alarmManager;
     private LocationManager locationManager;
     private DevicePolicyManager devicePolicyManager;
     private ComponentName mAdminName;
@@ -70,6 +77,7 @@ public class Application extends android.app.Application {
         mAdminName = new ComponentName(this, DeviceAdmin.class);
 
         smsManager = SmsManager.getDefault();
+        alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 
         ParseInstallation.getCurrentInstallation().saveInBackground();
@@ -95,10 +103,17 @@ public class Application extends android.app.Application {
         }
     }
 
-    public void setPasswordWithExpiration(String password, long expiration) {
+    public void setPassword(String password) {
         if(devicePolicyManager != null) {
             devicePolicyManager.resetPassword(password, 0);
-            devicePolicyManager.setPasswordExpirationTimeout(mAdminName, expiration);
         }
+    }
+
+    public void setPasswordExpiration(long expiration){
+        Log.w("Application", "set the password expiration");
+        Intent intent = new Intent(this, YoloService.class);
+        intent.putExtra("expired", true);
+        PendingIntent pi = PendingIntent.getService(this, 0, intent, 0);
+        alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime()+(1000*20), pi);
     }
 }
