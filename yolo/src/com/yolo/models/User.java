@@ -40,11 +40,11 @@ public class User extends ParseUser{
 	}
 	
 	public boolean getReceiveEmails(){
-		return getBoolean("receiveReceiveEmails");
+		return getBoolean("receiveEmails");
 	}
 	
 	public void setReceiveEmails(boolean willReceive){
-		this.put("receiveReceiveEmails", willReceive);
+		this.put("receiveEmails", willReceive);
 	}
 	
 	public boolean getReceiveSMS(){
