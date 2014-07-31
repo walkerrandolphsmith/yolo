@@ -22,6 +22,18 @@ import com.yolo.services.YoloService;
 
 public class Application extends android.app.Application {
 
+    private static int quarter_hour = 90000; //15 * minute
+    private static int half_hour = 180000; //30 * minute
+    private static int hour = 360000; //60 * minute;
+    private static int day = 8640000; //24 * hour;
+    private static int week = 60480000; //7 * day;
+
+    private static int second = 1000;
+    private static int minute = 6000; //60 * second;
+    private static int half_day = 4320000; //12 * hour
+    public static final int[] milli = new int[] { quarter_hour, half_hour, hour, hour*2, hour*3, hour*4, hour*6, hour*8, hour*10, half_day, hour*15, hour*18, hour*20, hour*21, hour*22, day, day*2, day*3, day*5, week, 0 };
+    public static final String[] phrases = new String[] { "15 minutes", "30 minutes", "1 hour", "2 hours", "3 hours","4 hours", "6 hours","8 hours", "10 hours","12 hours", "15 hours","18 hours", "20 hours","21 hours", "22 hours", "Day", "2 Days", "3 Days", "5 Days", "Week", "Unlimited"};
+
 	public final String DEVICE_CHANNEL = "device_channel_";
 	public final String PARENT_CHANNEL = "parent_channel_";
 
@@ -114,6 +126,6 @@ public class Application extends android.app.Application {
         Intent intent = new Intent(this, YoloService.class);
         intent.putExtra("expired", true);
         PendingIntent pi = PendingIntent.getService(this, 0, intent, 0);
-        alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime()+(1000*20), pi);
+        alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime()+expiration, pi);
     }
 }

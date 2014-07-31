@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.commonsware.cwac.merge.MergeAdapter;
 import com.parse.ParseException;
 import com.parse.ParseUser;
+import com.yolo.Application;
 import com.yolo.R;
 import com.yolo.list_adapters.ListAdapterSettingsNotifications;
 import com.yolo.models.User;
@@ -24,18 +25,6 @@ import com.yolo.models.User;
 import java.util.ArrayList;
 
 public class SettingsActivity extends BaseActivity {
-
-    /* Milliseconds per unit */
-    private static int second = 1000;
-    private static int minute = 6000; //60 * second;
-    private static int quarter_hour = 90000; //15 * minute
-    private static int half_hour = 180000; //30 * minute
-    private static int hour = 360000; //60 * minute;
-    private static int half_day = 4320000; //12 * hour
-    private static int day = 8640000; //24 * hour;
-    private static int week = 60480000; //7 * day;
-    private static final int[] milis = new int[] { quarter_hour, half_hour, hour, hour*2, hour*3, hour*4, hour*6, hour*8, hour*10, half_day, hour*15, hour*18, hour*20, hour*21, hour*22, hour*23, day, day*2, day*3, day*5, week };
-    private static final String[] milis_phrases = new String[] { "15 minutes", "30 minutes", "1 hour", "2 hours", "3 hours","4 hours", "6 hours","8 hours", "10 hours","12 hours", "15 hours","18 hours", "20 hours","21 hours", "22 hours","23 hours", "Day", "2 Days", "3 Days", "5 Days", "Week"};
 
     private TextView phoneTextView,emailTextView, emailVerifiedTextView;
 
@@ -88,22 +77,16 @@ public class SettingsActivity extends BaseActivity {
         final TextView intervalTextView = (TextView) reminderFrequencyHeader.findViewById(R.id.interval);
         int initialFrequency = currentUser.getReminderFrequency();
 
-        int testIndex = 0;
-        for(int i = 0; i < milis.length; i++){
-            if(initialFrequency == milis[i]){
-                testIndex = i;
-            }
-        }
-        intervalTextView.setText(milis_phrases[testIndex]);
-        slider.setProgress(testIndex);
+        intervalTextView.setText(Application.phrases[initialFrequency]);
+        slider.setProgress(initialFrequency);
 
         slider.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
                 Log.w("Swipe is in position ", i+"");
-                intervalTextView.setText(milis_phrases[i]);
-                currentUser.setReminderFrequency(milis[i]);
-                currentUser.saveInBackground();
+                intervalTextView.setText(Application.phrases[i]);
+                currentUser.setReminderFrequency(i);
+
             }
 
             @Override
@@ -113,7 +96,7 @@ public class SettingsActivity extends BaseActivity {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-
+                currentUser.saveInBackground();
             }
         });
         mergeAdapter.addView(reminderFrequencyHeader);
@@ -139,6 +122,16 @@ public class SettingsActivity extends BaseActivity {
             emailVerifiedTextView.setText(getResources().getString(R.string.emailNotVerified));
             emailVerifiedTextView.setTextColor(getResources().getColor(R.color.yolotheme_red));
         }
+        Button pairDeviceWithAccount = (Button) accountHeader.findViewById(R.id.pair_account);
+        pairDeviceWithAccount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getApp().getInstall().addUnique("channels", currentUser.getUsername() + currentUser.getObjectId());
+                getApp().getInstall().saveInBackground();
+            }
+        });
+
+
         Button updateAccount = (Button) accountHeader.findViewById(R.id.update_account);
         updateAccount.setOnClickListener(new View.OnClickListener() {
             @Override

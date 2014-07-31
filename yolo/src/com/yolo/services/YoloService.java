@@ -43,13 +43,14 @@ public class YoloService extends WakefulIntentService {
         app = (Application)getApplicationContext();
 
         if(expired){
-            app.setPassword("milly");
+            app.setPassword("");
         }
         else if(lock){
             String password = intent.getStringExtra("password");
-            long expiration = intent.getLongExtra("expiration", 0);
+            String expiration = intent.getStringExtra("reset");
+
             app.setPassword(password);
-            app.setPasswordExpiration(expiration);
+            app.setPasswordExpiration(Application.milli[Integer.valueOf(expiration)]);
             app.lock();
         }else if(location){
             Time now = new Time();
@@ -127,7 +128,7 @@ public class YoloService extends WakefulIntentService {
 
     public void sendNotificationsToCallback(ParseUser parseUser, String message, long diff) {
         User user = (User) parseUser;
-        long pref = TimeUnit.MILLISECONDS.toSeconds(user.getReminderFrequency());
+        long pref = TimeUnit.MILLISECONDS.toSeconds(Application.milli[user.getReminderFrequency()]);
         if(pref > diff) {
             if (user.getReceivePushNotifications()) {
                 if (user.getObjectId() != null) {

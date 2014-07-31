@@ -123,7 +123,38 @@ public class ConsoleActivity extends BaseActivity {
         return (int) px;
     }
 
-	/*********************************
+    /*********************************
+     * ActionBar MenuItems
+     **********************************/
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.activity_console_menu_actions, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                logOut();
+                return true;
+            case R.id.action_settings:
+                Intent intent = new Intent(ConsoleActivity.this, SettingsActivity.class);
+                startActivity(intent);
+                return true;
+            case R.id.action_add_device:
+                intent = new Intent(ConsoleActivity.this, ChildAddActivity.class);
+                startActivity(intent);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+
+    /*********************************
 	 * Send Notifications to Child 
 	 **********************************/
 	
@@ -136,11 +167,13 @@ public class ConsoleActivity extends BaseActivity {
 
     public void lockChild(){
         String password = getIntent().getStringExtra("password");
-        long expiration = getIntent().getLongExtra("expiration", 0);
+        int expiration = getIntent().getIntExtra("expiration", 0);
         String channel = getIntent().getStringExtra("channel");
+        int position = getIntent().getIntExtra("position", -1);
+
         Log.w("ConsoleActivity received lock with intent", "Lock sent as Push");
         Log.w("the password to the remote lock ", password);
-        Log.w("the expiration to the remote lock ", expiration+"");
+        Log.w("the expiration or reset to the remote lock ", expiration+"");
         JSONObject data = null;
         try {
             data = new JSONObject(
@@ -148,10 +181,13 @@ public class ConsoleActivity extends BaseActivity {
                             + "\"action\": \"com.example.UPDATE_STATUS\","
                             +  "\"alert\": \"Your phone has been locked by Yolo. Contact Parent or Guardian.\","
                             + "\"password\": \"" + password + "\","
-                            + "\"expiration\": \"" + expiration + "\""
+                            + "\"reset\": \"" + expiration + "\""
                             + "}"
             );
             sendNotificationsTo(channel, data);
+            if(position > -1) {
+                new LockTask().execute(new String[]{password, String.valueOf(position)});
+            }
         } catch (JSONException e) {
             Log.w("JSON Exception", "The remote lock did not succeed.");
         }
@@ -162,6 +198,7 @@ public class ConsoleActivity extends BaseActivity {
      **********************************/
 
     public void addChild(){
+
         new AddTask(this).execute();
     }
 
@@ -181,37 +218,33 @@ public class ConsoleActivity extends BaseActivity {
         }
         onBackPressed();
     }
-	
-	/*********************************
-	 * ActionBar MenuItems
-	 **********************************/
-	
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-	    MenuInflater inflater = getMenuInflater();
-	    inflater.inflate(R.menu.activity_console_menu_actions, menu);
-	    return super.onCreateOptionsMenu(menu);
-	}
-	
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-	    switch (item.getItemId()) {
-	    	case android.R.id.home:
-	    		logOut();
-	    		return true;
-		    case R.id.action_settings:				
-				Intent intent = new Intent(ConsoleActivity.this, SettingsActivity.class);
-	            startActivity(intent);
-				return true;
-		    case R.id.action_add_device:
-                intent = new Intent(ConsoleActivity.this, ChildAddActivity.class);
-                startActivity(intent);
-		    	return true;
-	        default:
-	            return super.onOptionsItemSelected(item);
-	    }
-	}
 
+
+    /*********************************
+     * Async Task Update Child
+     **********************************/
+
+    private class LockTask extends AsyncTask<String , Void, Void> {
+
+        @Override
+        protected Void doInBackground(String ... config) {
+            String password = config[0];
+            int position = Integer.parseInt(config[1]);
+
+            Log.w(password, config[1]);
+
+            try {
+                JSONObject obj = currentUser.getChildren().getJSONObject(position);
+                obj.put("password", password);
+                currentUser.getChildren().put(position,obj);
+                currentUser.saveInBackground();
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+    }
 
     /*********************************
      * Async Task Add Child
@@ -242,6 +275,7 @@ public class ConsoleActivity extends BaseActivity {
             try {
                 obj.put("channel", channel);
                 obj.put("name", name);
+                obj.put("password", "walker");
                 JSONArray children = currentUser.getChildren();
                 for(int i = 0; i < children.length(); i++){
                     JSONObject child = children.getJSONObject(i);

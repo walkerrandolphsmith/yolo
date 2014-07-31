@@ -175,7 +175,7 @@ public class SignUpActivity extends BaseActivity {
             user.setReceivePushNotifications(true);
             user.setReceiveEmails(true);
             user.setReceiveSMS(true);
-            user.setReminderFrequency(10);
+            user.setReminderFrequency(0);
 
 
             user.signUpInBackground(new SignUpCallback() {

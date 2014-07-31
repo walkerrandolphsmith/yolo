@@ -9,23 +9,17 @@ import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.yolo.Application;
 import com.yolo.R;
 
 public class ChildLockActivity extends BaseActivity {
-
-    private static int quarter_hour = 90000; //15 * minute
-    private static int half_hour = 180000; //30 * minute
-    private static int hour = 360000; //60 * minute;
-    private static int day = 8640000; //24 * hour;
-    private static int week = 60480000; //7 * day;
-    private static final long[] milli = new long[]{ quarter_hour, half_hour, hour, hour*2, day, week, 0 } ;
-    private static final String[] phrases = new String[]{ "15 minutes", "30 minutes", "1 hour", "2 hours", "1 Day", "1 Week", "No Expiration" } ;
 
     EditText mPassword;
     EditText mConfirmPassword;
     TextView mInterval;
     SeekBar slider;
     String channel;
+    int position;
 
     /**
      * ******************************
@@ -42,6 +36,7 @@ public class ChildLockActivity extends BaseActivity {
 
         Bundle bundle = getIntent().getExtras();
         channel = bundle.getString("channel");
+        position = bundle.getInt("position");
         mPassword = (EditText)findViewById(R.id.password);
         mConfirmPassword = (EditText)findViewById(R.id.confirm);
 
@@ -51,7 +46,7 @@ public class ChildLockActivity extends BaseActivity {
         slider.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                mInterval.setText(phrases[i]);
+                mInterval.setText(Application.phrases[i]);
             }
 
             @Override
@@ -79,7 +74,7 @@ public class ChildLockActivity extends BaseActivity {
         // Store values at the time of the login attempt.
         String password = mPassword.getText().toString();
         String confirmPassword = mConfirmPassword.getText().toString();
-        long expiration = milli[slider.getProgress()];
+        int expiration = slider.getProgress();
 
         boolean cancel = false;
         View focusView = null;
@@ -118,6 +113,7 @@ public class ChildLockActivity extends BaseActivity {
             i.putExtra("password", password);
             i.putExtra("expiration", expiration);
             i.putExtra("channel", channel);
+            i.putExtra("position", position);
             i.putExtra("locked", true);
             startActivity(i);
         }

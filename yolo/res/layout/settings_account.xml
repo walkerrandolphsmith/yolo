@@ -143,13 +143,7 @@
         </FrameLayout>
     </RelativeLayout>
 
-    <RelativeLayout
-        style="@style/Wrap"
-        android:orientation="vertical"
-        android:paddingBottom="10dp"
-        android:paddingTop="10dp" >
-
-        <Button
+    <Button
             android:id="@+id/update_account"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -157,7 +151,17 @@
             android:layout_centerInParent="true"
             android:text="Update Account"
             style="@style/ButtonYoloTheme"/>
-    </RelativeLayout>
+
+    <Button
+        android:id="@+id/pair_account"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerInParent="true"
+        android:layout_below="@+id/update_account"
+        android:layout_marginTop="10dp"
+        android:text="Pair Device"
+        style="@style/ButtonYoloTheme"/>
 
 
 </LinearLayout>

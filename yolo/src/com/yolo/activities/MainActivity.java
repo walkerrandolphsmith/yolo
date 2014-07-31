@@ -40,8 +40,7 @@ public class MainActivity extends BaseActivity {
      	}
         if(getApp().getLocationManager().isProviderEnabled(LocationManager.GPS_PROVIDER)){
             PendingIntent launchIntent = PendingIntent.getBroadcast(this, 0, new Intent("com.yolo.action.LOCATIONCHANGE"), 0);
-            //provider string, min time between, min distance change, intent
-            getApp().getLocationManager().requestLocationUpdates(LocationManager.GPS_PROVIDER, 50, 10, launchIntent);
+            getApp().getLocationManager().requestLocationUpdates(LocationManager.GPS_PROVIDER, 50/*time*/, 10/*distance*/, launchIntent);
         }else{
            new NoGpsDialog(this).show();
 	    }

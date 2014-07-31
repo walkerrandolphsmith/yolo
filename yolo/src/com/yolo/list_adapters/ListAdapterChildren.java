@@ -121,6 +121,7 @@ public class ListAdapterChildren extends ArrayAdapter<String> {
             }
             Intent intent = new Intent(activity, ChildLockActivity.class);
             intent.putExtra("channel", channel);
+            intent.putExtra("position", position);
             activity.startActivity(intent);
         }
     }
