@@ -7,8 +7,10 @@ import android.app.admin.DevicePolicyManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.location.LocationManager;
 import android.os.SystemClock;
+import android.preference.PreferenceManager;
 import android.telephony.SmsManager;
 import android.util.Log;
 
@@ -39,6 +41,7 @@ public class Application extends android.app.Application {
 
     public static class DeviceAdmin extends DeviceAdminReceiver { }
 
+    private SharedPreferences sharedPreferences;
     private SmsManager smsManager;
     private AlarmManager alarmManager;
     private LocationManager locationManager;
@@ -75,6 +78,8 @@ public class Application extends android.app.Application {
 
     public ParseInstallation getInstall() { return ParseInstallation.getCurrentInstallation(); }
 
+    public SharedPreferences getSharedPreferences() { return sharedPreferences; }
+
     @Override
 	public void onCreate() {
 		super.onCreate();
@@ -83,7 +88,7 @@ public class Application extends android.app.Application {
         ParseObject.registerSubclass(User.class);
 		Parse.initialize(this, "yG0OKddCMctN5vtCj5ocUbDxrRJjlPuzZLXMOXA9", "FGdSTBZZgOlRTdMkMqSOWydTOG3hliqXigOqm2sk");
 		PushService.setDefaultPushCallback(this, MainActivity.class);
-
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         //Device Policy Manager require minSDK version 8
         devicePolicyManager = (DevicePolicyManager)getSystemService(Context.DEVICE_POLICY_SERVICE);
         mAdminName = new ComponentName(this, DeviceAdmin.class);

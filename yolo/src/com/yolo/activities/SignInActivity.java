@@ -1,8 +1,10 @@
 package com.yolo.activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -80,6 +82,16 @@ public class SignInActivity extends BaseActivity{
         	ParseUser.logInInBackground(username, password, new LogInCallback() {
         		  public void done(ParseUser user, ParseException e) {
         		    if (user != null) {
+                        //PendingIntent launchIntent = PendingIntent.getBroadcast(SignInActivity.this, 0, new Intent("com.yolo.action.LOCATIONCHANGE"), 0);
+                        //getApp().getLocationManager().removeUpdates(launchIntent);
+                        //Log.w("Parse Login ","location manager removes updates given a pedning intent");
+                        //Log.w("Pedning intent: ", launchIntent.toString());
+
+                        Log.w("Share prefs ", "added loggedIn== true");
+
+                        SharedPreferences.Editor editor = getApp().getSharedPreferences().edit();
+                        editor.putBoolean("loggedIn", true);
+                        editor.commit();
         		    	Intent i = new Intent(SignInActivity.this, ConsoleActivity.class);
       	 	            startActivity(i); 
       	 	            finish();

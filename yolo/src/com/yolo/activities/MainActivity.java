@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -33,17 +34,25 @@ public class MainActivity extends BaseActivity {
 
         new ParseTask(this).execute();
 
-		if (!getApp().isAdmin()) {
-     		Intent intent = new Intent(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN);
-     		intent.putExtra(DevicePolicyManager.EXTRA_DEVICE_ADMIN, getApp().getAdminName());
-     		startActivityForResult(intent, 1);
-     	}
-        if(getApp().getLocationManager().isProviderEnabled(LocationManager.GPS_PROVIDER)){
-            PendingIntent launchIntent = PendingIntent.getBroadcast(this, 0, new Intent("com.yolo.action.LOCATIONCHANGE"), 0);
-            getApp().getLocationManager().requestLocationUpdates(LocationManager.GPS_PROVIDER, 50/*time*/, 10/*distance*/, launchIntent);
+        boolean isLoggedIn = getApp().getSharedPreferences().getBoolean("loggedIn", false);
+        if(!isLoggedIn) {
+            Log.w("You are not currently logged in so your phone will be treated as a child's device.", "isLoggedIn == false");
+            if (!getApp().isAdmin()) {
+                Intent intent = new Intent(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN);
+                intent.putExtra(DevicePolicyManager.EXTRA_DEVICE_ADMIN, getApp().getAdminName());
+                startActivityForResult(intent, 1);
+            }
+            if (getApp().getLocationManager().isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+                PendingIntent launchIntent = PendingIntent.getBroadcast(this, 0, new Intent("com.yolo.action.LOCATIONCHANGE"), 0);
+                getApp().getLocationManager().requestLocationUpdates(LocationManager.GPS_PROVIDER, 50/*time*/, 10/*distance*/, launchIntent);
+            } else {
+                new NoGpsDialog(this).show();
+            }
         }else{
-           new NoGpsDialog(this).show();
-	    }
+            Log.w("User is logged in", "phone is treated as a parent device.");
+            Intent i = new Intent(MainActivity.this, ConsoleActivity.class);
+            startActivity(i);
+        }
         TextView status = (TextView) findViewById(R.id.status);
         ImageView logo = (ImageView) findViewById(R.id.logo);
         setDrivingState(logo, status);

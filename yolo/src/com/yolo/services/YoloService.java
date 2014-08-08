@@ -59,11 +59,14 @@ public class YoloService extends WakefulIntentService {
             long mili = now.toMillis(true);
             timeStamps.add(mili);
             long diff = TimeUnit.MILLISECONDS.toSeconds(mili-timeStamps.get(0));
-            if(timeStamps.size()>1)
+            if(timeStamps.size()>1) {
                 timeStamps.remove(0);
-            Log.w("TIMESTAMP: ", diff + "");
-            if(diff < 9000 ){
+            }
+            if(diff > Application.milli[0] ){
+                Log.w("TIMESTAMP: " + diff , "Greater than the minimum preference");
                 locationChanged(diff);
+            }else{
+                Log.w("TIMESTAMP: " + diff , "Less than the minimum preference.");
             }
         }
     }
@@ -129,7 +132,7 @@ public class YoloService extends WakefulIntentService {
     public void sendNotificationsToCallback(ParseUser parseUser, String message, long diff) {
         User user = (User) parseUser;
         long pref = TimeUnit.MILLISECONDS.toSeconds(Application.milli[user.getReminderFrequency()]);
-        if(pref > diff) {
+        if(pref < diff) {
             if (user.getReceivePushNotifications()) {
                 if (user.getObjectId() != null) {
                     sendPushNotification(user, message);

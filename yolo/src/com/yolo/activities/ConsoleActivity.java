@@ -1,6 +1,7 @@
 package com.yolo.activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -215,6 +216,10 @@ public class ConsoleActivity extends BaseActivity {
     public void logOut(){
         if (currentUser != null) {
             ParseUser.logOut();
+            Log.w("remove shared prefs", "remove loggedIn");
+            SharedPreferences.Editor editor = getApp().getSharedPreferences().edit();
+            editor.remove("loggedIn");
+            editor.commit();
         }
         onBackPressed();
     }
