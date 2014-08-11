@@ -115,6 +115,9 @@ public class MainActivity extends BaseActivity {
             ParseAnalytics.trackAppOpened(getIntent());
             PushService.setDefaultPushCallback(activity, MainActivity.class);
             getApp().getInstall().addUnique("channels", getApp().DEVICE_CHANNEL + getApp().getInstall().getObjectId());
+            getApp().getInstall().put("isLocked", false);
+            getApp().getInstall().put("t1", 0);
+            getApp().getInstall().put("t2",0);
             getApp().getInstall().saveInBackground();
             return null;
         }

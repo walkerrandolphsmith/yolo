@@ -136,6 +136,26 @@ public class ListAdapterChildren extends ArrayAdapter<String> {
         protected Integer doInBackground(Integer... config) {
 
             int position = config[0];
+
+            /*Log.w("Current User.getChildren", activity.currentUser.getChildren().toString());
+
+            boolean isAllData = true;
+
+            ArrayList<String> listData = new ArrayList<String>();
+            for(int i = 0; i < activity.currentUser.getChildren().length(); i++){
+                try {
+                    String child = activity.currentUser.getChildren().getJSONObject(i).toString();
+                    listData.add(child);
+                }catch (JSONException e){
+                    isAllData = false;
+                }
+            }
+            if(isAllData){
+                listData.remove(position);
+                activity.currentUser.put("children", listData);
+            }*/
+
+
             activity.currentUser.getChildren().remove(position);
             activity.currentUser.saveInBackground();
             return position;
