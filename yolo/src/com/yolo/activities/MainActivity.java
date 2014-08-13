@@ -17,7 +17,6 @@ import com.parse.ParseAnalytics;
 import com.parse.PushService;
 import com.yolo.Application;
 import com.yolo.R;
-import com.yolo.dialogs.NoGpsDialog;
 
 public class MainActivity extends BaseActivity {
 
@@ -36,7 +35,6 @@ public class MainActivity extends BaseActivity {
 
         boolean isLoggedIn = getApp().getSharedPreferences().getBoolean("loggedIn", false);
         if(!isLoggedIn) {
-            Log.w("You are not currently logged in so your phone will be treated as a child's device.", "isLoggedIn == false");
             if (!getApp().isAdmin()) {
                 Intent intent = new Intent(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN);
                 intent.putExtra(DevicePolicyManager.EXTRA_DEVICE_ADMIN, getApp().getAdminName());
@@ -44,12 +42,11 @@ public class MainActivity extends BaseActivity {
             }
             if (getApp().getLocationManager().isProviderEnabled(LocationManager.GPS_PROVIDER)) {
                 PendingIntent launchIntent = PendingIntent.getBroadcast(this, 0, new Intent("com.yolo.action.LOCATIONCHANGE"), 0);
-                getApp().getLocationManager().requestLocationUpdates(LocationManager.GPS_PROVIDER, 50/*time*/, 10/*distance*/, launchIntent);
+                getApp().getLocationManager().requestLocationUpdates(LocationManager.GPS_PROVIDER, 0/*time*/, 0/*distance*/, launchIntent);
             } else {
-                new NoGpsDialog(this).show();
+                Log.w("NO GPS", "NO GPS");
             }
         }else{
-            Log.w("User is logged in", "phone is treated as a parent device.");
             Intent i = new Intent(MainActivity.this, ConsoleActivity.class);
             startActivity(i);
         }
@@ -116,8 +113,7 @@ public class MainActivity extends BaseActivity {
             PushService.setDefaultPushCallback(activity, MainActivity.class);
             getApp().getInstall().addUnique("channels", getApp().DEVICE_CHANNEL + getApp().getInstall().getObjectId());
             getApp().getInstall().put("isLocked", false);
-            getApp().getInstall().put("t1", 0);
-            getApp().getInstall().put("t2",0);
+            getApp().getInstall().put("f",0);
             getApp().getInstall().saveInBackground();
             return null;
         }

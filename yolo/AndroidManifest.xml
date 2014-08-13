@@ -53,33 +53,38 @@
 		<activity 
 		    android:name="com.yolo.activities.MainActivity"
 			android:configChanges="orientation|screenSize"
-			android:label="@string/empty">
+            android:screenOrientation="portrait"
+            android:label="@string/empty">
 		</activity>
 		
 		<activity 
 		    android:name="com.yolo.activities.SignInActivity"
-			android:configChanges="orientation|screenSize" 
-			android:label="@string/empty"
+			android:configChanges="orientation|screenSize"
+            android:screenOrientation="portrait"
+            android:label="@string/empty"
 			android:parentActivityName="com.yolo.activities.MainActivity">
 		</activity>
 		
 		<activity 
 		    android:name="com.yolo.activities.SignUpActivity"
-			android:configChanges="orientation|screenSize" 
-			android:label="@string/empty"
+			android:configChanges="orientation|screenSize"
+            android:screenOrientation="portrait"
+            android:label="@string/empty"
 			android:parentActivityName="com.yolo.activities.SignInActivity">
 		</activity>
 		
 		<activity 
 		    android:name="com.yolo.activities.ConsoleActivity"
-			android:configChanges="orientation|screenSize" 
-			android:label="@string/empty"
+			android:configChanges="orientation|screenSize"
+            android:screenOrientation="portrait"
+            android:label="@string/empty"
 			android:parentActivityName="com.yolo.activities.MainActivity">
 		</activity>
 
         <activity
             android:name=".activities.ChildLockActivity"
             android:configChanges="orientation|screenSize"
+            android:screenOrientation="portrait"
             android:label="@string/empty"
             android:noHistory="true"
             android:parentActivityName="com.yolo.activities.ConsoleActivity">
@@ -88,6 +93,7 @@
         <activity
             android:name=".activities.ChildAddActivity"
             android:configChanges="orientation|screenSize"
+            android:screenOrientation="portrait"
             android:label="@string/empty"
             android:noHistory="true"
             android:parentActivityName="com.yolo.activities.ConsoleActivity">
@@ -96,6 +102,7 @@
         <activity
             android:name=".activities.ChildEditActivity"
             android:configChanges="orientation|screenSize"
+            android:screenOrientation="portrait"
             android:label="@string/empty"
             android:noHistory="true"
             android:parentActivityName="com.yolo.activities.ConsoleActivity">
@@ -103,14 +110,16 @@
 		
 		<activity 
 		    android:name="com.yolo.activities.SettingsActivity"
-			android:configChanges="orientation|screenSize" 
-			android:label="@string/empty"
+			android:configChanges="orientation|screenSize"
+            android:screenOrientation="portrait"
+            android:label="@string/empty"
 			android:parentActivityName="com.yolo.activities.ConsoleActivity">
 		</activity>
 
         <activity
             android:name=".activities.UpdateAccountActivity"
             android:configChanges="orientation|screenSize"
+            android:screenOrientation="portrait"
             android:label="@string/empty"
             android:noHistory="true"
             android:parentActivityName="com.yolo.activities.SettingsActivity">

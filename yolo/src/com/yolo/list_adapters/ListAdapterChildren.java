@@ -57,7 +57,7 @@ public class ListAdapterChildren extends ArrayAdapter<String> {
 			viewHolder.device_channel.setText(child.getString("channel"));
 			viewHolder.name.setText(child.getString("name"));
 		} catch (JSONException e) {
-			Log.w("exception", "no getString");
+
 		}
         viewHolder.lock.setOnClickListener(new lockListener(position));
         viewHolder.delete.setOnClickListener(new deleteListener(position));
@@ -117,7 +117,7 @@ public class ListAdapterChildren extends ArrayAdapter<String> {
                 JSONObject child = mChildren.getJSONObject(position);
                 channel = child.getString("channel");
             }catch (JSONException e){
-                Log.w("JSON Exception", "Error retrieving child from list.");
+
             }
             Intent intent = new Intent(activity, ChildLockActivity.class);
             intent.putExtra("channel", channel);

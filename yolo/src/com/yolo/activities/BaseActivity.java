@@ -13,7 +13,6 @@ public class BaseActivity extends Activity {
 
 	public int currentSDKVersion;	
 	private Application app;
-	//public FragmentManager fragmentManager;
 	public User currentUser;
 
     public Application getApp(){
@@ -28,8 +27,7 @@ public class BaseActivity extends Activity {
 		currentSDKVersion = android.os.Build.VERSION.SDK_INT;
         app = (Application)getApplication();
         getApp().setContext(this);
-		//fragmentManager = getFragmentManager();
-		
+
 		Configuration config = getResources().getConfiguration();
         if (config.smallestScreenWidthDp >= 600) {
         	

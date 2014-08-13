@@ -1,5 +1,6 @@
 package com.yolo.activities;
 
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -37,6 +38,9 @@ public class ConsoleActivity extends BaseActivity {
 		setContentView(R.layout.activity_console);
 
 		currentUser = (User) ParseUser.getCurrentUser();
+
+        getApp().getLocationManager().removeUpdates(PendingIntent.getBroadcast(this, 0, new Intent("com.yolo.action.LOCATIONCHANGE"), 0));
+
 
         adapter = new ListAdapterChildren(this);
         if(getIntent().getBooleanExtra("edited", false)){

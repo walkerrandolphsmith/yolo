@@ -3,9 +3,7 @@
     <!-- App Settings -->
     <string name="app_name">YOLO</string>
 	<string name="empty"></string>
-    <!-- Main Activity -->    
-    <string name="passenger">Passenger</string>
-    <string name="driving">Driver</string>
+
     <!-- Action Items -->
     <string name="action_signin">SignIn</string>
 
@@ -29,19 +27,14 @@
     <string name="emailVerified">VERIFIED</string>
     <string name="emailNotVerified">NOT VERIFIED</string>
     
-     <!-- Conosle Activity -->
-    <string name="settings">Settings</string>
+
     <!-- Child Actions -->
     <string name="delete">Delete</string>
     <string name="lock">Lock</string>
     <string name="edit">Rename</string>
     <!-- Child Edit -->
     <string name="editNameHint">Child Name</string>
-    <!-- Settings Fragment -->
-    <string name="notifications">Notifications</string>
-    <string name="receivePushNotifications">Push Notifications</string>
-    <string name="receiveEmail">Email</string>
-    <string name="receiveSMS">Text Message</string>
+
 
      <!-- Errors -->
     <string name="error_invalid_email">This email address is invalid</string>
@@ -51,4 +44,27 @@
     <string name="error_invalid_password">This password is too short</string>
     <string name="error_invalid_confirm_password">Passwords do not match</string>
     <string name="error_field_required">This field is required</string>
+
+
+
+    <!-- Activities -->
+
+    <!-- Main -->
+    <string name="passenger">Passenger</string>
+    <string name="driving">Driver</string>
+
+    <!-- Console -->
+    <string name="settings">Settings</string>
+
+    <!-- Settings -->
+        <!-- Headers -->
+        <string name="settingsHeaderAccount">Account</string>
+    <string name="notifications">Notifications</string>
+    <string name="receivePushNotifications">Push Notifications</string>
+    <string name="receiveEmail">Email</string>
+    <string name="receiveSMS">Text Message</string>
+
+
+
+
 </resources>

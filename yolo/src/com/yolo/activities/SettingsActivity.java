@@ -76,17 +76,23 @@ public class SettingsActivity extends BaseActivity {
 
         final TextView intervalTextView = (TextView) reminderFrequencyHeader.findViewById(R.id.interval);
         int initialFrequency = currentUser.getReminderFrequency();
-
-        intervalTextView.setText(Application.phrases[initialFrequency]);
+        if(initialFrequency == 20){
+            intervalTextView.setText("0");
+        }else {
+            intervalTextView.setText(Application.phrases[initialFrequency]);
+        }
         slider.setProgress(initialFrequency);
 
         slider.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
                 Log.w("Swipe is in position ", i+"");
-                intervalTextView.setText(Application.phrases[i]);
+                if(i == 20){
+                    intervalTextView.setText("0");
+                }else {
+                    intervalTextView.setText(Application.phrases[i]);
+                }
                 currentUser.setReminderFrequency(i);
-
             }
 
             @Override

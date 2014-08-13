@@ -12,7 +12,6 @@ import android.location.LocationManager;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.telephony.SmsManager;
-import android.util.Log;
 
 import com.parse.Parse;
 import com.parse.ParseInstallation;
@@ -25,12 +24,12 @@ import com.yolo.services.YoloService;
 public class Application extends android.app.Application {
 
     private static int second = 1000;
-    private static int minute = 6000; //60 * second;
-    private static int quarter_hour = 90000; //15 * minute
-    private static int half_hour = 180000; //30 * minute
-    private static int hour = 360000; //60 * minute;
-    private static int day = 8640000; //24 * hour;
-    private static int week = 60480000; //7 * day;
+    private static int minute = 60000; //60 * second;
+    private static int quarter_hour = 900000; //15 * minute
+    private static int half_hour = 1800000; //30 * minute
+    private static int hour = 3600000; //60 * minute;
+    private static int day = 86400000; //24 * hour;
+    private static int week = 604800000; //7 * day;
 
 
     private static int half_day = 4320000; //12 * hour
@@ -126,7 +125,6 @@ public class Application extends android.app.Application {
     }
 
     public void setPasswordExpiration(long expiration){
-        Log.w("Application", "set the password expiration");
         Intent intent = new Intent(this, YoloService.class);
         intent.putExtra("expired", true);
         PendingIntent pi = PendingIntent.getService(this, 0, intent, 0);

@@ -181,7 +181,7 @@ public class SignUpActivity extends BaseActivity {
             user.signUpInBackground(new SignUpCallback() {
                 public void done(ParseException e) {
                     if (e == null) {
-                        getApp().getInstall().addUnique("channels", getApp().PARENT_CHANNEL + user.getObjectId());
+                        getApp().getInstall().addUnique("channels", user.getUsername() + user.getObjectId());
                         Intent i = new Intent(SignUpActivity.this, MainActivity.class);
                         startActivity(i);
                     } else {
