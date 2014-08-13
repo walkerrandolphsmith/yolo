@@ -26,15 +26,17 @@ import java.util.ArrayList;
 
 public class SettingsActivity extends BaseActivity {
 
-    private TextView phoneTextView,emailTextView, emailVerifiedTextView;
+    private TextView phoneTextView, emailTextView;
 
-	/*********************************
-	 * OnCreate
-	 **********************************/
+    /**
+     * ******************************
+     * OnCreate
+     * ********************************
+     */
 
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
         currentUser = (User) ParseUser.getCurrentUser();
@@ -44,24 +46,24 @@ public class SettingsActivity extends BaseActivity {
             Notification Preferences
          */
         View notificationPreferencesHeader;
-		CompoundButton chkAll;
-		boolean isFallback;
-		int resourceId;
-		if(currentSDKVersion >= REQUIRE_SDK_14){
-			isFallback = false;
+        CompoundButton chkAll;
+        boolean isFallback;
+        int resourceId;
+        if (currentSDKVersion >= REQUIRE_SDK_14) {
+            isFallback = false;
 
-			resourceId = R.layout.each_settings_notifications;
+            resourceId = R.layout.each_settings_notifications;
             notificationPreferencesHeader = getLayoutInflater().inflate(R.layout.settings_notifications, null, false);
             chkAll = (Switch) notificationPreferencesHeader.findViewById(R.id.selectAllSwitch);
-		}else{
-			isFallback = true;
+        } else {
+            isFallback = true;
 
-			resourceId = R.layout.each_settings_notifications_fallback;
+            resourceId = R.layout.each_settings_notifications_fallback;
             notificationPreferencesHeader = getLayoutInflater().inflate(R.layout.settings_notifications_fallback, null, false);
             chkAll = (CheckBox) notificationPreferencesHeader.findViewById(R.id.selectAllCheckBox);
         }
-		final ListView mListView = (ListView)findViewById(android.R.id.list);
-        ListAdapterSettingsNotifications notificationAdapter = new ListAdapterSettingsNotifications(this, resourceId,new String[] {"Push Notifications", "Text Messages", "Emails"}, chkAll, isFallback);
+        final ListView mListView = (ListView) findViewById(android.R.id.list);
+        ListAdapterSettingsNotifications notificationAdapter = new ListAdapterSettingsNotifications(this, resourceId, new String[]{"Push Notifications", "Text Messages", "Emails"}, chkAll, isFallback);
 
         mergeAdapter.addView(notificationPreferencesHeader);
         mergeAdapter.addAdapter(notificationAdapter);
@@ -76,9 +78,9 @@ public class SettingsActivity extends BaseActivity {
 
         final TextView intervalTextView = (TextView) reminderFrequencyHeader.findViewById(R.id.interval);
         int initialFrequency = currentUser.getReminderFrequency();
-        if(initialFrequency == 20){
+        if (initialFrequency == 20) {
             intervalTextView.setText("0");
-        }else {
+        } else {
             intervalTextView.setText(Application.phrases[initialFrequency]);
         }
         slider.setProgress(initialFrequency);
@@ -86,10 +88,10 @@ public class SettingsActivity extends BaseActivity {
         slider.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                Log.w("Swipe is in position ", i+"");
-                if(i == 20){
+                Log.w("Swipe is in position ", i + "");
+                if (i == 20) {
                     intervalTextView.setText("0");
-                }else {
+                } else {
                     intervalTextView.setText(Application.phrases[i]);
                 }
                 currentUser.setReminderFrequency(i);
@@ -113,29 +115,13 @@ public class SettingsActivity extends BaseActivity {
          */
         View accountHeader = getLayoutInflater().inflate(R.layout.settings_account, null, false);
 
-        TextView usernameTextView = (TextView)accountHeader.findViewById(R.id.username);
-        phoneTextView = (TextView)accountHeader.findViewById(R.id.phone);
-        emailTextView = (TextView)accountHeader.findViewById(R.id.email);
-        emailVerifiedTextView = (TextView)accountHeader.findViewById(R.id.verifiedText);
+        TextView usernameTextView = (TextView) accountHeader.findViewById(R.id.username);
+        phoneTextView = (TextView) accountHeader.findViewById(R.id.phone);
+        emailTextView = (TextView) accountHeader.findViewById(R.id.email);
 
         usernameTextView.setText(currentUser.getUsername());
         phoneTextView.setText(currentUser.getPhone());
         emailTextView.setText(currentUser.getEmail());
-        if(currentUser.getEmailVerified()) {
-            emailVerifiedTextView.setText(getResources().getString(R.string.emailVerified));
-            emailVerifiedTextView.setTextColor(getResources().getColor(R.color.yolotheme_green));
-        }else {
-            emailVerifiedTextView.setText(getResources().getString(R.string.emailNotVerified));
-            emailVerifiedTextView.setTextColor(getResources().getColor(R.color.yolotheme_red));
-        }
-        Button pairDeviceWithAccount = (Button) accountHeader.findViewById(R.id.pair_account);
-        pairDeviceWithAccount.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                getApp().getInstall().addUnique("channels", currentUser.getUsername() + currentUser.getObjectId());
-                getApp().getInstall().saveInBackground();
-            }
-        });
 
 
         Button updateAccount = (Button) accountHeader.findViewById(R.id.update_account);
@@ -151,29 +137,30 @@ public class SettingsActivity extends BaseActivity {
         /* End Account Settings */
 
 
-
         boolean isUpdated = getIntent().getBooleanExtra("updated", false);
-        if(isUpdated){
+        if (isUpdated) {
             updateAccount(phoneTextView, emailTextView);
         }
         boolean isDeleted = getIntent().getBooleanExtra("deleted", false);
-        if(isDeleted){
+        if (isDeleted) {
             deleteAccount();
         }
         mListView.setAdapter(mergeAdapter);
-	}
+    }
 
-    /*********************************
+    /**
+     * ******************************
      * Update Account
-     **********************************/
+     * ********************************
+     */
 
-    public void deleteAccount(){
+    public void deleteAccount() {
         new DeleteUserTask().execute();
         Intent i = new Intent(SettingsActivity.this, MainActivity.class);
         startActivity(i);
     }
 
-    public void updateAccount(TextView phoneTextView, TextView emailTextView){
+    public void updateAccount(TextView phoneTextView, TextView emailTextView) {
         String password = getIntent().getStringExtra("password");
         String email = getIntent().getStringExtra("email");
         String phone = getIntent().getStringExtra("phone");
@@ -181,30 +168,34 @@ public class SettingsActivity extends BaseActivity {
         new UpdateUserTask(this).execute(new String[]{password, email, phone});
     }
 
-	
-	/*********************************
-	 * ActionBar MenuItems
-	 **********************************/
-	
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-	    switch (item.getItemId()) {
-	        case android.R.id.home:
-	        	onBackPressed();
-	            return true;
-	        default:
-	            return super.onOptionsItemSelected(item);
-	    }
-	}
+
+    /**
+     * ******************************
+     * ActionBar MenuItems
+     * ********************************
+     */
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 
 
-    /*********************************
+    /**
+     * ******************************
      * Async Task Delete User
-     **********************************/
+     * ********************************
+     */
 
-    public class DeleteUserTask extends  AsyncTask<Void, Void, Void>{
+    public class DeleteUserTask extends AsyncTask<Void, Void, Void> {
         @Override
-        protected Void doInBackground(Void ... config) {
+        protected Void doInBackground(Void... config) {
             currentUser.deleteInBackground();
             getApp().getInstall().put("channels", new ArrayList<String>());
             getApp().getInstall().saveInBackground();
@@ -213,20 +204,22 @@ public class SettingsActivity extends BaseActivity {
     }
 
 
-    /*********************************
+    /**
+     * ******************************
      * Async Task Update User
-     **********************************/
+     * ********************************
+     */
 
-    private class UpdateUserTask extends AsyncTask<String , Void, String[]> {
+    private class UpdateUserTask extends AsyncTask<String, Void, String[]> {
 
         private SettingsActivity activity;
 
-        public UpdateUserTask(SettingsActivity activity){
+        public UpdateUserTask(SettingsActivity activity) {
             this.activity = activity;
         }
 
         @Override
-        protected String[] doInBackground(String ... config) {
+        protected String[] doInBackground(String... config) {
             String password = config[0];
             String email = config[1];
             String phone = config[2];
@@ -249,15 +242,14 @@ public class SettingsActivity extends BaseActivity {
             if (!email.isEmpty()) {
                 currentUser.setEmail(email);
                 currentUser.saveInBackground();
-            }
-            else if(!currentUser.getEmailVerified()){
+            } else if (!currentUser.getEmailVerified()) {
                 currentUser.setEmail(currentUser.getEmail());
                 currentUser.saveInBackground();
             }
             return config;
         }
 
-        protected void onPostExecute(String[] config){
+        protected void onPostExecute(String[] config) {
             String email = config[1];
             String phone = config[2];
 

@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:fillViewport="true"
-    style="@style/Match" >
-        
+    style="@style/Match"
+    android:fillViewport="true">
+
     <EditText
         android:id="@+id/password"
         android:layout_width="260dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
         android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
         android:hint="@string/childPasswordHint"
         android:inputType="text"
         android:maxLength="15" />
@@ -17,9 +17,9 @@
         android:id="@+id/confirm"
         android:layout_width="260dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="25dp"
-        android:layout_centerHorizontal="true"
         android:layout_below="@+id/password"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="25dp"
         android:hint="@string/confirmPasswordHint"
         android:inputType="text"
         android:maxLength="15" />
@@ -28,41 +28,41 @@
         android:id="@+id/slider_label"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="25dp"
         android:layout_below="@id/confirm"
+        android:layout_marginTop="25dp"
         android:gravity="center"
-        android:textSize="20sp"
-        android:text="@string/passwordExpiration" />
+        android:text="@string/passwordExpiration"
+        android:textSize="20sp" />
 
-        <TextView
-            android:id="@+id/interval"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
-            android:layout_below="@id/slider_label"
-            android:gravity="center"
-            android:textSize="20sp"
-            android:text="5 minutes" />
+    <TextView
+        android:id="@+id/interval"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/slider_label"
+        android:layout_marginTop="25dp"
+        android:gravity="center"
+        android:text="5 minutes"
+        android:textSize="20sp" />
 
-        <SeekBar
-            android:id="@+id/expiration_slider"
-            android:layout_width="260dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_below="@id/interval"
-            android:layout_centerHorizontal="true"
-            android:max="20"
-            android:progress="0"
-            android:secondaryProgress="0"
-            style="@style/SeekBarYoloTheme" />
+    <SeekBar
+        android:id="@+id/expiration_slider"
+        style="@style/SeekBarYoloTheme"
+        android:layout_width="260dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/interval"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:max="20"
+        android:progress="0"
+        android:secondaryProgress="0" />
 
     <Button
         android:id="@+id/lock_btn"
         android:layout_width="260dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
         android:layout_alignRight="@id/confirm"
         android:layout_below="@id/expiration_slider"
-        android:text="@string/lock"/>
- 
+        android:layout_marginTop="50dp"
+        android:text="@string/lock" />
+
 </RelativeLayout>

@@ -1,43 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-android:id="@+id/list_layout"
-style="@style/Wrap"
-android:orientation="vertical"
-android:padding="10dip" >
-
-<ImageView
-    android:id="@+id/list_image"
-    android:layout_width="50dip"
-    android:layout_height="50dip"
-    android:contentDescription="@string/app_name"
-    android:paddingLeft="10dp"/>
-
-<!-- ID -->
-
-<TextView
-    android:id="@+id/installation_id"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="@string/app_name"
-    android:visibility="gone" />
-
-<!-- Name Value -->
-
-<TextView
-    android:id="@+id/name"
-    android:layout_width="240dp"
-    android:layout_height="wrap_content"
-    android:layout_centerVertical="true"
-    android:layout_marginLeft="20dp"
-    android:layout_toLeftOf="@+id/notificationSwitch"
-    android:layout_toRightOf="@+id/list_image" />
-
-<CheckBox
-    android:id="@+id/checkBox"
+    android:id="@+id/list_layout"
     style="@style/Wrap"
-    android:layout_alignParentRight="true"
-    android:layout_centerInParent="true"
-    android:scaleX="1.50"
-    android:scaleY="1.50" />
+    android:orientation="vertical"
+    android:padding="10dip">
+
+    <ImageView
+        android:id="@+id/list_image"
+        android:layout_width="50dip"
+        android:layout_height="50dip"
+        android:contentDescription="@string/app_name"
+        android:paddingLeft="10dp" />
+
+    <!-- ID -->
+
+    <TextView
+        android:id="@+id/installation_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/app_name"
+        android:visibility="gone" />
+
+    <!-- Name Value -->
+
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="240dp"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="20dp"
+        android:layout_toLeftOf="@+id/notificationSwitch"
+        android:layout_toRightOf="@+id/list_image" />
+
+    <CheckBox
+        android:id="@+id/checkBox"
+        style="@style/Wrap"
+        android:layout_alignParentRight="true"
+        android:layout_centerInParent="true"
+        android:scaleX="1.50"
+        android:scaleY="1.50" />
 
 </RelativeLayout>

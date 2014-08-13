@@ -7,16 +7,16 @@ import android.os.Handler;
 
 import com.yolo.R;
 
-public class SplashScreenActivity extends Activity{
+public class SplashScreenActivity extends Activity {
     private static int SPLASH_TIME_OUT = 1000;
- 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
- 
+
         new Handler().postDelayed(new Runnable() {
- 
+
             @Override
             public void run() {
                 Intent i = new Intent(SplashScreenActivity.this, MainActivity.class);

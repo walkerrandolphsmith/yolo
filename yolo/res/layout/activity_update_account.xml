@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:fillViewport="true"
-    style="@style/Match" >
+    style="@style/Match"
+    android:fillViewport="true">
 
     <EditText
         android:id="@+id/phone"
@@ -10,16 +10,15 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="50dp"
         android:hint="@string/newPhoneHint"
-        android:inputType="phone"
-        />
-        
+        android:inputType="phone" />
+
     <EditText
         android:id="@+id/name"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
+        android:layout_below="@id/phone"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="50dp"
-        android:layout_below="@id/phone"
         android:hint="@string/newPasswordHint"
         android:inputType="textPassword"
         android:maxLength="15" />
@@ -28,23 +27,22 @@
         android:id="@+id/confirm"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
         android:layout_below="@+id/name"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="50dp"
         android:hint="@string/newConfirmPasswordHint"
         android:inputType="textPassword"
-        android:maxLength="15"
-        />
+        android:maxLength="15" />
 
     <EditText
         android:id="@+id/email"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
         android:layout_below="@id/confirm"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="50dp"
         android:hint="@string/newEmailHint"
-        android:inputType="textEmailAddress"/>
+        android:inputType="textEmailAddress" />
 
     <Button
         android:id="@+id/update_account_btn"
@@ -56,13 +54,23 @@
         android:text="@string/updateAccount" />
 
     <Button
+        android:id="@+id/pair_account_btn"
+        style="@style/ButtonYoloTheme"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@id/name"
+        android:layout_below="@+id/update_account_btn"
+        android:layout_marginTop="25dp"
+        android:text="Pair Device" />
+
+    <Button
         android:id="@+id/delete_account_btn"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_alignRight="@id/name"
-        android:layout_below="@id/update_account_btn"
+        android:layout_below="@id/pair_account_btn"
         android:layout_marginTop="25dp"
-        android:text="@string/deleteAccount"
-        android:background="@color/yolotheme_red"/>
- 
+        android:background="@color/yolotheme_red"
+        android:text="@string/deleteAccount" />
+
 </RelativeLayout>

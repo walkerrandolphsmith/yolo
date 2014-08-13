@@ -20,69 +20,69 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class ListAdapterChildren extends ArrayAdapter<String> {
-	private ViewHolder viewHolder;
-	private ConsoleActivity activity;
-	public JSONArray mChildren;
+    private ViewHolder viewHolder;
+    private ConsoleActivity activity;
+    public JSONArray mChildren;
 
-	public ListAdapterChildren(ConsoleActivity activity) {
-		super(activity, R.layout.each_child);
-		this.activity = activity;
-		this.mChildren = activity.currentUser.getChildren();
-	}
-	
-	private class ViewHolder {
-		TextView device_channel, name;
+    public ListAdapterChildren(ConsoleActivity activity) {
+        super(activity, R.layout.each_child);
+        this.activity = activity;
+        this.mChildren = activity.currentUser.getChildren();
+    }
+
+    private class ViewHolder {
+        TextView device_channel, name;
         ImageView delete, edit, lock;
-	}
+    }
 
-	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
-		if (convertView == null) {
-			convertView = activity.getLayoutInflater().inflate(R.layout.each_child, null);
-			viewHolder = new ViewHolder();
-			viewHolder.device_channel = (TextView) convertView
-					.findViewById(R.id.device_channel_id);
-			viewHolder.name = (TextView) convertView.findViewById(R.id.name);
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        if (convertView == null) {
+            convertView = activity.getLayoutInflater().inflate(R.layout.each_child, null);
+            viewHolder = new ViewHolder();
+            viewHolder.device_channel = (TextView) convertView
+                    .findViewById(R.id.device_channel_id);
+            viewHolder.name = (TextView) convertView.findViewById(R.id.name);
             viewHolder.delete = (ImageView) convertView.findViewById(R.id.delete);
             viewHolder.edit = (ImageView) convertView.findViewById(R.id.edit);
             viewHolder.lock = (ImageView) convertView.findViewById(R.id.lock);
-			convertView.setTag(viewHolder);
-		} else{
-			viewHolder = (ViewHolder) convertView.getTag();
-		}
+            convertView.setTag(viewHolder);
+        } else {
+            viewHolder = (ViewHolder) convertView.getTag();
+        }
 
         ((SwipeListView) parent).recycle(convertView, position);
-		try {
+        try {
             JSONObject child = activity.currentUser.getChildren().getJSONObject(position);
-			viewHolder.device_channel.setText(child.getString("channel"));
-			viewHolder.name.setText(child.getString("name"));
-		} catch (JSONException e) {
+            viewHolder.device_channel.setText(child.getString("channel"));
+            viewHolder.name.setText(child.getString("name"));
+        } catch (JSONException e) {
 
-		}
+        }
         viewHolder.lock.setOnClickListener(new lockListener(position));
         viewHolder.delete.setOnClickListener(new deleteListener(position));
         viewHolder.edit.setOnClickListener(new editListener(position));
 
         return convertView;
-	}
+    }
 
-	@Override
-	public int getCount() {
-		return mChildren.length();
-	}
+    @Override
+    public int getCount() {
+        return mChildren.length();
+    }
 
 
     public class deleteListener implements View.OnClickListener {
 
         public int position;
 
-        public deleteListener(int position){
+        public deleteListener(int position) {
             this.position = position;
         }
 
         @Override
-        public void onClick(View v){
-            new DeleteTask().execute(new Integer[]{ position });
+        public void onClick(View v) {
+            new DeleteTask().execute(new Integer[]{position});
         }
     }
 
@@ -90,12 +90,12 @@ public class ListAdapterChildren extends ArrayAdapter<String> {
 
         public int position;
 
-        public editListener(int position){
+        public editListener(int position) {
             this.position = position;
         }
 
         @Override
-        public void onClick(View v){
+        public void onClick(View v) {
             Intent intent = new Intent(activity, ChildEditActivity.class);
             intent.putExtra("position", position);
             activity.startActivity(intent);
@@ -106,17 +106,17 @@ public class ListAdapterChildren extends ArrayAdapter<String> {
 
         public int position;
 
-        public lockListener(int position){
+        public lockListener(int position) {
             this.position = position;
         }
 
         @Override
-        public void onClick(View v){
+        public void onClick(View v) {
             String channel = "";
-            try{
+            try {
                 JSONObject child = mChildren.getJSONObject(position);
                 channel = child.getString("channel");
-            }catch (JSONException e){
+            } catch (JSONException e) {
 
             }
             Intent intent = new Intent(activity, ChildLockActivity.class);
@@ -126,9 +126,11 @@ public class ListAdapterChildren extends ArrayAdapter<String> {
         }
     }
 
-    /*********************************
+    /**
+     * ******************************
      * Async Task Init Parse
-     **********************************/
+     * ********************************
+     */
 
     private class DeleteTask extends AsyncTask<Integer, Void, Integer> {
 
@@ -161,7 +163,7 @@ public class ListAdapterChildren extends ArrayAdapter<String> {
             return position;
         }
 
-        protected void onPostExecute(Integer position){
+        protected void onPostExecute(Integer position) {
             mChildren.remove(position);
             notifyDataSetChanged();
         }

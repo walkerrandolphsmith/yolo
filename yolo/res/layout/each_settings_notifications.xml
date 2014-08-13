@@ -3,14 +3,14 @@
     android:id="@+id/list_layout"
     style="@style/Wrap"
     android:orientation="vertical"
-    android:padding="10dip" >
-    
+    android:padding="10dip">
+
     <ImageView
-            android:id="@+id/list_image"
-            android:layout_width="50dip"
-            android:layout_height="50dip"
-            android:contentDescription="@string/app_name"
-            android:paddingLeft="10dp"/>
+        android:id="@+id/list_image"
+        android:layout_width="50dip"
+        android:layout_height="50dip"
+        android:contentDescription="@string/app_name"
+        android:paddingLeft="10dp" />
 
     <!-- ID -->
 
@@ -21,19 +21,19 @@
         android:text="@string/app_name"
         android:visibility="gone" />
 
-     <!-- Name Value -->
+    <!-- Name Value -->
 
     <Switch
         android:id="@+id/notificationSwitch"
         style="@style/Wrap"
-        android:switchMinWidth="56dp"
-         android:textOff=""
-        android:textOn="" 
-        android:layout_centerVertical="true"
         android:layout_alignParentRight="true"
         android:layout_alignTop="@+id/name"
+        android:layout_centerVertical="true"
+        android:switchMinWidth="56dp"
+        android:textOff=""
+        android:textOn=""
         android:thumb="@drawable/yolotheme_switch_inner_holo_light"
-        android:track="@drawable/yolotheme_switch_track_holo_light"/>
+        android:track="@drawable/yolotheme_switch_track_holo_light" />
 
     <TextView
         android:id="@+id/name"

@@ -2,12 +2,12 @@
 <resources>
     <!-- App -->
     <string name="app_name">YOLO</string>
-	<string name="empty"></string>
+    <string name="empty"></string>
 
     <!-- Notification Format -->
     <string name="isDriverNotification">Your child is driving a vehicle.</string>
     <string name="isPassengerNotification">Your child is a passenger of a moving vehicle.</string>
-    
+
     <!-- Login/Account Items -->
     <string name="signIn">Sign In</string>
     <string name="signOut">Sign Out</string>
@@ -25,7 +25,7 @@
     <string name="emailNotVerified">NOT VERIFIED</string>
 
 
-     <!-- Errors -->
+    <!-- Errors -->
     <string name="error_invalid_email">This email address is invalid</string>
     <string name="error_duplicate_email">This email address is already in use</string>
     <string name="error_duplicate_username">This username is already in use</string>
@@ -51,14 +51,14 @@
     <string name="editNameHint">Child Name</string>
 
     <!-- Child Lock -->
-    <string name="childPasswordHint">Set Child's Password</string>
+    <string name="childPasswordHint">Set Childs Password</string>
     <string name="passwordExpiration">Password Expiration</string>
 
     <!-- Settings -->
-        <!-- Headers -->
-        <string name="notifications">Notifications</string>
-        <string name="settingsHeadersFrequency">Reminder Frequency</string>
-        <string name="settingsHeaderAccount">Account</string>
+    <!-- Headers -->
+    <string name="notifications">Notifications</string>
+    <string name="settingsHeadersFrequency">Reminder Frequency</string>
+    <string name="settingsHeaderAccount">Account</string>
 
     <string name="receivePushNotifications">Push Notifications</string>
     <string name="receiveEmail">Email</string>

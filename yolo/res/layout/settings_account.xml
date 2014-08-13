@@ -3,13 +3,13 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="10dip" >
+    android:padding="10dip">
 
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:paddingBottom="10dp"
-        android:paddingTop="10dp" >
+        android:paddingTop="10dp">
 
         <TextView
             android:id="@+id/header_label"
@@ -17,8 +17,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_centerInParent="true"
-            android:textSize="24sp"
-            android:text="@string/settingsHeaderAccount" />
+            android:text="@string/settingsHeaderAccount"
+            android:textSize="24sp" />
 
     </RelativeLayout>
 
@@ -26,15 +26,15 @@
         style="@style/Wrap"
         android:orientation="vertical"
         android:paddingBottom="10dp"
-        android:paddingTop="10dp"
-        android:paddingLeft="10dip"  >
+        android:paddingLeft="10dip"
+        android:paddingTop="10dp">
 
         <ImageView
             android:id="@+id/user_icon"
             android:layout_width="50dip"
             android:layout_height="50dip"
-            android:contentDescription="@string/app_name"
-            android:background="@drawable/ic_account_username"/>
+            android:background="@drawable/ic_account_username"
+            android:contentDescription="@string/app_name" />
 
         <!-- Name Value -->
 
@@ -52,15 +52,15 @@
         style="@style/Wrap"
         android:orientation="vertical"
         android:paddingBottom="10dp"
-        android:paddingTop="10dp"
-        android:paddingLeft="10dip"  >
+        android:paddingLeft="10dip"
+        android:paddingTop="10dp">
 
         <ImageView
             android:id="@+id/password_icon"
             android:layout_width="50dip"
             android:layout_height="50dip"
-            android:contentDescription="@string/app_name"
-            android:background="@drawable/ic_account_password"/>
+            android:background="@drawable/ic_account_password"
+            android:contentDescription="@string/app_name" />
 
         <!-- Name Value -->
 
@@ -71,7 +71,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="20dp"
             android:layout_toRightOf="@+id/password_icon"
-            android:text="@string/accountPassword"/>
+            android:text="@string/accountPassword" />
 
     </RelativeLayout>
 
@@ -79,15 +79,15 @@
         style="@style/Wrap"
         android:orientation="vertical"
         android:paddingBottom="10dp"
-        android:paddingTop="10dp"
-        android:paddingLeft="10dip" >
+        android:paddingLeft="10dip"
+        android:paddingTop="10dp">
 
         <ImageView
             android:id="@+id/phone_icon"
             android:layout_width="50dip"
             android:layout_height="50dip"
-            android:contentDescription="@string/app_name"
-            android:background="@drawable/ic_action_add"/>
+            android:background="@drawable/ic_action_add"
+            android:contentDescription="@string/app_name" />
 
         <!-- Name Value -->
 
@@ -106,62 +106,33 @@
         style="@style/Wrap"
         android:orientation="vertical"
         android:paddingBottom="10dp"
-        android:paddingTop="10dp"
-        android:paddingLeft="10dip" >
+        android:paddingLeft="10dip"
+        android:paddingTop="10dp">
 
         <ImageView
             android:id="@+id/email_icon"
             android:layout_width="50dip"
             android:layout_height="50dip"
-            android:contentDescription="@string/app_name"
-            android:background="@drawable/ic_settings_email" />
+            android:background="@drawable/ic_settings_email"
+            android:contentDescription="@string/app_name" />
 
         <!-- ID -->
-        <FrameLayout
+
+        <TextView
+            android:id="@+id/email"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/email_icon" >
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp" />
 
-            <TextView
-                android:id="@+id/verifiedText"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:textColor="#266A2E"
-                android:text="@string/app_name"
-                android:layout_marginTop="25dp" />
-
-            <!-- Name Value -->
-
-            <TextView
-                android:id="@+id/email"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="20dp" />
-
-        </FrameLayout>
     </RelativeLayout>
 
     <Button
-            android:id="@+id/update_account"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerInParent="true"
-            android:text="@string/updateAccount"
-            style="@style/ButtonYoloTheme"/>
-
-    <Button
-        android:id="@+id/pair_account"
+        android:id="@+id/update_account"
+        style="@style/ButtonYoloTheme"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_centerInParent="true"
-        android:layout_below="@+id/update_account"
-        android:layout_marginTop="10dp"
-        android:text="Pair Device"
-        style="@style/ButtonYoloTheme"/>
-
-
+        android:text="@string/updateAccount" />
 </LinearLayout>

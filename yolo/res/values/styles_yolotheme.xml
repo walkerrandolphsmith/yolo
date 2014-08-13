@@ -3,49 +3,54 @@
 <!-- Generated with http://android-holo-colors.com -->
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
-  <style name="EditTextYoloTheme" parent="android:Widget.EditText">
-	  <item name="android:background">@drawable/yolotheme_edit_text_holo_light</item>
-	  <item name="android:textColor">#000000</item>
-  </style>
+    <style name="EditTextYoloTheme" parent="android:Widget.EditText">
+        <item name="android:background">@drawable/yolotheme_edit_text_holo_light</item>
+        <item name="android:textColor">#000000</item>
+    </style>
 
-  <style name="CheckBoxYoloTheme" parent="android:Widget.CompoundButton.CheckBox">
-      <item name="android:button">@drawable/yolotheme_btn_check_holo_light</item>
-  </style>
+    <style name="CheckBoxYoloTheme" parent="android:Widget.CompoundButton.CheckBox">
+        <item name="android:button">@drawable/yolotheme_btn_check_holo_light</item>
+    </style>
 
-  <style name="ButtonYoloTheme" parent="android:Widget.Button">
-	  <item name="android:background">@drawable/yolotheme_btn_default_holo_light</item>
-	  <item name="android:minHeight">48dip</item>
-	  <item name="android:minWidth">64dip</item>
-      <item name="android:textColor">@color/white</item>
-  </style>
+    <style name="ButtonYoloTheme" parent="android:Widget.Button">
+        <item name="android:background">@drawable/yolotheme_btn_default_holo_light</item>
+        <item name="android:minHeight">48dip</item>
+        <item name="android:minWidth">64dip</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
 
-  <style name="ImageButtonYoloTheme" parent="android:Widget.ImageButton">
-	  <item name="android:background">@drawable/yolotheme_btn_default_holo_light</item>
-  </style>
+    <style name="ImageButtonYoloTheme" parent="android:Widget.ImageButton">
+        <item name="android:background">@drawable/yolotheme_btn_default_holo_light</item>
+    </style>
 
-  <style name="SpinnerYoloTheme" parent="android:Widget.Spinner">
-      <item name="android:background">@drawable/yolotheme_spinner_background_holo_light</item>
-      <item name="android:dropDownSelector">@drawable/yolotheme_list_selector_holo_light</item>
-  </style>
+    <style name="SpinnerYoloTheme" parent="android:Widget.Spinner">
+        <item name="android:background">@drawable/yolotheme_spinner_background_holo_light</item>
+        <item name="android:dropDownSelector">@drawable/yolotheme_list_selector_holo_light</item>
+    </style>
 
-  <style name="SpinnerDropDownItemYoloTheme" parent="android:Widget.DropDownItem.Spinner">
-      <item name="android:checkMark">@drawable/yolotheme_btn_radio_holo_light</item>
-  </style>
-  <style name="SeekBarYoloTheme" parent="android:Widget.SeekBar">
-      <item name="android:progressDrawable">@drawable/yolotheme_scrubber_progress_horizontal_holo_light</item>
-      <item name="android:indeterminateDrawable">@drawable/yolotheme_scrubber_progress_horizontal_holo_light</item>
-      <item name="android:minHeight">13dip</item>
-      <item name="android:maxHeight">13dip</item>
-      <item name="android:thumb">@drawable/yolotheme_scrubber_control_selector_holo_light</item>
-      <item name="android:thumbOffset">16dip</item>
-      <item name="android:paddingLeft">16dip</item>
-      <item name="android:paddingRight">16dip</item>
-  </style>
+    <style name="SpinnerDropDownItemYoloTheme" parent="android:Widget.DropDownItem.Spinner">
+        <item name="android:checkMark">@drawable/yolotheme_btn_radio_holo_light</item>
+    </style>
 
-  <style name="ToggleYoloTheme" parent="android:Widget.Button.Toggle">
-      <item name="android:background">@drawable/yolotheme_btn_toggle_holo_light</item>
-      <item name="android:minHeight">48dip</item>
-	  <item name="android:textColor">#000000</item>
-  </style>
+    <style name="SeekBarYoloTheme" parent="android:Widget.SeekBar">
+        <item name="android:progressDrawable">
+            @drawable/yolotheme_scrubber_progress_horizontal_holo_light
+        </item>
+        <item name="android:indeterminateDrawable">
+            @drawable/yolotheme_scrubber_progress_horizontal_holo_light
+        </item>
+        <item name="android:minHeight">13dip</item>
+        <item name="android:maxHeight">13dip</item>
+        <item name="android:thumb">@drawable/yolotheme_scrubber_control_selector_holo_light</item>
+        <item name="android:thumbOffset">16dip</item>
+        <item name="android:paddingLeft">16dip</item>
+        <item name="android:paddingRight">16dip</item>
+    </style>
+
+    <style name="ToggleYoloTheme" parent="android:Widget.Button.Toggle">
+        <item name="android:background">@drawable/yolotheme_btn_toggle_holo_light</item>
+        <item name="android:minHeight">48dip</item>
+        <item name="android:textColor">#000000</item>
+    </style>
 
 </resources>

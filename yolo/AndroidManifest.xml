@@ -1,150 +1,149 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-	package="com.yolo" android:versionCode="1" android:versionName="1.0">
+    package="com.yolo"
+    android:versionCode="1"
+    android:versionName="1.0">
 
-	<uses-sdk android:minSdkVersion="16" android:targetSdkVersion="19" />
+    <uses-sdk
+        android:minSdkVersion="16"
+        android:targetSdkVersion="19" />
 
-	<permission android:protectionLevel="signature"
-    	android:name="com.yolo.permission.C2D_MESSAGE" />
-	<uses-permission android:name="com.yolo.permission.C2D_MESSAGE" />
-	<uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
-	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-	<uses-permission android:name="android.permission.USES_POLICY_FORCE_LOCK" />
-	<uses-permission android:name="android.permission.INTERNET" />
-	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-	<uses-permission android:name="android.permission.WAKE_LOCK" />
+    <permission
+        android:name="com.yolo.permission.C2D_MESSAGE"
+        android:protectionLevel="signature" />
+
+    <uses-permission android:name="com.yolo.permission.C2D_MESSAGE" />
+    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.USES_POLICY_FORCE_LOCK" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
     <uses-permission android:name="android.permission.VIBRATE" />
-	<uses-permission android:name="android.permission.SEND_SMS" />
-	<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-	<uses-permission android:name="android.permission.GET_ACCOUNTS" />
-	<uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
-	<uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS" />
+    <uses-permission android:name="android.permission.SEND_SMS" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+    <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS" />
 
-	<supports-screens android:resizeable="true"
-		android:smallScreens="true" 
-		android:normalScreens="true"
-		android:largeScreens="true" 
-		android:anyDensity="true" />
+    <supports-screens
+        android:anyDensity="true"
+        android:largeScreens="true"
+        android:normalScreens="true"
+        android:resizeable="true"
+        android:smallScreens="true" />
 
-	<application 
-	    android:name="com.yolo.Application"
-	    android:theme="@style/YoloTheme"
-	    android:allowBackup="true" 
-	    android:icon="@drawable/ic_launcher"
-		android:label="@string/app_name">
-		
-		<meta-data 
-		   android:name="com.google.android.gms.version"
-           android:value="1" />
+    <application
+        android:name="com.yolo.Application"
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/YoloTheme">
 
-		<activity 
-		    android:name="com.yolo.activities.SplashScreenActivity"
-			android:configChanges="orientation|screenSize"
-			android:theme="@android:style/Theme.Black.NoTitleBar"
-			android:label="@string/app_name">
-			<intent-filter>
-				<action android:name="android.intent.action.MAIN" />
-				<category android:name="android.intent.category.LAUNCHER" />
-			</intent-filter>
-		</activity>
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="1" />
 
-		<activity 
-		    android:name="com.yolo.activities.MainActivity"
-			android:configChanges="orientation|screenSize"
-            android:screenOrientation="portrait"
-            android:label="@string/empty">
-		</activity>
-		
-		<activity 
-		    android:name="com.yolo.activities.SignInActivity"
-			android:configChanges="orientation|screenSize"
-            android:screenOrientation="portrait"
+        <activity
+            android:name="com.yolo.activities.SplashScreenActivity"
+            android:configChanges="orientation|screenSize"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.Black.NoTitleBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name="com.yolo.activities.MainActivity"
+            android:configChanges="orientation|screenSize"
             android:label="@string/empty"
-			android:parentActivityName="com.yolo.activities.MainActivity">
-		</activity>
-		
-		<activity 
-		    android:name="com.yolo.activities.SignUpActivity"
-			android:configChanges="orientation|screenSize"
-            android:screenOrientation="portrait"
+            android:screenOrientation="portrait"></activity>
+
+        <activity
+            android:name="com.yolo.activities.SignInActivity"
+            android:configChanges="orientation|screenSize"
             android:label="@string/empty"
-			android:parentActivityName="com.yolo.activities.SignInActivity">
-		</activity>
-		
-		<activity 
-		    android:name="com.yolo.activities.ConsoleActivity"
-			android:configChanges="orientation|screenSize"
-            android:screenOrientation="portrait"
+            android:parentActivityName="com.yolo.activities.MainActivity"
+            android:screenOrientation="portrait"></activity>
+
+        <activity
+            android:name="com.yolo.activities.SignUpActivity"
+            android:configChanges="orientation|screenSize"
             android:label="@string/empty"
-			android:parentActivityName="com.yolo.activities.MainActivity">
-		</activity>
+            android:parentActivityName="com.yolo.activities.SignInActivity"
+            android:screenOrientation="portrait"></activity>
+
+        <activity
+            android:name="com.yolo.activities.ConsoleActivity"
+            android:configChanges="orientation|screenSize"
+            android:label="@string/empty"
+            android:parentActivityName="com.yolo.activities.MainActivity"
+            android:screenOrientation="portrait"></activity>
 
         <activity
             android:name=".activities.ChildLockActivity"
             android:configChanges="orientation|screenSize"
-            android:screenOrientation="portrait"
             android:label="@string/empty"
             android:noHistory="true"
-            android:parentActivityName="com.yolo.activities.ConsoleActivity">
-        </activity>
+            android:parentActivityName="com.yolo.activities.ConsoleActivity"
+            android:screenOrientation="portrait"></activity>
 
         <activity
             android:name=".activities.ChildAddActivity"
             android:configChanges="orientation|screenSize"
-            android:screenOrientation="portrait"
             android:label="@string/empty"
             android:noHistory="true"
-            android:parentActivityName="com.yolo.activities.ConsoleActivity">
-        </activity>
+            android:parentActivityName="com.yolo.activities.ConsoleActivity"
+            android:screenOrientation="portrait"></activity>
 
         <activity
             android:name=".activities.ChildEditActivity"
             android:configChanges="orientation|screenSize"
-            android:screenOrientation="portrait"
             android:label="@string/empty"
             android:noHistory="true"
-            android:parentActivityName="com.yolo.activities.ConsoleActivity">
-        </activity>
-		
-		<activity 
-		    android:name="com.yolo.activities.SettingsActivity"
-			android:configChanges="orientation|screenSize"
-            android:screenOrientation="portrait"
+            android:parentActivityName="com.yolo.activities.ConsoleActivity"
+            android:screenOrientation="portrait"></activity>
+
+        <activity
+            android:name="com.yolo.activities.SettingsActivity"
+            android:configChanges="orientation|screenSize"
             android:label="@string/empty"
-			android:parentActivityName="com.yolo.activities.ConsoleActivity">
-		</activity>
+            android:parentActivityName="com.yolo.activities.ConsoleActivity"
+            android:screenOrientation="portrait"></activity>
 
         <activity
             android:name=".activities.UpdateAccountActivity"
             android:configChanges="orientation|screenSize"
-            android:screenOrientation="portrait"
             android:label="@string/empty"
             android:noHistory="true"
-            android:parentActivityName="com.yolo.activities.SettingsActivity">
-        </activity>
+            android:parentActivityName="com.yolo.activities.SettingsActivity"
+            android:screenOrientation="portrait"></activity>
 
-		<receiver 
-		    android:name="com.yolo.Application$DeviceAdmin"
-		    android:label="@string/app_name"
-			android:description="@string/app_name"
-			android:permission="android.permission.BIND_DEVICE_ADMIN">
-			<meta-data android:name="android.app.device_admin"
-				android:resource="@xml/device_admin" />
-			<intent-filter>
-				<action android:name="android.app.action.DEVICE_ADMIN_ENABLED" />
-			</intent-filter>
-		</receiver>
-        <service android:name=".services.YoloService"></service>
         <receiver
-            android:name="com.parse.ParseBroadcastReceiver">
+            android:name="com.yolo.Application$DeviceAdmin"
+            android:description="@string/app_name"
+            android:label="@string/app_name"
+            android:permission="android.permission.BIND_DEVICE_ADMIN">
+            <meta-data
+                android:name="android.app.device_admin"
+                android:resource="@xml/device_admin" />
+            <intent-filter>
+                <action android:name="android.app.action.DEVICE_ADMIN_ENABLED" />
+            </intent-filter>
+        </receiver>
+        <service android:name=".services.YoloService"></service>
+        <receiver android:name="com.parse.ParseBroadcastReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action android:name="android.intent.action.USER_PRESENT" />
             </intent-filter>
         </receiver>
         <service android:name="com.parse.PushService" />
+
         <receiver
             android:name="com.yolo.broadcast_receivers.NotificationBroadcastReceiver"
             android:exported="false">
@@ -153,14 +152,16 @@
             </intent-filter>
         </receiver>
 
-		<receiver android:name="com.parse.GcmBroadcastReceiver"
-			android:permission="com.google.android.c2dm.permission.SEND">
-			<intent-filter>
-				<action android:name="com.google.android.c2dm.intent.RECEIVE" />
-				<action android:name="com.google.android.c2dm.intent.REGISTRATION" />
-				<category android:name="com.yolo" />
-			</intent-filter>
-		</receiver>
+        <receiver
+            android:name="com.parse.GcmBroadcastReceiver"
+            android:permission="com.google.android.c2dm.permission.SEND">
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+                <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
+
+                <category android:name="com.yolo" />
+            </intent-filter>
+        </receiver>
 
 
         <receiver
@@ -170,6 +171,6 @@
                 <action android:name="com.yolo.action.LOCATIONCHANGE" />
             </intent-filter>
         </receiver>
-	</application>
+    </application>
 
 </manifest>

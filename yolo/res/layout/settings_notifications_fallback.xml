@@ -3,12 +3,12 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="10dip" >
+    android:padding="10dip">
 
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:padding="10dip" >
+        android:padding="10dip">
 
         <TextView
             android:id="@+id/selectAllCheckBoxLabel"
@@ -16,8 +16,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_centerInParent="true"
-            android:textSize="24sp"
-            android:text="@string/notifications" />
+            android:text="@string/notifications"
+            android:textSize="24sp" />
 
         <CheckBox
             android:id="@+id/selectAllCheckBox"

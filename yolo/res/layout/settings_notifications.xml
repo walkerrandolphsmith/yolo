@@ -3,13 +3,13 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="10dip" >
+    android:padding="10dip">
 
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:paddingBottom="10dp"
-        android:paddingTop="10dp" >
+        android:paddingTop="10dp">
 
         <TextView
             android:id="@+id/selectAllCheckBoxLabel"
@@ -17,8 +17,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_centerInParent="true"
-            android:textSize="24sp"
-            android:text="@string/notifications" />
+            android:text="@string/notifications"
+            android:textSize="24sp" />
 
         <Switch
             android:id="@+id/selectAllSwitch"
@@ -26,6 +26,6 @@
             android:layout_alignParentRight="true"
             android:layout_centerInParent="true"
             android:thumb="@drawable/yolotheme_switch_inner_holo_light"
-            android:track="@drawable/yolotheme_switch_track_holo_light"/>
+            android:track="@drawable/yolotheme_switch_track_holo_light" />
     </RelativeLayout>
 </LinearLayout>

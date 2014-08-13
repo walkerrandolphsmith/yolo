@@ -9,35 +9,37 @@ import android.widget.EditText;
 
 import com.yolo.R;
 
-public class ChildEditActivity extends BaseActivity{
-	
-	EditText mUserName;
+public class ChildEditActivity extends BaseActivity {
+
+    EditText mUserName;
     int position;
 
-	/*********************************
-	 * OnCreate
-	 **********************************/
+    /**
+     * ******************************
+     * OnCreate
+     * ********************************
+     */
 
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_child_action);
-		
-		getActionBar().setDisplayHomeAsUpEnabled(true);
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_child_action);
+
+        getActionBar().setDisplayHomeAsUpEnabled(true);
 
         Bundle bundle = getIntent().getExtras();
-		position = bundle.getInt("position");
-		mUserName = (EditText)findViewById(R.id.name);
-	     final Button editDevice = (Button) findViewById(R.id.update_account_btn);
+        position = bundle.getInt("position");
+        mUserName = (EditText) findViewById(R.id.name);
+        final Button editDevice = (Button) findViewById(R.id.update_account_btn);
         editDevice.setText("Rename Device");
         editDevice.setOnClickListener(new View.OnClickListener() {
-	         public void onClick(View v) {
-	        	 editDevice();
-	         }
-	     });
-	}
-	
-	public void editDevice() {
+            public void onClick(View v) {
+                editDevice();
+            }
+        });
+    }
+
+    public void editDevice() {
 
         // Store values at the time of the login attempt.
         String username = mUserName.getText().toString();
@@ -47,7 +49,7 @@ public class ChildEditActivity extends BaseActivity{
 
         // Check for a valid password.
         if (TextUtils.isEmpty(username)) {
-        	mUserName.setError(getString(R.string.error_field_required));
+            mUserName.setError(getString(R.string.error_field_required));
             focusView = mUserName;
             cancel = true;
         }

@@ -37,8 +37,8 @@ public class ChildLockActivity extends BaseActivity {
         Bundle bundle = getIntent().getExtras();
         channel = bundle.getString("channel");
         position = bundle.getInt("position");
-        mPassword = (EditText)findViewById(R.id.password);
-        mConfirmPassword = (EditText)findViewById(R.id.confirm);
+        mPassword = (EditText) findViewById(R.id.password);
+        mConfirmPassword = (EditText) findViewById(R.id.confirm);
 
         mInterval = (TextView) findViewById(R.id.interval);
 
@@ -79,27 +79,21 @@ public class ChildLockActivity extends BaseActivity {
         boolean cancel = false;
         View focusView = null;
 
-        if (TextUtils.isEmpty(password))
-        {
+        if (TextUtils.isEmpty(password)) {
             mPassword.setError(getString(R.string.error_field_required));
             focusView = mPassword;
             cancel = true;
-        }
-        else if (password.length() < 4)
-        {
+        } else if (password.length() < 4) {
             mPassword.setError(getString(R.string.error_invalid_password));
             focusView = mPassword;
             cancel = true;
         }
 
-        if (TextUtils.isEmpty(confirmPassword))
-        {
+        if (TextUtils.isEmpty(confirmPassword)) {
             mConfirmPassword.setError(getString(R.string.error_field_required));
             focusView = mConfirmPassword;
             cancel = true;
-        }
-        else if (mPassword != null && !confirmPassword.equals(password))
-        {
+        } else if (mPassword != null && !confirmPassword.equals(password)) {
             mPassword.setError(getString(R.string.error_invalid_confirm_password));
             focusView = mPassword;
             cancel = true;

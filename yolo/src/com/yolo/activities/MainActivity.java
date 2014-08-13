@@ -20,21 +20,23 @@ import com.yolo.R;
 
 public class MainActivity extends BaseActivity {
 
-    /*********************************
-	 * OnCreate
-	 **********************************/
+    /**
+     * ******************************
+     * OnCreate
+     * ********************************
+     */
 
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
 
-		super.onCreate(savedInstanceState);
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         getActionBar().hide();
 
         new ParseTask(this).execute();
 
         boolean isLoggedIn = getApp().getSharedPreferences().getBoolean("loggedIn", false);
-        if(!isLoggedIn) {
+        if (!isLoggedIn) {
             if (!getApp().isAdmin()) {
                 Intent intent = new Intent(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN);
                 intent.putExtra(DevicePolicyManager.EXTRA_DEVICE_ADMIN, getApp().getAdminName());
@@ -46,7 +48,7 @@ public class MainActivity extends BaseActivity {
             } else {
                 Log.w("NO GPS", "NO GPS");
             }
-        }else{
+        } else {
             Intent i = new Intent(MainActivity.this, ConsoleActivity.class);
             startActivity(i);
         }
@@ -63,11 +65,13 @@ public class MainActivity extends BaseActivity {
                 startActivity(intent);
             }
         });
-  	}
+    }
 
-    /*********************************
+    /**
+     * ******************************
      * isDriving onCheckedChanged Listener
-     **********************************/
+     * ********************************
+     */
 
     public class isDrivingCheckedChangedListener implements OnClickListener {
 
@@ -78,6 +82,7 @@ public class MainActivity extends BaseActivity {
             this.logo = logo;
             this.status = status;
         }
+
         @Override
         public void onClick(View view) {
             Application.isDriving = !Application.isDriving;
@@ -85,25 +90,27 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-    public void setDrivingState(ImageView logo, TextView status){
-        if(Application.isDriving) {
+    public void setDrivingState(ImageView logo, TextView status) {
+        if (Application.isDriving) {
             logo.setImageResource(R.drawable.ic_message);
             status.setText(getResources().getString(R.string.driving));
-        }else{
+        } else {
             logo.setImageResource(R.drawable.ic_launcher);
             status.setText(getResources().getString(R.string.passenger));
         }
     }
 
-    /*********************************
+    /**
+     * ******************************
      * Async Task Init Parse
-     **********************************/
+     * ********************************
+     */
 
     private class ParseTask extends AsyncTask<Void, Void, Void> {
 
         private MainActivity activity;
 
-        public ParseTask(MainActivity activity){
+        public ParseTask(MainActivity activity) {
             this.activity = activity;
         }
 
@@ -113,7 +120,7 @@ public class MainActivity extends BaseActivity {
             PushService.setDefaultPushCallback(activity, MainActivity.class);
             getApp().getInstall().addUnique("channels", getApp().DEVICE_CHANNEL + getApp().getInstall().getObjectId());
             getApp().getInstall().put("isLocked", false);
-            getApp().getInstall().put("f",0);
+            getApp().getInstall().put("f", 0);
             getApp().getInstall().saveInBackground();
             return null;
         }

@@ -3,13 +3,13 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="10dip" >
+    android:padding="10dip">
 
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:paddingBottom="10dp"
-        android:paddingTop="10dp" >
+        android:paddingTop="10dp">
 
         <TextView
             android:id="@+id/header_label"
@@ -17,35 +17,34 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_centerInParent="true"
-            android:textSize="24sp"
-            android:text="@string/settingsHeadersFrequency" />
+            android:text="@string/settingsHeadersFrequency"
+            android:textSize="24sp" />
 
     </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:padding="10dip" >
+        android:padding="10dip">
 
         <TextView
             android:id="@+id/interval"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:textSize="20sp"
-            android:text="0" />
+            android:text="0"
+            android:textSize="20sp" />
 
-    <SeekBar
-        android:id="@+id/frequency_slider"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_below="@id/interval"
-        android:max="20"
-        android:progress="0"
-        android:secondaryProgress="0"
-        style="@style/SeekBarYoloTheme"
-        />
+        <SeekBar
+            android:id="@+id/frequency_slider"
+            style="@style/SeekBarYoloTheme"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/interval"
+            android:layout_marginTop="20dp"
+            android:max="20"
+            android:progress="0"
+            android:secondaryProgress="0" />
 
     </RelativeLayout>
 

@@ -30,14 +30,14 @@ public class LocationBroadcastReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(final Context context, Intent intent) {
 
-        app = (Application)context.getApplicationContext();
+        app = (Application) context.getApplicationContext();
         Location location = (Location) intent.getExtras().get(LocationManager.KEY_LOCATION_CHANGED);
 
         Time time = new Time();
         time.setToNow();
         long now = time.toMillis(true);
 
-        if(location != null) {
+        if (location != null) {
             double speed = location.getSpeed() * 2.2369;
             if (speed < averageDrivingMPH && !app.getInstall().getBoolean("isLocked")) {
                 JSONArray channels = app.getInstall().getJSONArray("channels");
@@ -51,9 +51,11 @@ public class LocationBroadcastReceiver extends BroadcastReceiver {
         }
     }
 
-    /*********************************
+    /**
+     * ******************************
      * getParents
-     **********************************/
+     * ********************************
+     */
     public void getParents(JSONArray channels, final String message, final long now) {
         for (int i = 0; i < channels.length(); i++) {
             try {
@@ -76,25 +78,26 @@ public class LocationBroadcastReceiver extends BroadcastReceiver {
     }
 
 
-    /*********************************
+    /**
+     * ******************************
      * Construct Notification Message
-     **********************************/
+     * ********************************
+     */
 
     public String constructMessage(boolean isDriving) {
         String message;
-        if(isDriving){
+        if (isDriving) {
             message = app.getResources().getString(R.string.isDriverNotification);
-        }else{
+        } else {
             message = app.getResources().getString(R.string.isPassengerNotification);
         }
         return message;
     }
 
 
-
-    public void sendNotificationsTo(User user, String message,long now){
+    public void sendNotificationsTo(User user, String message, long now) {
         long pref = Application.milli[user.getReminderFrequency()];
-        if(now > app.getInstall().getLong("f")) {
+        if (now > app.getInstall().getLong("f")) {
             if (user.getReceivePushNotifications()) {
                 if (user.getObjectId() != null) {
                     sendPushNotification(user, message);
@@ -110,23 +113,25 @@ public class LocationBroadcastReceiver extends BroadcastReceiver {
                     app.getSmsManager().sendTextMessage(user.getPhone(), "", message, null, null);
                 }
             }
-            app.getInstall().put("f", now+pref);
+            app.getInstall().put("f", now + pref);
             app.getInstall().saveInBackground();
         }
     }
 
-    /*********************************
+    /**
+     * ******************************
      * Helper Methods for Sending
-     **********************************/
+     * ********************************
+     */
 
-    public void sendPushNotification(User user, String message){
+    public void sendPushNotification(User user, String message) {
         ParsePush push = new ParsePush();
         push.setChannel(user.getUsername() + user.getObjectId());
         push.setMessage(message);
         push.sendInBackground();
     }
 
-    public void sendEmail(User user, String message){
+    public void sendEmail(User user, String message) {
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("email", user.getEmail());
         map.put("message", message);

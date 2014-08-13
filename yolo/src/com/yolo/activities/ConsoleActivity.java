@@ -25,37 +25,39 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class ConsoleActivity extends BaseActivity {
-	
-	public ListAdapterChildren adapter;
-		
-	/*********************************
-	 * OnCreate
-	 **********************************/
 
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_console);
+    public ListAdapterChildren adapter;
 
-		currentUser = (User) ParseUser.getCurrentUser();
+    /**
+     * ******************************
+     * OnCreate
+     * ********************************
+     */
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_console);
+
+        currentUser = (User) ParseUser.getCurrentUser();
 
         getApp().getLocationManager().removeUpdates(PendingIntent.getBroadcast(this, 0, new Intent("com.yolo.action.LOCATIONCHANGE"), 0));
 
 
         adapter = new ListAdapterChildren(this);
-        if(getIntent().getBooleanExtra("edited", false)){
-           updateChild();
+        if (getIntent().getBooleanExtra("edited", false)) {
+            updateChild();
         }
 
-        if(getIntent().getBooleanExtra("added", false)){
+        if (getIntent().getBooleanExtra("added", false)) {
             addChild();
         }
 
-        if(getIntent().getBooleanExtra("locked", false)){
+        if (getIntent().getBooleanExtra("locked", false)) {
             lockChild();
         }
 
-        final SwipeListView mListView = (SwipeListView)findViewById(R.id.swipelist);
+        final SwipeListView mListView = (SwipeListView) findViewById(R.id.swipelist);
         mListView.setSwipeListViewListener(new BaseSwipeListViewListener() {
             @Override
             public void onOpened(int position, boolean toRight) {
@@ -103,15 +105,17 @@ public class ConsoleActivity extends BaseActivity {
             }
 
         });
-		mListView.setAdapter(adapter);
+        mListView.setAdapter(adapter);
         initializeSwipeList(mListView);
-	}
+    }
 
-    /*********************************
+    /**
+     * ******************************
      * Initialize Swipe List View
-     **********************************/
+     * ********************************
+     */
 
-    public void initializeSwipeList(SwipeListView mListView){
+    public void initializeSwipeList(SwipeListView mListView) {
         SettingsManager settings = SettingsManager.getInstance();
         mListView.setSwipeMode(settings.getSwipeMode());
         mListView.setSwipeActionLeft(settings.getSwipeActionLeft());
@@ -128,9 +132,11 @@ public class ConsoleActivity extends BaseActivity {
         return (int) px;
     }
 
-    /*********************************
+    /**
+     * ******************************
      * ActionBar MenuItems
-     **********************************/
+     * ********************************
+     */
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -159,18 +165,20 @@ public class ConsoleActivity extends BaseActivity {
     }
 
 
-    /*********************************
-	 * Send Notifications to Child 
-	 **********************************/
-	
-	public void sendNotificationsTo(String deviceChannel, JSONObject data){
-		ParsePush push = new ParsePush();
-		push.setChannel(deviceChannel);
-		push.setData(data); 
-		push.sendInBackground();
-	}
+    /**
+     * ******************************
+     * Send Notifications to Child
+     * ********************************
+     */
 
-    public void lockChild(){
+    public void sendNotificationsTo(String deviceChannel, JSONObject data) {
+        ParsePush push = new ParsePush();
+        push.setChannel(deviceChannel);
+        push.setData(data);
+        push.sendInBackground();
+    }
+
+    public void lockChild() {
         String password = getIntent().getStringExtra("password");
         int expiration = getIntent().getIntExtra("expiration", 0);
         String channel = getIntent().getStringExtra("channel");
@@ -178,19 +186,19 @@ public class ConsoleActivity extends BaseActivity {
 
         Log.w("ConsoleActivity received lock with intent", "Lock sent as Push");
         Log.w("the password to the remote lock ", password);
-        Log.w("the expiration or reset to the remote lock ", expiration+"");
+        Log.w("the expiration or reset to the remote lock ", expiration + "");
         JSONObject data = null;
         try {
             data = new JSONObject(
                     "{"
                             + "\"action\": \"com.example.UPDATE_STATUS\","
-                            +  "\"alert\": \"Your phone has been locked by Yolo. Contact Parent or Guardian.\","
+                            + "\"alert\": \"Your phone has been locked by Yolo. Contact Parent or Guardian.\","
                             + "\"password\": \"" + password + "\","
                             + "\"reset\": \"" + expiration + "\""
                             + "}"
             );
             sendNotificationsTo(channel, data);
-            if(position > -1) {
+            if (position > -1) {
                 new LockTask().execute(new String[]{password, String.valueOf(position)});
             }
         } catch (JSONException e) {
@@ -198,26 +206,30 @@ public class ConsoleActivity extends BaseActivity {
         }
     }
 
-    /*********************************
+    /**
+     * ******************************
      * Edit Children List
-     **********************************/
+     * ********************************
+     */
 
-    public void addChild(){
+    public void addChild() {
 
         new AddTask(this).execute();
     }
 
-    public void updateChild(){
+    public void updateChild() {
         String name = getIntent().getStringExtra("name");
         int position = getIntent().getIntExtra("position", 0);
         new UpdateTask(this).execute(new String[]{name, String.valueOf(position)});
     }
 
-    /*********************************
+    /**
+     * ******************************
      * Log Out
-     **********************************/
+     * ********************************
+     */
 
-    public void logOut(){
+    public void logOut() {
         if (currentUser != null) {
             ParseUser.logOut();
             Log.w("remove shared prefs", "remove loggedIn");
@@ -229,14 +241,16 @@ public class ConsoleActivity extends BaseActivity {
     }
 
 
-    /*********************************
+    /**
+     * ******************************
      * Async Task Update Child
-     **********************************/
+     * ********************************
+     */
 
-    private class LockTask extends AsyncTask<String , Void, Void> {
+    private class LockTask extends AsyncTask<String, Void, Void> {
 
         @Override
-        protected Void doInBackground(String ... config) {
+        protected Void doInBackground(String... config) {
             String password = config[0];
             int position = Integer.parseInt(config[1]);
 
@@ -245,7 +259,7 @@ public class ConsoleActivity extends BaseActivity {
             try {
                 JSONObject obj = currentUser.getChildren().getJSONObject(position);
                 obj.put("password", password);
-                currentUser.getChildren().put(position,obj);
+                currentUser.getChildren().put(position, obj);
                 currentUser.saveInBackground();
 
             } catch (JSONException e) {
@@ -255,15 +269,17 @@ public class ConsoleActivity extends BaseActivity {
         }
     }
 
-    /*********************************
+    /**
+     * ******************************
      * Async Task Add Child
-     **********************************/
+     * ********************************
+     */
 
     private class AddTask extends AsyncTask<Void, Void, JSONObject> {
 
         private ConsoleActivity activity;
 
-        public AddTask(ConsoleActivity activity){
+        public AddTask(ConsoleActivity activity) {
             this.activity = activity;
         }
 
@@ -286,29 +302,28 @@ public class ConsoleActivity extends BaseActivity {
                 obj.put("name", name);
                 obj.put("password", "walker");
                 JSONArray children = currentUser.getChildren();
-                for(int i = 0; i < children.length(); i++){
+                for (int i = 0; i < children.length(); i++) {
                     JSONObject child = children.getJSONObject(i);
                     String childChannel = (String) child.get("channel");
-                    if(childChannel.equalsIgnoreCase(channel)){
+                    if (childChannel.equalsIgnoreCase(channel)) {
                         isUnique = false;
                     }
                 }
-                if(isUnique){
+                if (isUnique) {
                     currentUser.addUnique("children", obj);
                     currentUser.saveInBackground();
                 }
-            }
-            catch (JSONException e){
+            } catch (JSONException e) {
 
             }
             return obj;
         }
 
-        protected void onPostExecute(JSONObject obj){
-            if(obj != null) {
+        protected void onPostExecute(JSONObject obj) {
+            if (obj != null) {
                 try {
                     activity.adapter.mChildren.put(adapter.mChildren.length(), obj);
-                } catch (JSONException e){
+                } catch (JSONException e) {
 
                 }
             }
@@ -318,20 +333,22 @@ public class ConsoleActivity extends BaseActivity {
 
     }
 
-    /*********************************
+    /**
+     * ******************************
      * Async Task Update Child
-     **********************************/
+     * ********************************
+     */
 
-    private class UpdateTask extends AsyncTask<String , Void, JSONObject[]> {
+    private class UpdateTask extends AsyncTask<String, Void, JSONObject[]> {
 
         private ConsoleActivity activity;
 
-        public UpdateTask(ConsoleActivity activity){
+        public UpdateTask(ConsoleActivity activity) {
             this.activity = activity;
         }
 
         @Override
-        protected JSONObject[] doInBackground(String ... config) {
+        protected JSONObject[] doInBackground(String... config) {
             String name = config[0];
             int position = Integer.parseInt(config[1]);
 
@@ -340,27 +357,27 @@ public class ConsoleActivity extends BaseActivity {
             try {
                 obj = currentUser.getChildren().getJSONObject(position);
                 obj.put("name", name);
-                currentUser.getChildren().put(position,obj);
+                currentUser.getChildren().put(position, obj);
                 currentUser.saveInBackground();
                 loc.put("position", position);
 
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            return new JSONObject[]{ obj, loc };
+            return new JSONObject[]{obj, loc};
 
         }
 
-        protected void onPostExecute(JSONObject[] objs){
+        protected void onPostExecute(JSONObject[] objs) {
 
             JSONObject obj = objs[0];
             JSONObject loc = objs[1];
 
-            if(obj != null){
-                try{
+            if (obj != null) {
+                try {
                     int position = loc.getInt("position");
                     activity.adapter.mChildren.put(position, obj);
-                }catch (JSONException e){
+                } catch (JSONException e) {
 
                 }
             }

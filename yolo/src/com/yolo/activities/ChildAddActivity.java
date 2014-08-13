@@ -9,32 +9,34 @@ import android.widget.EditText;
 
 import com.yolo.R;
 
-public class ChildAddActivity extends BaseActivity{
-	
-	EditText mUserName;
+public class ChildAddActivity extends BaseActivity {
 
-	/*********************************
-	 * OnCreate
-	 **********************************/
+    EditText mUserName;
 
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_child_action);
-		
-		getActionBar().setDisplayHomeAsUpEnabled(true);
-		
-		mUserName = (EditText)findViewById(R.id.name);
-	     
-	     final Button signInButton = (Button) findViewById(R.id.update_account_btn);
-	     signInButton.setOnClickListener(new View.OnClickListener() {
-	         public void onClick(View v) {
-	        	 addDevice();
-	         }
-	     });
-	}
-	
-	public void addDevice() {
+    /**
+     * ******************************
+     * OnCreate
+     * ********************************
+     */
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_child_action);
+
+        getActionBar().setDisplayHomeAsUpEnabled(true);
+
+        mUserName = (EditText) findViewById(R.id.name);
+
+        final Button signInButton = (Button) findViewById(R.id.update_account_btn);
+        signInButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                addDevice();
+            }
+        });
+    }
+
+    public void addDevice() {
 
         // Store values at the time of the login attempt.
         String username = mUserName.getText().toString();
@@ -44,7 +46,7 @@ public class ChildAddActivity extends BaseActivity{
 
         // Check for a valid password.
         if (TextUtils.isEmpty(username)) {
-        	mUserName.setError(getString(R.string.error_field_required));
+            mUserName.setError(getString(R.string.error_field_required));
             focusView = mUserName;
             cancel = true;
         }

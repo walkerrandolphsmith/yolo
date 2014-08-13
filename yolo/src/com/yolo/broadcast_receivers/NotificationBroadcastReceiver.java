@@ -11,9 +11,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class NotificationBroadcastReceiver extends BroadcastReceiver {
-	
-	@Override
-	public void onReceive(final Context context, Intent intent) {
+
+    @Override
+    public void onReceive(final Context context, Intent intent) {
         String password;
         String expiration;
         try {
@@ -21,7 +21,7 @@ public class NotificationBroadcastReceiver extends BroadcastReceiver {
             password = json.getString("password");
             expiration = json.getString("reset");
 
-            if(!(password.isEmpty() || expiration.isEmpty())) {
+            if (!(password.isEmpty() || expiration.isEmpty())) {
                 Intent i = new Intent(context, YoloService.class);
                 i.putExtra("lock", true);
                 i.putExtra("password", password);
@@ -33,7 +33,5 @@ public class NotificationBroadcastReceiver extends BroadcastReceiver {
         }
 
 
-
-
-	}
+    }
 }

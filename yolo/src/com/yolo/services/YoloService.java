@@ -7,7 +7,7 @@ import com.yolo.Application;
 
 public class YoloService extends WakefulIntentService {
 
-    public YoloService(){
+    public YoloService() {
         super("YoloService");
     }
 

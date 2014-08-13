@@ -1,22 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/console"
-    android:orientation="vertical"
+    style="@style/Match"
     android:fillViewport="true"
-    style="@style/Match" >
+    android:orientation="vertical">
 
-    <com.fortysevendeg.swipelistview.SwipeListView
-        xmlns:swipe="http://schemas.android.com/apk/res-auto"
+    <com.fortysevendeg.swipelistview.SwipeListView xmlns:swipe="http://schemas.android.com/apk/res-auto"
         android:id="@+id/swipelist"
-        android:dividerHeight="2dp"
-        android:listSelector="#00000000"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        swipe:swipeFrontView="@+id/front"
+        android:dividerHeight="2dp"
+        android:listSelector="#00000000"
         swipe:swipeBackView="@+id/back"
-        swipe:swipeMode="left"
         swipe:swipeCloseAllItemsWhenMoveList="true"
-        swipe:swipeOpenOnLongPress="false"
-        />
+        swipe:swipeFrontView="@+id/front"
+        swipe:swipeMode="left"
+        swipe:swipeOpenOnLongPress="false" />
 
 </LinearLayout>

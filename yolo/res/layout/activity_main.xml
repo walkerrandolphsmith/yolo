@@ -3,35 +3,35 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical"
-    android:padding="10dip" >
+    android:padding="10dip">
 
-        <ImageView
-            android:id="@+id/logo"
-            android:layout_width="260dp"
-            android:layout_height="260dp"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:src="@drawable/ic_launcher"
-            android:contentDescription="@string/app_name"
-            android:clickable="true"
-            style="@style/Wrap"/>
+    <ImageView
+        android:id="@+id/logo"
+        style="@style/Wrap"
+        android:layout_width="260dp"
+        android:layout_height="260dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:clickable="true"
+        android:contentDescription="@string/app_name"
+        android:src="@drawable/ic_launcher" />
 
-        <TextView
-            android:id="@+id/status"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/logo"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="10dip"
-            android:layout_gravity="center"
-            android:textSize="18sp"
-            android:text="@string/passenger"/>
+    <TextView
+        android:id="@+id/status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/logo"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dip"
+        android:text="@string/passenger"
+        android:textSize="18sp" />
 
-         <Button
-            android:id="@+id/signIn"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:text="@string/signIn"/>
+    <Button
+        android:id="@+id/signIn"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:text="@string/signIn" />
 
 </RelativeLayout>
