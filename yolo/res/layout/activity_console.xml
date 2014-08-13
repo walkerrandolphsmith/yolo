@@ -4,12 +4,6 @@
     android:orientation="vertical"
     android:fillViewport="true"
     style="@style/Match" >
-    
-    <!--<ListView
-	      android:id="@+id/android:list"
- 	      android:layout_width="fill_parent"
- 	      android:layout_height="wrap_content"
- 	      android:drawSelectorOnTop="false" />-->
 
     <com.fortysevendeg.swipelistview.SwipeListView
         xmlns:swipe="http://schemas.android.com/apk/res-auto"
@@ -24,7 +18,5 @@
         swipe:swipeCloseAllItemsWhenMoveList="true"
         swipe:swipeOpenOnLongPress="false"
         />
-
-
 
 </LinearLayout>

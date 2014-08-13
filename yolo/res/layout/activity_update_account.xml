@@ -9,7 +9,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="50dp"
-        android:hint="New Phone Number"
+        android:hint="@string/newPhoneHint"
         android:inputType="phone"
         />
         
@@ -20,7 +20,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="50dp"
         android:layout_below="@id/phone"
-        android:hint="New Password"
+        android:hint="@string/newPasswordHint"
         android:inputType="textPassword"
         android:maxLength="15" />
 
@@ -31,7 +31,7 @@
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/name"
         android:layout_marginTop="50dp"
-        android:hint="Confirm New Password"
+        android:hint="@string/newConfirmPasswordHint"
         android:inputType="textPassword"
         android:maxLength="15"
         />
@@ -43,7 +43,7 @@
         android:layout_centerHorizontal="true"
         android:layout_below="@id/confirm"
         android:layout_marginTop="50dp"
-        android:hint="New Email"
+        android:hint="@string/newEmailHint"
         android:inputType="textEmailAddress"/>
 
     <Button
@@ -53,7 +53,7 @@
         android:layout_alignRight="@id/name"
         android:layout_below="@id/email"
         android:layout_marginTop="25dp"
-        android:text="Update Account" />
+        android:text="@string/updateAccount" />
 
     <Button
         android:id="@+id/delete_account_btn"
@@ -62,7 +62,7 @@
         android:layout_alignRight="@id/name"
         android:layout_below="@id/update_account_btn"
         android:layout_marginTop="25dp"
-        android:text="Delete Account"
+        android:text="@string/deleteAccount"
         android:background="@color/yolotheme_red"/>
  
 </RelativeLayout>

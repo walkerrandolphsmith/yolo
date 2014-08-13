@@ -20,6 +20,6 @@
         android:layout_alignRight="@id/name"
         android:layout_below="@id/name"
         android:layout_marginTop="25dp"
-        android:text="Add Device"/>
+        android:text="@string/add"/>
  
 </RelativeLayout>

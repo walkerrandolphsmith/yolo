@@ -9,7 +9,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
         android:layout_centerHorizontal="true"
-        android:hint="Set Child's Password"
+        android:hint="@string/childPasswordHint"
         android:inputType="text"
         android:maxLength="15" />
 
@@ -20,7 +20,7 @@
         android:layout_marginTop="25dp"
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/password"
-        android:hint="Confirm Password"
+        android:hint="@string/confirmPasswordHint"
         android:inputType="text"
         android:maxLength="15" />
 
@@ -32,7 +32,7 @@
         android:layout_below="@id/confirm"
         android:gravity="center"
         android:textSize="20sp"
-        android:text="Password Expiration" />
+        android:text="@string/passwordExpiration" />
 
         <TextView
             android:id="@+id/interval"
@@ -63,6 +63,6 @@
         android:layout_marginTop="50dp"
         android:layout_alignRight="@id/confirm"
         android:layout_below="@id/expiration_slider"
-        android:text="Lock"/>
+        android:text="@string/lock"/>
  
 </RelativeLayout>

@@ -71,7 +71,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="20dp"
             android:layout_toRightOf="@+id/password_icon"
-            android:text="********"/>
+            android:text="@string/accountPassword"/>
 
     </RelativeLayout>
 
@@ -149,7 +149,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerInParent="true"
-            android:text="Update Account"
+            android:text="@string/updateAccount"
             style="@style/ButtonYoloTheme"/>
 
     <Button

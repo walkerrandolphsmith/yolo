@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- App Settings -->
+    <!-- App -->
     <string name="app_name">YOLO</string>
 	<string name="empty"></string>
-
-    <!-- Action Items -->
-    <string name="action_signin">SignIn</string>
 
     <!-- Notification Format -->
     <string name="isDriverNotification">Your child is driving a vehicle.</string>
@@ -26,14 +23,6 @@
 
     <string name="emailVerified">VERIFIED</string>
     <string name="emailNotVerified">NOT VERIFIED</string>
-    
-
-    <!-- Child Actions -->
-    <string name="delete">Delete</string>
-    <string name="lock">Lock</string>
-    <string name="edit">Rename</string>
-    <!-- Child Edit -->
-    <string name="editNameHint">Child Name</string>
 
 
      <!-- Errors -->
@@ -45,8 +34,6 @@
     <string name="error_invalid_confirm_password">Passwords do not match</string>
     <string name="error_field_required">This field is required</string>
 
-
-
     <!-- Activities -->
 
     <!-- Main -->
@@ -55,16 +42,36 @@
 
     <!-- Console -->
     <string name="settings">Settings</string>
+    <string name="delete">Delete</string>
+    <string name="lock">Lock</string>
+    <string name="edit">Rename</string>
+
+    <!-- Child Actions -->
+    <string name="add">Add Device</string>
+    <string name="editNameHint">Child Name</string>
+
+    <!-- Child Lock -->
+    <string name="childPasswordHint">Set Child's Password</string>
+    <string name="passwordExpiration">Password Expiration</string>
 
     <!-- Settings -->
         <!-- Headers -->
+        <string name="notifications">Notifications</string>
+        <string name="settingsHeadersFrequency">Reminder Frequency</string>
         <string name="settingsHeaderAccount">Account</string>
-    <string name="notifications">Notifications</string>
+
     <string name="receivePushNotifications">Push Notifications</string>
     <string name="receiveEmail">Email</string>
     <string name="receiveSMS">Text Message</string>
+    <string name="accountPassword">*******</string>
 
-
+    <!-- Update Account -->
+    <string name="newPhoneHint">New Phone Number</string>
+    <string name="newEmailHint">New Email</string>
+    <string name="newPasswordHint">New Password</string>
+    <string name="newConfirmPasswordHint">Confirm New Password</string>
+    <string name="updateAccount">Update Account</string>
+    <string name="deleteAccount">Delete Account</string>
 
 
 </resources>
