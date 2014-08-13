@@ -39,7 +39,7 @@ public class LocationBroadcastReceiver extends BroadcastReceiver {
 
         if (location != null) {
             double speed = location.getSpeed() * 2.2369;
-            if (speed < averageDrivingMPH && !app.getInstall().getBoolean("isLocked")) {
+            if (speed > averageDrivingMPH && !app.getInstall().getBoolean("isLocked")) {
                 JSONArray channels = app.getInstall().getJSONArray("channels");
                 String message = constructMessage(Application.isDriving);
 
