@@ -118,10 +118,6 @@ public class MainActivity extends BaseActivity {
         protected Void doInBackground(Void... voids) {
             ParseAnalytics.trackAppOpened(getIntent());
             PushService.setDefaultPushCallback(activity, MainActivity.class);
-            getApp().getInstall().addUnique("channels", getApp().DEVICE_CHANNEL + getApp().getInstall().getObjectId());
-            getApp().getInstall().put("isLocked", false);
-            getApp().getInstall().put("f", 0);
-            getApp().getInstall().saveInBackground();
             return null;
         }
     }

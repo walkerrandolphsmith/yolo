@@ -1,0 +1,14 @@
+{
+    "applications": {
+        "Yolo": {
+            "applicationId": "yG0OKddCMctN5vtCj5ocUbDxrRJjlPuzZLXMOXA9", 
+            "masterKey": "6mMcmCyenklDayywZgB4G2I5JiVx1humTAnJuUf3"
+        }, 
+        "_default": {
+            "link": "Yolo"
+        }
+    }, 
+    "global": {
+        "parseVersion": "1.2.19"
+    }
+}

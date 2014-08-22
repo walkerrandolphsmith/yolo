@@ -41,22 +41,24 @@ public class LocationBroadcastReceiver extends BroadcastReceiver {
             double speed = location.getSpeed() * 2.2369;
             if (speed > averageDrivingMPH && !app.getInstall().getBoolean("isLocked")) {
                 JSONArray channels = app.getInstall().getJSONArray("channels");
-                String message = constructMessage(Application.isDriving);
 
-                getParents(channels, message, now);
-                if (Application.isDriving) {
+                if(Application.isDriving){
+                    sendToParents(channels, app.getResources().getString(R.string.isDriverNotification), now);
                     app.lock();
+                }else{
+                    sendToParents(channels, app.getResources().getString(R.string.isPassengerNotification), now);
                 }
+
             }
         }
     }
 
     /**
      * ******************************
-     * getParents
+     * Send Notifications to Parents
      * ********************************
      */
-    public void getParents(JSONArray channels, final String message, final long now) {
+    public void sendToParents(JSONArray channels, final String message, final long now) {
         for (int i = 0; i < channels.length(); i++) {
             try {
                 String channel = channels.getString(i);
@@ -66,7 +68,7 @@ public class LocationBroadcastReceiver extends BroadcastReceiver {
                     query.getInBackground(channel.replace(app.PARENT_CHANNEL, ""), new GetCallback<ParseUser>() {
                         public void done(ParseUser parseUser, ParseException e) {
                             if (e == null) {
-                                sendNotificationsTo((User) parseUser, message, now);
+                                sendToParent((User) parseUser, message, now);
                             }
                         }
                     });
@@ -77,25 +79,13 @@ public class LocationBroadcastReceiver extends BroadcastReceiver {
         }
     }
 
-
     /**
      * ******************************
-     * Construct Notification Message
+     * Send Notifications To Parent
      * ********************************
      */
 
-    public String constructMessage(boolean isDriving) {
-        String message;
-        if (isDriving) {
-            message = app.getResources().getString(R.string.isDriverNotification);
-        } else {
-            message = app.getResources().getString(R.string.isPassengerNotification);
-        }
-        return message;
-    }
-
-
-    public void sendNotificationsTo(User user, String message, long now) {
+    public void sendToParent(User user, String message, long now) {
         long pref = Application.milli[user.getReminderFrequency()];
         if (now > app.getInstall().getLong("f")) {
             if (user.getReceivePushNotifications()) {

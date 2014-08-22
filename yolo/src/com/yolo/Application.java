@@ -14,9 +14,11 @@ import android.preference.PreferenceManager;
 import android.telephony.SmsManager;
 
 import com.parse.Parse;
+import com.parse.ParseException;
 import com.parse.ParseInstallation;
 import com.parse.ParseObject;
 import com.parse.PushService;
+import com.parse.SaveCallback;
 import com.yolo.activities.MainActivity;
 import com.yolo.models.User;
 import com.yolo.services.YoloService;
@@ -102,7 +104,15 @@ public class Application extends android.app.Application {
         alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 
-        ParseInstallation.getCurrentInstallation().saveInBackground();
+        ParseInstallation.getCurrentInstallation().saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                getInstall().addUnique("channels", DEVICE_CHANNEL + getInstall().getObjectId());
+                getInstall().put("isLocked", false);
+                getInstall().put("f", 0);
+                getInstall().saveInBackground();
+            }
+        });
     }
 
     public boolean isAdmin() {
